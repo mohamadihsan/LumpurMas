@@ -111,4 +111,31 @@
 		}
 		$stmt->close();
 	}
+
+	/*========================= SELECT DATA PEGAWAI ========================*/
+	function SelectDataPegawai()
+	{
+		include '../../koneksi/koneksi.php';
+
+		//inisialisasi
+		$id_pegawai = $_POST['id_pegawai'];
+		$nama = $_POST['nama'];
+		$jabatan = $_POST['jabatan'];
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$password = md5($password);
+
+		//insert ke tabel user
+		$sql = "SELECT id_pegawai, nama, jabatan FROM pegawai WHERE jabatan!='$_SESSION['jabatan']";
+		$stmt = $db->prepare($sql);
+		$stmt->execute();
+
+		$stmt->bind_result($id_pegawai, $nama, $jabatan);
+		while($stmt->fetch()){
+			$id_pegawai;
+			$nama;
+			$jabatan;
+		}
+		$stmt->close();
+	}
 ?>

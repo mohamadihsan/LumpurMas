@@ -15,34 +15,34 @@
 	<section class="content-header">
       	<h1>
         	Halaman Utama
-        	<small>Manager</small>
+        	<small>Inventori</small>
       	</h1>
       	<ol class="breadcrumb">
-        	<li><a href="	"><i class="fa fa-user"></i> Halaman Utama</a></li>
+        	<li><a href=""><i class="fa fa-user"></i> Halaman Utama</a></li>
       	</ol>
 	</section>
 
 	<?php
 		//jika manager yang masuk
-		if (!empty($user_check) AND $jabatan == "manager") {
+		if (!empty($user_check) AND $jabatan == "inventori") {
 			?>
 				<!-- Main content -->
 				<section class="content">
 					<!-- SELECT2 EXAMPLE -->
 					<div class="box box-default">
-						<div class="box-header with-border">
+					<div class="box-header with-border">
 							<h3 class="box-title"><b></b></h3>
 							<div class="box-tools pull-right">
-					            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-					            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+				            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+				            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
 							</div>
-						</div>
-						<center>
-							<h2>Selamat Datang, <small><?php echo $nama_pegawai; ?></small></h2>
-						</center>
-						<div class="box-footer">
-			          		
-						</div>
+					</div>
+					<center>
+						<h2>Selamat Datang, <small><?php echo $nama_pegawai; ?></small></h2>
+					</center>
+					<div class="box-footer">
+		          		
+					</div>
 					</div>
 				</section>					
 			<?php

@@ -55,6 +55,8 @@
 						header('location:../administrasi/');
 					}else if ($jabatan == "pemasaran") {
 						header('location:../pemasaran/');
+					}else if ($jabatan == "inventori") {
+						header('location:../inventori/');
 					}			
 				}
 			}

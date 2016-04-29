@@ -39,6 +39,15 @@
 					</div>
 					<center>
 						<h2><small>Daftar Pegawai Lumpur Mas</small></h2>
+					</center>
+					<div class="col-md-1"></div>
+					<div class="col-md-2">
+						<a href="tambah_pegawai.php/">
+				            <i class="fa fa-plus"></i>
+				            <span>Tambah</span>
+				        </a>
+					</div>
+					<center>	
 						<?php
 							$jab = $_SESSION['jabatan'];
 							//Tampilkan Data Pegawai 
@@ -65,7 +74,7 @@
 								<td><?php echo $id_pegawai; ?></td>
 								<td><?php echo $nama; ?></td>
 								<td><?php echo $jabatan; ?></td>
-								<td><a href="edit_pegawai.php?id_user=<?php echo $id_user;?>">Edit</a></td>
+								<td><a href="edit_pegawai.php?id_pegawai=<?php echo $id_pegawai;?>">Edit</a></td>
 								<td><a href="hapus_pegawai.php?id_user=<?php echo $id_user;?>">Hapus</a></td>
 							</tr>
 							<?php

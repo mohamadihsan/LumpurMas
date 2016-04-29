@@ -126,7 +126,8 @@
 		$password = md5($password);
 
 		//insert ke tabel user
-		$sql = "SELECT id_pegawai, nama, jabatan FROM pegawai WHERE jabatan!='$_SESSION['jabatan']";
+		$jab = $_SESSION['jabatan'];
+		$sql = "SELECT id_pegawai, nama, jabatan FROM pegawai WHERE jabatan!=$jab";
 		$stmt = $db->prepare($sql);
 		$stmt->execute();
 

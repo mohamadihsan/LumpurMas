@@ -1,8 +1,8 @@
 <?php
 	session_start();
-	include '../../fungsi/sidebar/index.php';
 	include '../../koneksi/koneksi.php';
 	include '../../fungsi/register/index.php';
+	include '../../fungsi/sidebar/index.php';
 
 	Sidebar();
 	
@@ -14,7 +14,7 @@
       	</h1>
       	<ol class="breadcrumb">
         	<li><a href="../pegawai/"><i class="fa fa-user"></i> Pegawai</a></li>
-        	<li class="active">Tambah Data Pegawa</li>
+        	<li class="">Tambah Data Pegawa</li>
       	</ol>
 	</section>
 	<?php

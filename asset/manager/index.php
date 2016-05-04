@@ -37,9 +37,15 @@
 					            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
 							</div>
 						</div>
-						<center>
-							<h2>Selamat Datang, <small><?php echo $nama_pegawai; ?></small></h2>
-						</center>
+						<div class="box-body">
+				      		<div class="row">
+		    					<div class="col-md-8">
+									<center>
+										<h2>Selamat Datang, <small><?php echo $nama_pegawai; ?></small></h2>
+									</center>
+								</div>
+							</div>
+						</div>			
 						<div class="box-footer">
 			          		
 						</div>

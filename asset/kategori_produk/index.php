@@ -3,7 +3,7 @@
 	session_start();
 	include '../../koneksi/koneksi.php';
 	include '../../fungsi/sidebar/index.php';
-	include '../../fungsi/produk/index.php';
+	include '../../fungsi/kategori_produk/index.php';
 	include '../login/check_login_pegawai.php';
 
 	if (empty($_SESSION['username']) OR empty($_SESSION['jabatan'])) {
@@ -15,11 +15,11 @@
 	?>
 	<section class="content-header">
       	<h1>
-        	Produk
+        	Kategori Produk
         	<small></small>
       	</h1>
       	<ol class="breadcrumb">
-        	<li><a href=""><i class="fa fa-user"></i> Produk</a></li>
+        	<li><a href=""><i class="fa fa-user"></i> Ketegori Produk</a></li>
       	</ol>
 	</section>
 
@@ -38,12 +38,6 @@
 						<?php
 							//Jika pegawai inventori yang masuk
 							if ($jabatan=="inventori") {
-									//select kategori
-									$sql = "SELECT id_kategori, nama_kategori FROM kategori_produk";							
-									$stmt = $db->prepare($sql);
-									$stmt->execute();
-
-									$stmt->bind_result($id_kategori, $nama_kategori);
 									
 								?>
 								<form method="post" action="">
@@ -56,47 +50,25 @@
 							        	<div class="box-body">
 							          		<div class="row">
 							          			<div class="box-header with-border">
-													<h4 class="box-title">Tambah Produk</h5>
+													<h4 class="box-title" align="left">Tambah Kategori Produk</h5>
 													<div class="box-tools pull-right">
 										            	<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 													</div>
 												</div>
+												<div class="col-md-3"></div>
 							            		<div class="col-md-6">
 							              			<!-- /.form-group -->
 							              			<div class="form-group">
-														<input class="form-control" id="kode_produk" type="text" name="kode_produk" placeholder="Kode Produk" required>							                		
+														<input class="form-control" id="nama_kategori" type="text" name="nama_kategori" placeholder="Nama Kategori" required>							                		
 							              			</div>
-							              			<div class="form-group">
-									                	<select class="form-control select2" style="width: 100%;" name="kategori" required>
-									                		<option selected="selected">Kategori Produk</option>
-									                		<?php
-																while ($stmt->fetch()) {
-																	?>
-																		<option value="<?php echo $id_kategori;?>"><?php echo $nama_kategori; ?></option>
-																	<?php
-																}
-															?>
-									                	</select>
-									              	</div>
 							              			<!-- /.form-group -->
 							            		</div>
-							            		<!-- /.col -->
-									            <div class="col-md-6">
-									              	<div class="form-group">
-									                	<input class="form-control" id="nama_produk" name="nama_produk" type="text" placeholder="Nama Produk" required>
-									              	</div>
-									              	<!-- /.form-group -->
-									              	<div class="form-group">
-									                	<input class="form-control" id="harga" type="text" name="harga" placeholder="Harga Rp.0,00" required>
-									              	</div>
-							              			<!-- /.form-group -->
-							            		</div>
-							            		<div class="col-md-1"><button class="btn btn-primary" name="simpan">Simpan</button></div>
+							            		<div class="col-md-12"><button class="btn btn-primary" name="simpan">Simpan</button></div>
 							            		<div class="col-md-12">
 							            		<?php							            		
 													if (isset($_POST['simpan'])) {
 														//jika tombol submit ditekan maka excute fungsi ini
-														TambahDataProduk();
+														TambahDataKategoriProduk();
 													}
 												?>
 												</div>	
@@ -111,22 +83,19 @@
 							}
 
 							//Tampilkan Data Produk 
-							$sql = "SELECT id_produk, kode_produk, nama_produk, harga, status_produk, nama_kategori FROM produk, kategori_produk WHERE produk.id_kategori = kategori_produk.id_kategori";							
+							$sql = "SELECT nama_kategori FROM kategori_produk";							
 							$stmt = $db->prepare($sql);
 							$stmt->execute();
 
-							$stmt->bind_result($id_produk, $kode_produk, $nama_produk, $harga, $status_produk, $nama_kategori);
+							$stmt->bind_result($nama_kategori);
 						?>
 						<center>
-							<h2><small>Daftar Produk Lumpur Mas</small></h2>
+							<h2><small>Daftar Kategori Produk</small></h2>
 						</center>	
-						<table style="width:90%" class="table table-stripped">
+						<table style="width:60%" class="table table-stripped">
 							<tr>
 								<th>No</th>
-								<th>Kode Produk</th>
-								<th>Nama Produk</th>
-								<th>Harga</th>
-								<th>Kategori</th>
+								<th>Nama Kategori Produk</th>
 								<?php
 									if ($jabatan=="inventori") {
 										?>
@@ -141,24 +110,12 @@
 							?>
 							<tr>
 								<td><?php echo $no++; ?></td>
-								<td><?php echo $kode_produk; ?></td>
-								<td><?php echo $nama_produk; ?></td>
-								<td>
-									<?php 
-										//format rupiah
-										$jumlah_desimal ="2";
-										$pemisah_desimal =",";
-										$pemisah_ribuan =".";
-
-										echo "Rp." .number_format($harga, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan); 
-									?>
-								</td>
 								<td><?php echo $nama_kategori; ?></td>
 								<?php
 									if ($jabatan=="inventori") {
 										?>
-											<td><a href="edit_produk.php?id_produk=<?php echo $id_produk;?>">Edit</a></td>
-											<td><a href="hapus_produk.php?id_produk=<?php echo $id_produk;?>">Hapus</a></td>
+											<td><a href="edit_kategori_produk.php?id_kategori=<?php echo $id_kategori;?>">Edit</a></td>
+											<td><a href="hapus_kategori_produk.php?id_kategori=<?php echo $id_kategori;?>">Hapus</a></td>
 										<?php
 									}
 								?>

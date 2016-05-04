@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2016 at 04:06 PM
+-- Generation Time: May 03, 2016 at 05:22 PM
 -- Server version: 5.7.9
 -- PHP Version: 5.6.16
 
@@ -45,9 +45,25 @@ DROP TABLE IF EXISTS `detail_transaksi`;
 CREATE TABLE IF NOT EXISTS `detail_transaksi` (
   `id_transaksi` int(11) NOT NULL,
   `id_produk` int(11) NOT NULL,
+  `jumlah_pembelian` int(11) NOT NULL,
   KEY `constraint_id_transaksi` (`id_transaksi`),
   KEY `constraint_id_produk` (`id_produk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `detail_transaksi`
+--
+
+INSERT INTO `detail_transaksi` (`id_transaksi`, `id_produk`, `jumlah_pembelian`) VALUES
+(1, 2, 3),
+(1, 1, 1),
+(1, 5, 1),
+(2, 1, 2),
+(3, 2, 1),
+(3, 5, 1),
+(3, 3, 1),
+(4, 2, 1),
+(4, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -60,7 +76,18 @@ CREATE TABLE IF NOT EXISTS `kategori_produk` (
   `id_kategori` int(11) NOT NULL AUTO_INCREMENT,
   `nama_kategori` varchar(30) NOT NULL,
   PRIMARY KEY (`id_kategori`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `kategori_produk`
+--
+
+INSERT INTO `kategori_produk` (`id_kategori`, `nama_kategori`) VALUES
+(1, 'Novel'),
+(2, 'Buku Sekolah'),
+(3, 'Alat Peraga'),
+(4, 'Alat Olahraga'),
+(5, 'ATK');
 
 -- --------------------------------------------------------
 
@@ -93,12 +120,12 @@ CREATE TABLE IF NOT EXISTS `pegawai` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_pegawai` int(11) NOT NULL,
   `nama` varchar(30) NOT NULL,
-  `jabatan` enum('direktur','manager','administrasi','pemasaran','pengunjung') DEFAULT NULL,
+  `jabatan` enum('direktur','manager','administrasi','pemasaran','pengunjung','inventori') DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_pegawai` (`id_pegawai`),
   KEY `constratint_id_user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `pegawai`
@@ -108,7 +135,8 @@ INSERT INTO `pegawai` (`id`, `id_pegawai`, `nama`, `jabatan`, `id_user`) VALUES
 (2, 10112645, 'Mohamad Ihsan', 'direktur', 2),
 (3, 10112448, 'Iqbal Aditya Pangestu', 'manager', 3),
 (4, 10112637, 'Irfan Rangga Gumilar', 'administrasi', 4),
-(5, 10112438, 'Julio Febryanto', 'pemasaran', 5);
+(5, 10112438, 'Julio Febryanto', 'pemasaran', 5),
+(7, 10112711, 'Rismoyo Bayu', 'inventori', 9);
 
 -- --------------------------------------------------------
 
@@ -125,14 +153,15 @@ CREATE TABLE IF NOT EXISTS `pelanggan` (
   `id_user` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_pelanggan`),
   KEY `constratint_id_user_pelanggan` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `pelanggan`
 --
 
 INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `alamat`, `no_telp`, `id_user`) VALUES
-(1, 'Hardo Pratama', 'Jalan Dipati Ukur No 10 Bandung', '085720054204', 6);
+(1, 'Hardo Pratama', 'Jalan Dipati Ukur No 10 Bandung', '085720054204', 6),
+(2, 'Annisa Amelia', 'Jalan Simpay Asih No 2 Bandung', '087720054255', 8);
 
 -- --------------------------------------------------------
 
@@ -147,9 +176,23 @@ CREATE TABLE IF NOT EXISTS `produk` (
   `harga` int(11) DEFAULT NULL,
   `status_produk` char(1) DEFAULT NULL,
   `id_kategori` int(11) DEFAULT NULL,
+  `kode_produk` varchar(8) DEFAULT NULL,
   PRIMARY KEY (`id_produk`),
+  UNIQUE KEY `kode_produk` (`kode_produk`),
   KEY `constraint_id_kategori` (`id_kategori`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `produk`
+--
+
+INSERT INTO `produk` (`id_produk`, `nama_produk`, `harga`, `status_produk`, `id_kategori`, `kode_produk`) VALUES
+(1, 'Koala Kumal', 60000, 'D', 1, 'BN0001'),
+(2, 'Laskar Pelangi', 80000, 'D', 1, 'BN0002'),
+(3, 'Erlangga IPA Terpadu 3A', 45000, 'N', 2, 'BS0001'),
+(4, 'Bahasa Inggris 2A', 30000, 'N', 2, 'BS0002'),
+(5, 'Molten Bola Voli', 350000, 'D', 4, 'AO0001'),
+(8, 'Brontosaurus', 85000, NULL, 1, 'BN003');
 
 -- --------------------------------------------------------
 
@@ -177,7 +220,11 @@ DROP TABLE IF EXISTS `rekomendasi`;
 CREATE TABLE IF NOT EXISTS `rekomendasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nilai_rekomendasi` float NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  `id_kategori` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_kategori` (`id_kategori`),
+  KEY `id_kategori_2` (`id_kategori`),
+  KEY `id_kategori_3` (`id_kategori`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -189,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `rekomendasi` (
 DROP TABLE IF EXISTS `transaksi`;
 CREATE TABLE IF NOT EXISTS `transaksi` (
   `id_transaksi` int(11) NOT NULL AUTO_INCREMENT,
-  `status_transaksi` char(1) DEFAULT NULL,
+  `status_transaksi` char(2) DEFAULT NULL,
   `nama_garansi` varchar(30) DEFAULT NULL,
   `telp_garansi` varchar(12) DEFAULT NULL,
   `id_pegawai` int(11) DEFAULT NULL,
@@ -197,7 +244,17 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
   PRIMARY KEY (`id_transaksi`),
   KEY `constraint_id_pegawai_trans` (`id_pegawai`),
   KEY `constraint_id_pelanggan_trans` (`id_pelanggan`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`id_transaksi`, `status_transaksi`, `nama_garansi`, `telp_garansi`, `id_pegawai`, `id_pelanggan`) VALUES
+(1, 'L', NULL, NULL, 5, 1),
+(2, 'L', NULL, NULL, 4, 1),
+(3, 'L', '', NULL, 5, 1),
+(4, 'L', NULL, NULL, 5, 2);
 
 -- --------------------------------------------------------
 
@@ -212,7 +269,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(50) NOT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
@@ -223,7 +280,9 @@ INSERT INTO `user` (`id_user`, `username`, `password`) VALUES
 (3, 'manager', '1d0258c2440a8d19e716292b231e3190'),
 (4, 'administrasi', '15ff3c0a0310a2e3de3e95c8aeb328d0'),
 (5, 'pemasaran', '229eaac0894a3379d759a720e0e3410c'),
-(6, 'pengunjung', '3fbe7200a4b9a894e16c9d998314dc80');
+(6, 'pengunjung', '3fbe7200a4b9a894e16c9d998314dc80'),
+(8, 'pengunjung2', 'e55093db9c1fcfc25152e7ca2c6d3cab'),
+(9, 'inventori', '4e943c28c3b011e0540ff9a19334953b');
 
 --
 -- Constraints for dumped tables
@@ -272,6 +331,12 @@ ALTER TABLE `produk`
 --
 ALTER TABLE `promosi`
   ADD CONSTRAINT `constratint_id_pegawai` FOREIGN KEY (`id_pegawai`) REFERENCES `pegawai` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `rekomendasi`
+--
+ALTER TABLE `rekomendasi`
+  ADD CONSTRAINT `constraint_id_kategori_rek` FOREIGN KEY (`id_kategori`) REFERENCES `kategori_produk` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transaksi`

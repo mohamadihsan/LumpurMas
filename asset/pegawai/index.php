@@ -30,19 +30,12 @@
 				<section class="content">
 					<!-- SELECT2 EXAMPLE -->
 					<div class="box box-default">
-					<div class="box-header with-border">
-							<h3 class="box-title"><b></b></h3>
-							<div class="box-tools pull-right">
-				            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-				            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
-							</div>
-					</div>
 					<center>
 						<h2><small>Daftar Pegawai Lumpur Mas</small></h2>
 					</center>
 					<div class="col-md-1"></div>
 					<div class="col-md-2">
-						<a href="tambah_pegawai.php/">
+						<a href="tambah_pegawai.php">
 				            <i class="fa fa-plus"></i>
 				            <span>Tambah</span>
 				        </a>

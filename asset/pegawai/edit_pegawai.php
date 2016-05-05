@@ -26,12 +26,12 @@
 	?>
 	<section class="content-header">
       	<h1>
-        	Edit Pegawai
+        	Pegawai
         	<small></small>
       	</h1>
       	<ol class="breadcrumb">
-        	<li><a href="../pegawai/"><i class="fa fa-user"></i>Pegawai</a></li>
-        	<li><a href="">Edit Pegawai</a></li>
+        	<li><a href="../pegawai/"><i class="fa fa-users"></i>Pegawai</a></li>
+        	<li class="active">Edit Pegawai</li>
       	</ol>
 	</section>
 
@@ -39,51 +39,43 @@
 	<section class="content">
 		<!-- SELECT2 EXAMPLE -->
 		<div class="box box-default">
-		<div class="box-header with-border">
-				<h3 class="box-title"><b>Edit Pegawai</b></h3>
-				<div class="box-tools pull-right">
-	            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-	            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
-				</div>
-		</div>
-		<form action="../../index.html" method="post">
-			<div class="box-body">
-	      		<div class="row">
-					<div class="col-md-8">
-			      		<div class="form-group has-feedback">
-			        		<input type="text" name="id_pegawai" value="<?php echo $id_pegawai; ?>" class="form-control" placeholder="ID Pegawai">
-			        		<span class="glyphicon glyphicon-user form-control-feedback"></span>
-			      		</div>
-			      	</div>	
-			      	<div class="col-md-12"></div>
-					<div class="col-md-8">	
-			      		<div class="form-group has-feedback">
-			        		<input type="text" name="nama" value="<?php echo $nama; ?>" class="form-control" placeholder="Nama Pegawai">
-			        		<span class="glyphicon glyphicon-user form-control-feedback"></span>
-			      		</div>
-			      	</div>	
-			      	<div class="col-md-12"></div>
-					<div class="col-md-8">	
-  						<div class="form-group">
-    						<select name="jabatan" class="form-control select2" style="width: 100%;">
-      							<option selected="selected">Direktur</option>
-			                  	<option value="pemasaran">Pemasaran</option>
-			                  	<option value="inventori">Inventori</option>
-			                  	<option value="administrasi">Administrasi</option>
-			                </select>
-  						</div>
-					</div>
-			      	<div class="col-md-12"></div>
-	        		<div class="col-md-8">
-	          			<button type="submit" name="simpan" class="btn btn-primary btn-block btn-flat">Simpan</button>
-	        		</div>	
-	      		</div>
-	      	</div>	
-    	</form>
-			
-		<div class="box-footer">
-      		
-		</div>
+			<div class="box-header with-border">
+				<h3 class="box-title">Edit Pegawai</h3>
+			</div>
+			<form action="../../index.html" method="post">
+				<div class="box-body">
+		      		<div class="row">
+						<div class="col-md-6">
+				      		<div class="form-group has-feedback">
+				        		<input type="text" name="id_pegawai" value="<?php echo $id_pegawai; ?>" class="form-control" placeholder="ID Pegawai">
+				        		<span class="glyphicon glyphicon-user form-control-feedback"></span>
+				      		</div>
+				      	</div>	
+				      	<div class="col-md-12"></div>
+						<div class="col-md-6">	
+				      		<div class="form-group has-feedback">
+				        		<input type="text" name="nama" value="<?php echo $nama; ?>" class="form-control" placeholder="Nama Pegawai">
+				        		<span class="glyphicon glyphicon-user form-control-feedback"></span>
+				      		</div>
+				      	</div>	
+				      	<div class="col-md-12"></div>
+						<div class="col-md-6">	
+	  						<div class="form-group">
+	    						<select name="jabatan" class="form-control select2" style="width: 100%;">
+	      							<option selected="selected">Direktur</option>
+				                  	<option value="pemasaran">Pemasaran</option>
+				                  	<option value="inventori">Inventori</option>
+				                  	<option value="administrasi">Administrasi</option>
+				                </select>
+	  						</div>
+						</div>
+				      	<div class="col-md-12"></div>
+		        		<div class="col-md-2">
+		          			<button type="submit" name="simpan" class="btn btn-primary btn-block btn-flat">Simpan</button>
+		        		</div>	
+		      		</div>
+		      	</div>	
+	    	</form>
 		</div>
 	</section>	
 	<?php

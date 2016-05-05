@@ -14,6 +14,8 @@
 			  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 			  	<!-- Ionicons -->
 			  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+			  	<!-- data tables -->
+			  	<link rel="stylesheet" href="../../bootstrap/plugins/datatables/dataTables.bootstrap.css">
 			  	<!-- daterange picker -->
 			  	<link rel="stylesheet" href="../../bootstrap/plugins/daterangepicker/daterangepicker-bs3.css">
 			  	<!-- bootstrap datepicker -->
@@ -120,17 +122,6 @@
 						          	<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
 						        </div>
 						    </div>
-						    <!-- search form -->
-						    <form action="#" method="get" class="sidebar-form">
-						        <div class="input-group">
-						          	<input type="text" name="q" class="form-control" placeholder="Search...">
-						              	<span class="input-group-btn">
-						                	<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-						                	</button>
-						              </span>
-						        </div>
-						    </form>
-					      	<!-- /.search form -->
 					      	<!-- sidebar menu: : style can be found in sidebar.less -->
 					      	<ul class="sidebar-menu">
 					        	<li class="header">NAVIGASI UTAMA</li>
@@ -161,7 +152,7 @@
 							    		?>
 							    			<li class="treeview">
 										        <a href="../kategori_produk/">
-										            <i class="fa fa-user"></i>
+										            <i class="fa fa-list-alt"></i>
 										            <span>Kategori Produk</span>
 										        </a>
 							    			</li>
@@ -175,7 +166,7 @@
 							    		?>
 							    			<li class="treeview">
 										        <a href="../produk/">
-										            <i class="fa fa-user"></i>
+										            <i class="fa fa-tasks"></i>
 										            <span>Produk</span>
 										        </a>
 							    			</li>
@@ -189,7 +180,7 @@
 							    		?>
 							    			<li class="treeview">
 										        <a href="../pegawai/">
-										            <i class="fa fa-user"></i>
+										            <i class="fa fa-users"></i>
 										            <span>Pegawai</span>
 										        </a>
 							    			</li>
@@ -203,7 +194,7 @@
 							    		?>
 							    			<li class="treeview">
 										        <a href="../promosi/">
-										            <i class="fa fa-user"></i>
+										            <i class="fa fa-star"></i>
 										            <span>Promosi</span>
 										        </a>
 							   	 			</li>
@@ -217,7 +208,7 @@
 							    		?>
 							    			<li class="treeview">
 										        <a href="../rekomendasi/">
-										            <i class="fa fa-user"></i>
+										            <i class="fa fa-trophy"></i>
 										            <span>Rekomendasi</span>
 										        </a>
 							    			</li>
@@ -231,7 +222,7 @@
 							    		?>
 							    			<li class="treeview">
 										        <a href="../keluhan_saran/">
-										            <i class="fa fa-user"></i>
+										            <i class="fa fa-comments"></i>
 										            <span>Keluhan & Saran</span>
 										        </a>
 							    			</li>
@@ -266,10 +257,21 @@
 		?>
 		<!-- Wrapper -->
 		</div>
+		<footer class="main-footer">
+	    	<div class="pull-right hidden-xs">
+	      		<b></b>
+	    	</div>
+	    	<strong>Copyright &copy; 2016-2017 <a href="#">Lumpur Mas</a>.</strong>
+	  	</footer>
+  		<!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
+  		<div class="control-sidebar-bg"></div>	
 		<!-- jQuery 2.2.0 -->
 			<script src="../../bootstrap/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 			<!-- Bootstrap 3.3.6 -->
 			<script src="../../bootstrap/bootstrap/js/bootstrap.min.js"></script>
+			<!-- DataTables -->
+			<script src="../../bootstrap/plugins/datatables/jquery.dataTables.min.js"></script>
+			<script src="../../bootstrap/plugins/datatables/dataTables.bootstrap.min.js"></script>
 			<!-- Select2 -->
 			<script src="../../bootstrap/plugins/select2/select2.full.min.js"></script>
 			<!-- InputMask -->
@@ -301,6 +303,16 @@
 			    $(".select2").select2();
 			    //Money Euro
 			    $("[data-mask]").inputmask();
+			    //Data Tables
+			    $("#example1").DataTable();
+			    $('#example2').DataTable({
+			      "paging": true,
+			      "lengthChange": false,
+			      "searching": false,
+			      "ordering": true,
+			      "info": true,
+			      "autoWidth": true
+			    });
 			  });
 			</script>
 		</body>

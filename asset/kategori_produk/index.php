@@ -12,129 +12,129 @@
 
 	Sidebar();
 	
-	?>
-	<section class="content-header">
-      	<h1>
-        	Kategori Produk
-        	<small></small>
-      	</h1>
-      	<ol class="breadcrumb">
-        	<li><a href=""><i class="fa fa-user"></i> Ketegori Produk</a></li>
-      	</ol>
-	</section>
-
-	<?php
 		//jika manager yang masuk
 		if (!empty($user_check) AND $jabatan == "manager" OR $jabatan=="direktur" OR $jabatan=="inventori") {
 			?>
-				<!-- Main content -->
-				<section class="content">
-					<!-- SELECT2 EXAMPLE -->
-					<div class="box box-default">
-					<center>
-					</center>
-					<center>
-						
-						<?php
-							//Jika pegawai inventori yang masuk
-							if ($jabatan=="inventori") {
-									
-								?>
-								<form method="post" action="">
-							        <div class="box-header">
-							          	<div class="box-tools pull-right">
-							            	<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-							            	<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
-							          	</div>
-							        	<!-- /.box-header -->
-							        	<div class="box-body">
-							          		<div class="row">
-							          			<div class="box-header with-border">
-													<h4 class="box-title" align="left">Tambah Kategori Produk</h5>
-													<div class="box-tools pull-right">
-										            	<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-													</div>
-												</div>
-												<div class="col-md-3"></div>
-							            		<div class="col-md-6">
-							              			<!-- /.form-group -->
-							              			<div class="form-group">
-														<input class="form-control" id="nama_kategori" type="text" name="nama_kategori" placeholder="Nama Kategori" required>							                		
-							              			</div>
-							              			<!-- /.form-group -->
-							            		</div>
-							            		<div class="col-md-12"><button class="btn btn-primary" name="simpan">Simpan</button></div>
-							            		<div class="col-md-12">
-							            		<?php							            		
-													if (isset($_POST['simpan'])) {
-														//jika tombol submit ditekan maka excute fungsi ini
-														TambahDataKategoriProduk();
-													}
-												?>
-												</div>	
-							            		<!-- /.col -->
-							          		</div>
-							          		<!-- /.row -->
-							        	</div>
-							        </form>
-									
-									<hr/>	
-								<?php
-							}
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+			  	<h1>
+			    	Kategori Produk
+			    	<small></small>
+			  	</h1>
+			  	<ol class="breadcrumb">
+			    	<li class="active"><i class="fa fa-list-alt"></i> Kategori Produk</li>
+			  	</ol>
+			</section>
 
-							//Tampilkan Data Produk 
-							$sql = "SELECT nama_kategori FROM kategori_produk";							
-							$stmt = $db->prepare($sql);
-							$stmt->execute();
+			<!-- Main content -->
+		    <section class="content">
+		      	<div class="row">
+		        	<div class="col-xs-12">
 
-							$stmt->bind_result($nama_kategori);
-						?>
-						<center>
-							<h2><small>Daftar Kategori Produk</small></h2>
-						</center>	
-						<table style="width:60%" class="table table-stripped">
-							<tr>
-								<th>No</th>
-								<th>Nama Kategori Produk</th>
-								<?php
-									if ($jabatan=="inventori") {
-										?>
-											<th colspan="2"></th>
-										<?php
-									}
-								?>
-							</tr>
 						<?php
-							$no = 1;
-							while ($stmt->fetch()) {
+						//Jika pegawai inventori yang masuk
+						if ($jabatan=="inventori") {					
 							?>
-							<tr>
-								<td><?php echo $no++; ?></td>
-								<td><?php echo $nama_kategori; ?></td>
-								<?php
-									if ($jabatan=="inventori") {
+
+			          		<div class="box box-primary">
+			            		<div class="box-header with-border">
+			              			<h3 class="box-title">Tambah Data</h3>
+			              			<div class="box-tools pull-right">
+							            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+							         </div>
+			            		</div>
+					            <!-- /.box-header -->
+					            <div class="box-body">
+									<form method="post" action="">
+					            		<div class="col-md-6">
+					              			<!-- /.form-group -->
+					              			<div class="form-group">
+												<input class="form-control" id="nama_kategori" type="text" name="nama_kategori" placeholder="Nama Kategori" required>							                		
+					              			</div>
+					              			<!-- /.form-group -->
+					            		</div>
+					            		<div class="col-md-12"><button class="btn btn-primary" name="simpan">Simpan</button></div>
+					            		<div class="col-md-12">
+					            		<?php							            		
+											if (isset($_POST['simpan'])) {
+												//jika tombol submit ditekan maka excute fungsi ini
+												TambahDataKategoriProduk();
+											}
 										?>
-											<td><a href="edit_kategori_produk.php?id_kategori=<?php echo $id_kategori;?>">Edit</a></td>
-											<td><a href="hapus_kategori_produk.php?id_kategori=<?php echo $id_kategori;?>">Hapus</a></td>
-										<?php
-									}
-								?>
-							</tr>
+										</div>	
+					            		<!-- /.col -->
+								    </form>
+								</div>
+							    <!-- /.box-body -->    
+							</div>
+							<!-- /.box -->  	
 							<?php
-							}				
-						?>
-						</table>
-					</center>
-					<div class="box-footer">
-		          		
+						}
+						?>	
+
+		          		<div class="box">
+		            		<div class="box-header with-border">
+		              			<h3 class="box-title">Daftar Kategori Produk</h3>
+		            		</div>
+				            <!-- /.box-header -->
+				            <div class="box-body">
+								<table id="example1" class="table table-bordered table-striped">
+					                <thead>
+					                <tr>
+					                  	<th>Nama Kategori</th>
+					                  	<?php
+											if ($jabatan=="inventori") {
+												?>
+												<th width="10%"></th>
+												<th width="10%"></th>
+												<?php
+											}
+										?>
+					                </tr>
+					                </thead>
+					                <tbody>
+					                <?php
+					                	//Tampilkan Data Produk 
+										$sql = "SELECT nama_kategori FROM kategori_produk";							
+										$stmt = $db->prepare($sql);
+										$stmt->execute();
+
+										$stmt->bind_result($nama_kategori);
+
+										while ($stmt->fetch()) {
+										?>
+										<tr>
+											<td><?php echo $nama_kategori; ?></td>
+											<?php
+												if ($jabatan=="inventori") {
+													?>
+														<td><a href="edit_kategori_produk.php?id_kategori=<?php echo $id_kategori;?>"><i class="fa fa-pencil"></i> Edit</a></td>
+														<td><a href="hapus_kategori_produk.php?id_kategori=<?php echo $id_kategori;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
+													<?php
+												}
+											?>
+										</tr>
+										<?php
+										}
+									?>
+					                </tbody>
+					             </table>
+							</div>
+							<!-- /.box-body -->
+					  	</div>
+					  	<!-- /.box -->
 					</div>
-					</div>
-				</section>					
-			<?php
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+			</section>
+			<!-- /.content -->
+	  		<?php
+	  		
+	  		CloseSidebar();
+
 		}else{
 			//alihkan url jika bukan manager
 			header('location:../login/');
 		}
-
-		CloseSidebar();
 	?>

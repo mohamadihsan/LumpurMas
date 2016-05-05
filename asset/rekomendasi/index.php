@@ -18,7 +18,7 @@
         	<small></small>
       	</h1>
       	<ol class="breadcrumb">
-        	<li><a href=""><i class="fa fa-user"></i> Rekomendasi</a></li>
+        	<li><a href=""><i class="fa fa-trophy"></i> Rekomendasi</a></li>
       	</ol>
 	</section>
 
@@ -31,7 +31,7 @@
 				<!-- Main content -->
 				<section class="content">
 					<!-- SELECT2 EXAMPLE -->
-					<div class="box box-default">
+					<div class="box box-primary">
 					<?php
 					$sql="SELECT DISTINCT transaksi.id_pelanggan, pelanggan.nama, pelanggan.no_telp  FROM transaksi, pelanggan 
 					WHERE transaksi.id_pelanggan=pelanggan.id_pelanggan";
@@ -45,7 +45,7 @@
 						$id_pelanggan = $data[0];
 						$nama_pelanggan = $data[1];
 						$no_telp = $data[2];
-						$sql1="SELECT kategori_produk.id_kategori, SUM(detail_transaksi.jumlah_pembelian) as Pembelian 
+						$sql1="SELECT kategori_produk.id_kategori, SUM(detail_transaksi.jumlah_pembelian) as Pembelian, kategori_produk.nama_kategori 
 						FROM transaksi, detail_transaksi, kategori_produk, produk 
 						WHERE transaksi.id_transaksi=detail_transaksi.id_transaksi AND kategori_produk.id_kategori=produk.id_kategori 
 						AND produk.id_produk=detail_transaksi.id_produk  
@@ -59,6 +59,7 @@
 							if ($tampung < $nilai_rekomendasi) {
 								$tampung = $nilai_rekomendasi;
 								$kate[] = $data1[0];
+								$nama_kate = $data1[2];
 							}
 						}	
 
@@ -86,7 +87,7 @@
 									<tr>
 										<td><?php echo $no_telp; ?></td>
 										<td><?php echo $nama_pelanggan?></td>
-										<td><?php echo $nama_produk ?></td>
+										<td><?php echo $nama_kate ." - ". $nama_produk ?></td>
 										<td></td>
 										<td><button class="btn btn-primary">Kirim</button></td>
 									</tr>

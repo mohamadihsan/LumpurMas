@@ -18,7 +18,7 @@
         	<small>Inventori</small>
       	</h1>
       	<ol class="breadcrumb">
-        	<li><a href=""><i class="fa fa-user"></i> Halaman Utama</a></li>
+        	<li><a href=""><i class="fa fa-dashboard"></i> Halaman Utama</a></li>
       	</ol>
 	</section>
 
@@ -29,22 +29,65 @@
 				<!-- Main content -->
 				<section class="content">
 					<!-- SELECT2 EXAMPLE -->
-					<div class="box box-default">
-					<div class="box-header with-border">
+					<div class="box box-primary">
+						<div class="box-header">
 							<h3 class="box-title"><b></b></h3>
-							<div class="box-tools pull-right">
-				            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-				            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+						</div>
+						<div class="box-body">
+				      		<div class="row">
+		    					<div class="col-md-12">
+									<h2>Selamat Datang, <small><?php echo $nama_pegawai; ?></small></h2>
+									<!-- Small boxes (Stat box) -->
+							      	<div class="row">
+							        	<div class="col-lg-3 col-xs-6">
+							          	<!-- small box -->
+							          		<div class="small-box bg-aqua">
+							            		<div class="inner">
+							            			<?php
+							            				$sql = "SELECT COUNT(id_produk) FROM produk";
+							            				$stmt = mysqli_query($db, $sql);
+
+														while($data = mysqli_fetch_array($stmt)){
+															echo "<h3>". $data[0] . "</h3>";
+														}
+							            			?>
+							              			<p>Produk</p>
+							            		</div>
+							            		<div class="icon">
+							              			<i class="ion ion-bag"></i>
+							            		</div>
+							            		<a href="../produk/" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+							          		</div>
+							        	</div>
+							        	<!-- ./col -->
+							        	<div class="col-lg-3 col-xs-6">
+							          	<!-- small box -->
+							          		<div class="small-box bg-green">
+							            		<div class="inner">
+							            			<?php
+							            				$sql = "SELECT COUNT(id_kategori) FROM kategori_produk";
+							            				$stmt = mysqli_query($db, $sql);
+
+														while($data = mysqli_fetch_array($stmt)){
+															echo "<h3>". $data[0] . "</h3>";
+														}
+							            			?>
+							              			<p>Kategori Produk</p>
+							            		</div>
+							            		<div class="icon">
+							              			<i class="fa fa-trophy"></i>
+							            		</div>
+							            		<a href="../kategori_produk/" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+							          		</div>
+							        	</div>
+							        	<!-- ./col -->
+							      	</div>
+							      	<!-- /.row -->
+								</div>
 							</div>
+						</div>		
 					</div>
-					<center>
-						<h2>Selamat Datang, <small><?php echo $nama_pegawai; ?></small></h2>
-					</center>
-					<div class="box-footer">
-		          		
-					</div>
-					</div>
-				</section>					
+				</section>						
 			<?php
 		}else{
 			//alihkan url jika bukan manager

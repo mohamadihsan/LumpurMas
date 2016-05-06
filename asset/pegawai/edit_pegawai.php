@@ -24,6 +24,9 @@
 	Sidebar();
 	
 	?>
+
+	<title>Pegawai</title>
+
 	<section class="content-header">
       	<h1>
         	Pegawai
@@ -38,9 +41,9 @@
 	<!-- Main content -->
 	<section class="content">
 		<!-- SELECT2 EXAMPLE -->
-		<div class="box box-default">
+		<div class="box box-primary">
 			<div class="box-header with-border">
-				<h3 class="box-title">Edit Pegawai</h3>
+				<h3 class="box-title">Perbaharui Data</h3>
 			</div>
 			<form action="../../index.html" method="post">
 				<div class="box-body">
@@ -71,7 +74,7 @@
 						</div>
 				      	<div class="col-md-12"></div>
 		        		<div class="col-md-2">
-		          			<button type="submit" name="simpan" class="btn btn-primary btn-block btn-flat">Simpan</button>
+		          			<button type="submit" name="perbaharui" class="btn btn-primary btn-block btn-flat">Perbaharui</button>
 		        		</div>	
 		      		</div>
 		      	</div>	

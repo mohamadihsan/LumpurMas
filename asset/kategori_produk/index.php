@@ -14,7 +14,33 @@
 	
 		//jika manager yang masuk
 		if (!empty($user_check) AND $jabatan == "manager" OR $jabatan=="direktur" OR $jabatan=="inventori") {
+
+				if (isset($_POST['simpan'])) {
+					//jika tombol submit ditekan maka excute fungsi ini
+					TambahDataKategoriProduk();
+					if ($_SESSION['status_operasi_kp']=="berhasil_menyimpan") {
+						?> <body onload="BerhasilMenyimpan()"></body><?php
+					}
+				}
+
+				if (isset($_POST['perbaharui'])) {
+					//jika tombol submit ditekan maka excute fungsi ini
+					EditDataKategoriProduk();
+					if ($_SESSION['status_operasi_kp']=="berhasil_memperbaharui") {
+						?> <body onload="BerhasilMemperbaharui()"></body><?php
+					}
+				}
+
+				if (!empty($_GET['id_kategori'])) {
+					HapusDataKategoriProduk();
+					if ($_SESSION['status_operasi_kp']=="berhasil_menghapus") {
+						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../kategori_produk/"><?php
+					}
+				}
 			?>
+
+			<title>Kategori Produk</title>
+
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 			  	<h1>
@@ -54,14 +80,6 @@
 					              			<!-- /.form-group -->
 					            		</div>
 					            		<div class="col-md-12"><button class="btn btn-primary" name="simpan">Simpan</button></div>
-					            		<div class="col-md-12">
-					            		<?php							            		
-											if (isset($_POST['simpan'])) {
-												//jika tombol submit ditekan maka excute fungsi ini
-												TambahDataKategoriProduk();
-											}
-										?>
-										</div>	
 					            		<!-- /.col -->
 								    </form>
 								</div>
@@ -95,11 +113,11 @@
 					                <tbody>
 					                <?php
 					                	//Tampilkan Data Produk 
-										$sql = "SELECT nama_kategori FROM kategori_produk";							
+										$sql = "SELECT id_kategori, nama_kategori FROM kategori_produk";							
 										$stmt = $db->prepare($sql);
 										$stmt->execute();
 
-										$stmt->bind_result($nama_kategori);
+										$stmt->bind_result($id_kategori, $nama_kategori);
 
 										while ($stmt->fetch()) {
 										?>
@@ -108,8 +126,8 @@
 											<?php
 												if ($jabatan=="inventori") {
 													?>
-														<td><a href="edit_kategori_produk.php?id_kategori=<?php echo $id_kategori;?>"><i class="fa fa-pencil"></i> Edit</a></td>
-														<td><a href="hapus_kategori_produk.php?id_kategori=<?php echo $id_kategori;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
+														<td><a href="edit.php?id_kategori=<?php echo $id_kategori;?>"><i class="fa fa-pencil"></i> Edit</a></td>
+														<td><a href="index.php?id_kategori=<?php echo $id_kategori;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
 													<?php
 												}
 											?>
@@ -135,6 +153,6 @@
 
 		}else{
 			//alihkan url jika bukan manager
-			header('location:../login/');
+			?><meta http-equiv="refresh" content="0;url=../login/"><?php
 		}
 	?>

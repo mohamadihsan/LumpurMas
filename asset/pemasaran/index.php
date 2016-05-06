@@ -12,6 +12,9 @@
 	Sidebar();
 	
 	?>
+
+	<title>Halaman Utama</title>
+	
 	<section class="content-header">
       	<h1>
         	Halaman Utama
@@ -91,7 +94,7 @@
 			<?php
 		}else{
 			//alihkan url jika bukan manager
-			header('location:../login/');
+			?><meta http-equiv="refresh" content="0;url=../login/"><?php
 		}
 
 		CloseSidebar();

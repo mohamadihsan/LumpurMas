@@ -34,7 +34,7 @@
 			$result = mysqli_query($db, $sql);
 			$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			if (mysqli_num_rows($result) == 1) {
-				header('location:../../');
+				?><meta http-equiv="refresh" content="0;url=../../"> <?php
 			}else{
 				//jika id user ada di table pegawai
 				$sql = "SELECT id_user FROM pegawai WHERE id_user='$id'";
@@ -67,18 +67,18 @@
 
 	//Jika user sudah login
 	if (!empty($_SESSION['id_pelanggan'])) {
-		header('location:../../');
+		?><meta http-equiv="refresh" content="0;url=../../"> <?php
 	}else if (!empty($_SESSION['id_pegawai'])) {
 		$jabatan = $_SESSION['jabatan'];
 
 		if ($jabatan == "direktur") {
-			header('location:../direktur/');
+			?><meta http-equiv="refresh" content="0;url=../direktur/"> <?php
 		}else if ($jabatan == "manager") {
-			header('location:../manager/');
+			?><meta http-equiv="refresh" content="0;url=../manager/"> <?php
 		}else if ($jabatan == "administrasi") {
-			header('location:../administrasi/');
+			?><meta http-equiv="refresh" content="0;url=../administrasi/"> <?php
 		}else if ($jabatan == "pemasaran") {
-			header('location:../pemasaran/');
+			?><meta http-equiv="refresh" content="0;url=../pemasaran/"> <?php
 		}			
 	}else{
 		//Fungsi dari folder fungsi/fungsi.php

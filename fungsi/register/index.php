@@ -3,7 +3,7 @@
 	function FormRegister()
 	{
 		?>		
-		<form action="../../index.html" method="post">
+		<form action="../../" method="post">
 			<div class="box-body">
 	      		<div class="row">
 					<div class="col-md-6">
@@ -63,7 +63,7 @@
 	            	<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
 				</div>
 			</div>
-			<form action="../../index.html" method="post">
+			<form action="../../" method="post">
 				<div class="box-body">
 		      		<div class="row">
     					<div class="col-md-8">

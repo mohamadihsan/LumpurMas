@@ -15,6 +15,8 @@
 	//jika manager yang masuk
 	if (!empty($user_check) AND $jabatan == "manager") {
 		?>
+			<title>Pegawai</title>
+			
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 			  	<h1>
@@ -104,7 +106,7 @@
 		<?php
 	}else{
 		//alihkan url jika bukan manager
-		header('location:../login/');
+		?><meta http-equiv="refresh" content="0;url=../login/"><?php
 	}
 
 	CloseSidebar();

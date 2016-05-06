@@ -12,13 +12,16 @@
 	Sidebar();
 	
 	?>
+
+	<title>Halaman Utama</title>
+	
 	<section class="content-header">
       	<h1>
         	Halaman Utama
         	<small>Manager</small>
       	</h1>
       	<ol class="breadcrumb">
-        	<li><a href="	"><i class="fa fa-dashboard"></i> Halaman Utama</a></li>
+        	<li class="active"><i class="fa fa-dashboard"></i> Halaman Utama</li>
       	</ol>
 	</section>
 
@@ -135,7 +138,7 @@
 			<?php
 		}else{
 			//alihkan url jika bukan manager
-			header('location:../login/');
+			?><meta http-equiv="refresh" content="0;url=../login/"> <?php
 		}
 
 		CloseSidebar();

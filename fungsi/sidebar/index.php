@@ -31,7 +31,9 @@
 			  	<!-- Theme style -->
 			  	<link rel="stylesheet" href="../../bootstrap/dist/css/AdminLTE.min.css">
 			  	<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-			  <link rel="stylesheet" href="../../bootstrap/dist/css/skins/_all-skins.min.css">
+			  	<link rel="stylesheet" href="../../bootstrap/dist/css/skins/_all-skins.min.css">
+			  	<!-- SweetAlert -->
+			  	<link rel="stylesheet" type="text/css" href="../../bootstrap/dist/sweet/sweetalert.css">
 			</head>
 			<body class="hold-transition skin-blue sidebar-mini">
 				<div class="wrapper">
@@ -296,6 +298,8 @@
 			<script src="../../bootstrap/dist/js/app.min.js"></script>
 			<!-- AdminLTE for demo purposes -->
 			<script src="../../bootstrap/dist/js/demo.js"></script>
+			<!-- SweetAlert -->
+			<script src="../../bootstrap/dist/sweet/sweetalert.min.js"></script>
 			<!-- Page script -->
 			<script>
 			  $(function () {
@@ -314,6 +318,60 @@
 			      "autoWidth": true
 			    });
 			  });
+
+				function BerhasilMenyimpan(){
+					swal({   
+						title: "Berhasil!",   
+						text: "Data telah disimpan.",   
+						timer: 1500,   
+						type: "success",
+						showConfirmButton: false });
+				}
+
+				function GagalMenyimpan(){
+					swal({   
+						title: "Oops!",   
+						text: "Data gagal disimpan.",   
+						timer: 1500,   
+						type: "error",
+						showConfirmButton: false });
+				}
+
+				function BerhasilMemperbaharui(){
+					swal({   
+						title: "Berhasil!",   
+						text: "Data telah diperbaharui.",   
+						timer: 1500,   
+						type: "success",
+						showConfirmButton: false });
+				}
+
+				function GagalMemperbaharui(){
+					swal({   
+						title: "Oops!",   
+						text: "Data gagal diperbaharui.",   
+						timer: 1500,   
+						type: "error",
+						showConfirmButton: false });
+				}
+
+				function BerhasilMenghapus(){
+					swal({   
+						title: "Berhasil!",   
+						text: "Data telah dihapus.",   
+						timer: 1500,   
+						type: "success",
+						showConfirmButton: false });
+				}
+
+				function GagalMenghapus(){
+					swal({   
+						title: "Oops!",   
+						text: "Data gagal dihapus.",   
+						timer: 1500,   
+						type: "error",
+						showConfirmButton: false });
+				}
 			</script>
 		</body>
 		</html>

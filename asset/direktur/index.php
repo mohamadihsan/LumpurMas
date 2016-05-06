@@ -24,7 +24,7 @@
 				<?php
 			}else{
 				//alihkan url jika bukan direktur
-				header('location:../login/');
+				?><meta http-equiv="refresh" content="0;url=../login/"><?php
 			}
 		?>
 	</center>

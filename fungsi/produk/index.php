@@ -17,9 +17,9 @@
 		$stmt->bind_param('ssii', $kode_produk, $nama_produk, $harga, $id_kategori);
 		if($stmt->execute()){
 			$stmt->insert_id;
-			echo "Data berhasil disimpan";
+			$_SESSION['status_operasi_p'] = "berhasil_menyimpan";
 		}else{
-			die('Error : ('. $db->errno .')'. $db->error);
+			$_SESSION['status_operasi_p'] = "gagal_menyimpan";
 		}
 		$stmt->close();
 	}
@@ -30,19 +30,20 @@
 		include '../../koneksi/koneksi.php';
 
 		//inisialisasi
-		$id_pegawai = $_POST['id_pegawai'];
-		$nama = $_POST['nama'];
-		$jabatan = $_POST['jabatan'];
-		$id = $_GET['id_user'];
+		$kode_produk = $_POST['kode_produk'];
+		$nama_produk = $_POST['nama_produk'];
+		$id_kategori = $_POST['kategori'];
+		$harga = $_POST['harga'];
+		$id_produk = $_POST['id_produk'];
 
 		//update ke tabel pegawai
-		$sql = "UPDATE pegawai SET id_pegawai = ?, nama = ?, jabatan = ? WHERE id_user = ?";
+		$sql = "UPDATE produk SET nama_produk = ?, harga = ?, id_kategori = ?, kode_produk = ? WHERE id_produk = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('issi', $id_pegawai, $nama, $jabatan, $id);
+		$stmt->bind_param('sisisi', $nama_produk, $harga, $id_kategori, $kode_produk, $id_produk);
 		if($stmt->execute()){
-			echo "Data berhasil diperbaharui";
+			$_SESSION['status_operasi_p'] = "berhasil_memperbaharui";
 		}else{
-			die('Error : ('. $db->errno .')'. $db->error);
+			$_SESSION['status_operasi_p'] = "gagal_memperbaharui";
 		}
 		$stmt->close();
 	}
@@ -53,45 +54,16 @@
 		include '../../koneksi/koneksi.php';
 
 		//inisialisasi
-		$id = $_GET['id_user'];
+		$id_produk = $_GET['id_produk'];
 
 		//hapus dari tabel user
-		$sql = "DELETE FROM user WHERE id_user = ?";
+		$sql = "DELETE FROM produk WHERE id_produk = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('i', $id);
+		$stmt->bind_param('i', $id_produk);
 		if($stmt->execute()){
-			echo "Data berhasil dihapus";
+			$_SESSION['status_operasi_p'] = "berhasil_menghapus";
 		}else{
-			die('Error : ('. $db->errno .')'. $db->error);
-		}
-		$stmt->close();
-	}
-
-	
-	/*========================= SELECT DATA PRODUK ========================*/
-	function SelectDataProduk()
-	{
-		include '../../koneksi/koneksi.php';
-
-		//inisialisasi
-		$id_pegawai = $_POST['id_pegawai'];
-		$nama = $_POST['nama'];
-		$jabatan = $_POST['jabatan'];
-		$username = $_POST['username'];
-		$password = $_POST['password'];
-		$password = md5($password);
-
-		//insert ke tabel user
-		$jab = $_SESSION['jabatan'];
-		$sql = "SELECT id_pegawai, nama, jabatan FROM pegawai WHERE jabatan!=$jab";
-		$stmt = $db->prepare($sql);
-		$stmt->execute();
-
-		$stmt->bind_result($id_pegawai, $nama, $jabatan);
-		while($stmt->fetch()){
-			$id_pegawai;
-			$nama;
-			$jabatan;
+			$_SESSION['status_operasi_p'] = "gagal_menghapus";
 		}
 		$stmt->close();
 	}

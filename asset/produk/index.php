@@ -14,8 +14,34 @@
 	
 	//jika manager yang masuk
 	if (!empty($user_check) AND $jabatan == "manager" OR $jabatan=="direktur" OR $jabatan=="inventori") {
+
+			if (isset($_POST['simpan'])) {
+					//jika tombol submit ditekan maka excute fungsi ini
+					TambahDataProduk();
+					if ($_SESSION['status_operasi_p']=="berhasil_menyimpan") {
+						?> <body onload="BerhasilMenyimpan()"></body><?php
+					}
+				}
+
+				if (isset($_POST['perbaharui'])) {
+					//jika tombol submit ditekan maka excute fungsi ini
+					EditDataProduk();
+					if ($_SESSION['status_operasi_p']=="berhasil_memperbaharui") {
+						?> <body onload="BerhasilMemperbaharui()"></body><?php
+					}
+				}
+
+				if (!empty($_GET['id_produk'])) {
+					HapusDataProduk();
+					if ($_SESSION['status_operasi_p']=="berhasil_menghapus") {
+						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../produk/"><?php
+					}
+				}
 		?>
-			<!-- Content Header (Page header) -->
+		
+		<title>Produk</title>
+
+		<!-- Content Header (Page header) -->
 		<section class="content-header">
 		  	<h1>
 		    	Produk
@@ -90,6 +116,9 @@
 										if (isset($_POST['simpan'])) {
 											//jika tombol submit ditekan maka excute fungsi ini
 											TambahDataProduk();
+											if ($_SESSION['status_operasi']=="OK") {
+												?> <body onload="BerhasilMenyimpan()"></body><?php
+											}
 										}
 									?>
 									</div>	
@@ -153,8 +182,8 @@
 										<?php
 											if ($jabatan=="inventori") {
 												?>
-													<td><a href="edit_produk.php?id_produk=<?php echo $id_produk;?>"><i class="fa fa-pencil"></i> Edit</a></td>
-													<td><a href="hapus_produk.php?id_produk=<?php echo $id_produk;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
+													<td><a href="edit.php?id_produk=<?php echo $id_produk;?>"><i class="fa fa-pencil"></i> Edit</a></td>
+													<td><a href="index.php?id_produk=<?php echo $id_produk;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
 												<?php
 											}
 										?>
@@ -176,7 +205,7 @@
 		<?php
 	}else{
 		//alihkan url jika bukan manager
-		header('location:../login/');
+		?><meta http-equiv="refresh" content="0;url=../login/"><?php
 	}
 
 	CloseSidebar();

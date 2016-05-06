@@ -12,6 +12,9 @@
 	Sidebar();
 	
 	?>
+
+	<title>Halaman Utama</title>
+	
 	<section class="content-header">
       	<h1>
         	Halaman Utama
@@ -75,7 +78,7 @@
 							              			<p>Kategori Produk</p>
 							            		</div>
 							            		<div class="icon">
-							              			<i class="fa fa-trophy"></i>
+							              			<i class="fa fa-list-alt"></i>
 							            		</div>
 							            		<a href="../kategori_produk/" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
 							          		</div>
@@ -91,7 +94,7 @@
 			<?php
 		}else{
 			//alihkan url jika bukan manager
-			header('location:../login/');
+			?><meta http-equiv="refresh" content="0;url=../login/"><?php
 		}
 
 		CloseSidebar();

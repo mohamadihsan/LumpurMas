@@ -14,9 +14,9 @@
 		$stmt->bind_param('s', $nama_kategori);
 		if($stmt->execute()){
 			$stmt->insert_id;
-			echo "Data berhasil disimpan";
+			$_SESSION['status_operasi_kp'] = "berhasil_menyimpan";
 		}else{
-			die('Error : ('. $db->errno .')'. $db->error);
+			$_SESSION['status_operasi_kp'] = "gagal_menyimpan";
 		}
 		$stmt->close();
 	}
@@ -27,19 +27,17 @@
 		include '../../koneksi/koneksi.php';
 
 		//inisialisasi
-		$id_pegawai = $_POST['id_pegawai'];
-		$nama = $_POST['nama'];
-		$jabatan = $_POST['jabatan'];
-		$id = $_GET['id_user'];
+		$nama_kategori = $_POST['nama_kategori'];
+		$id_kategori_produk = $_POST['id_kategori'];
 
 		//update ke tabel pegawai
-		$sql = "UPDATE pegawai SET id_pegawai = ?, nama = ?, jabatan = ? WHERE id_user = ?";
+		$sql = "UPDATE kategori_produk SET nama_kategori = ? WHERE id_kategori = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('issi', $id_pegawai, $nama, $jabatan, $id);
+		$stmt->bind_param('si', $nama_kategori, $id_kategori_produk);
 		if($stmt->execute()){
-			echo "Data berhasil diperbaharui";
+			$_SESSION['status_operasi_kp'] = "berhasil_memperbaharui";
 		}else{
-			die('Error : ('. $db->errno .')'. $db->error);
+			$_SESSION['status_operasi_kp'] = "gagal_memperbaharui";
 		}
 		$stmt->close();
 	}
@@ -50,45 +48,16 @@
 		include '../../koneksi/koneksi.php';
 
 		//inisialisasi
-		$id = $_GET['id_user'];
+		$id_kategori_produk = $_GET['id_kategori'];
 
 		//hapus dari tabel user
-		$sql = "DELETE FROM user WHERE id_user = ?";
+		$sql = "DELETE FROM kategori_produk WHERE id_kategori = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('i', $id);
+		$stmt->bind_param('i', $id_kategori_produk);
 		if($stmt->execute()){
-			echo "Data berhasil dihapus";
+			$_SESSION['status_operasi_kp'] = "berhasil_menghapus";
 		}else{
-			die('Error : ('. $db->errno .')'. $db->error);
-		}
-		$stmt->close();
-	}
-
-	
-	/*========================= SELECT DATA PRODUK ========================*/
-	function SelectDataKategoriProduk()
-	{
-		include '../../koneksi/koneksi.php';
-
-		//inisialisasi
-		$id_pegawai = $_POST['id_pegawai'];
-		$nama = $_POST['nama'];
-		$jabatan = $_POST['jabatan'];
-		$username = $_POST['username'];
-		$password = $_POST['password'];
-		$password = md5($password);
-
-		//insert ke tabel user
-		$jab = $_SESSION['jabatan'];
-		$sql = "SELECT id_pegawai, nama, jabatan FROM pegawai WHERE jabatan!=$jab";
-		$stmt = $db->prepare($sql);
-		$stmt->execute();
-
-		$stmt->bind_result($id_pegawai, $nama, $jabatan);
-		while($stmt->fetch()){
-			$id_pegawai;
-			$nama;
-			$jabatan;
+			$_SESSION['status_operasi_kp'] = "gagal_menghapus";
 		}
 		$stmt->close();
 	}

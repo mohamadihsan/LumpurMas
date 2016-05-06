@@ -12,6 +12,9 @@
 	Sidebar();
 	
 	?>
+
+	<title>Rekomendasi</title>
+
 	<section class="content-header">
       	<h1>
         	Rekomendasi
@@ -101,7 +104,7 @@
 			<?php
 			}else{
 				//alihkan url jika bukan pegawai pemasaran
-				header('location:../login/');
+				?><meta http-equiv="refresh" content="0;url=../login/"><?php
 			}
 
 			CloseSidebar();

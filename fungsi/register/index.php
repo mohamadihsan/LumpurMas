@@ -3,7 +3,7 @@
 	function FormRegister()
 	{
 		?>		
-		<form action="../../" method="post">
+		<form action="" method="post">
 			<div class="box-body">
 	      		<div class="row">
 					<div class="col-md-6">
@@ -33,7 +33,7 @@
 					<div class="col-md-6">	
   						<div class="form-group">
     						<select name="jabatan" class="form-control select2" style="width: 100%;">
-      							<option selected="selected">Direktur</option>
+      							<option value="direktur" selected="selected">Direktur</option>
 			                  	<option value="pemasaran">Pemasaran</option>
 			                  	<option value="inventori">Inventori</option>
 			                  	<option value="administrasi">Administrasi</option>

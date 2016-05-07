@@ -8,11 +8,11 @@
 	$id_produk = $_GET['id_produk'];
 
 	//select data produk
-	$sql = "SELECT id_produk, nama_produk, harga, status_produk, id_kategori, kode_produk FROM produk WHERE id_produk='$id_produk'";
+	$sql = "SELECT id_produk, nama_produk, harga, status_produk, produk.id_kategori, kode_produk, nama_kategori FROM produk, kategori_produk WHERE produk.id_kategori=kategori_produk.id_kategori AND id_produk='$id_produk'";
 	$stmt = $db->prepare($sql);
 	$stmt->execute();
 
-	$stmt->bind_result($id_produk, $nama_produk, $harga, $status_produk, $id_kategori, $kode_produk);
+	$stmt->bind_result($id_produk, $nama_produk, $harga, $status_produk, $id_kategori, $kode_produk, $nama_kategori);
 	$stmt->fetch();
 	$stmt->close();
 	
@@ -45,23 +45,36 @@
             		</div>
 		            <!-- /.box-header -->
 		            <div class="box-body">
-						<form method="post" action="">
+						<form method="post" action="../produk/">
 				        	<!-- /.box-header -->
 				        	<div class="box-body">
+
+			            		<div class="col-md-12" hidden="">
+				            		<div class="form-group">
+										<input class="form-control" id="id_produk" type="text" name="id_produk" value="<?php echo $id_produk; ?>" placeholder="ID Produk" required>							                		
+			              			</div>
+			              		</div>
 			            		<div class="col-md-6">
 			              			<!-- /.form-group -->
 			              			<div class="form-group">
-										<input class="form-control" id="kode_produk" type="text" name="kode_produk" value="<?php echo $kode_produk; ?>" placeholder="Kode Produk" required>							                		
+										<input class="form-control" id="kode_produk" type="text" name="kode_produk" value="<?php echo $kode_produk; ?>" placeholder="Kode Produk" required>							                	
 			              			</div>
 			              			<div class="form-group">
 					                	<select class="form-control select2" style="width: 100%;" name="kategori" required>
 					                		<option selected="selected">Kategori Produk</option>
 					                		<?php
+					                			$sql = "SELECT id_kategori, nama_kategori FROM kategori_produk";
+												$stmt = $db->prepare($sql);
+												$stmt->execute();
+
+												$stmt->bind_result($id_kategori_produk, $nama_kategori_produk);
+												
 												while ($stmt->fetch()) {
 													?>
-														<option value="<?php echo $id_kategori;?>"><?php echo $nama_kategori; ?></option>
+														<option value="<?php echo $id_kategori_produk;?>" <?php if($id_kategori==$id_kategori_produk) echo "selected='selected'"; ?>><?php echo $nama_kategori_produk; ?></option>
 													<?php
 												}
+												$stmt->close();
 											?>
 					                	</select>
 					              	</div>
@@ -77,7 +90,7 @@
 					                	<input class="form-control" id="harga" type="text" name="harga" value="<?php echo $harga; ?>" placeholder="Harga Rp.0,00" required>
 					              	</div>
 			              			<!-- /.form-group -->
-			            		</div>
+			            		</div>	
 			            		<div class="col-md-1"><button class="btn btn-primary" name="perbaharui">Perbaharui</button></div>
 				        	</div>
 				        	<!-- /.box-body -->

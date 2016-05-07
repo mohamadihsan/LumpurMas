@@ -36,10 +36,10 @@
 		$harga = $_POST['harga'];
 		$id_produk = $_POST['id_produk'];
 
-		//update ke tabel pegawai
+		//update ke tabel produk
 		$sql = "UPDATE produk SET nama_produk = ?, harga = ?, id_kategori = ?, kode_produk = ? WHERE id_produk = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('sisisi', $nama_produk, $harga, $id_kategori, $kode_produk, $id_produk);
+		$stmt->bind_param('siisi', $nama_produk, $harga, $id_kategori, $kode_produk, $id_produk);
 		if($stmt->execute()){
 			$_SESSION['status_operasi_p'] = "berhasil_memperbaharui";
 		}else{
@@ -56,7 +56,7 @@
 		//inisialisasi
 		$id_produk = $_GET['id_produk'];
 
-		//hapus dari tabel user
+		//hapus dari tabel produk
 		$sql = "DELETE FROM produk WHERE id_produk = ?";
 		$stmt = $db->prepare($sql);
 		$stmt->bind_param('i', $id_produk);

@@ -20,6 +20,8 @@
 					TambahDataKategoriProduk();
 					if ($_SESSION['status_operasi_kp']=="berhasil_menyimpan") {
 						?> <body onload="BerhasilMenyimpan()"></body><?php
+					}else if ($_SESSION['status_operasi_kp']=="gagal_menyimpan") {
+						?> <body onload="GagalMenyimpan()"></body><?php
 					}
 				}
 
@@ -28,6 +30,8 @@
 					EditDataKategoriProduk();
 					if ($_SESSION['status_operasi_kp']=="berhasil_memperbaharui") {
 						?> <body onload="BerhasilMemperbaharui()"></body><?php
+					}else if ($_SESSION['status_operasi_kp']=="gagal_memperbaharui") {
+						?> <body onload="GagalMemperbaharui()"></body><?php
 					}
 				}
 
@@ -35,6 +39,8 @@
 					HapusDataKategoriProduk();
 					if ($_SESSION['status_operasi_kp']=="berhasil_menghapus") {
 						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../kategori_produk/"><?php
+					}else if ($_SESSION['status_operasi_kp']=="gagal_menghapus") {
+						?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../kategori_produk/"><?php
 					}
 				}
 			?>

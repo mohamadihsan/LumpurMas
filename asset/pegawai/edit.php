@@ -45,7 +45,7 @@
 			<div class="box-header with-border">
 				<h3 class="box-title">Perbaharui Data</h3>
 			</div>
-			<form action="../../index.html" method="post">
+			<form action="../pegawai/" method="post">
 				<div class="box-body">
 		      		<div class="row">
 						<div class="col-md-6">
@@ -65,10 +65,10 @@
 						<div class="col-md-6">	
 	  						<div class="form-group">
 	    						<select name="jabatan" class="form-control select2" style="width: 100%;">
-	      							<option selected="selected">Direktur</option>
-				                  	<option value="pemasaran">Pemasaran</option>
-				                  	<option value="inventori">Inventori</option>
-				                  	<option value="administrasi">Administrasi</option>
+	      							<option value="direktur" <?php if($jabatan=="direktur") echo "selected='selected'"?>>Direktur</option>
+				                  	<option value="pemasaran" <?php if($jabatan=="pemasaran") echo "selected='selected'"?>>Pemasaran</option>
+				                  	<option value="inventori" <?php if($jabatan=="inventori") echo "selected='selected'"?>>Inventori</option>
+				                  	<option value="administrasi" <?php if($jabatan=="administrasi") echo "selected='selected'"?>>Administrasi</option>
 				                </select>
 	  						</div>
 						</div>

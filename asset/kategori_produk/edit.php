@@ -44,6 +44,13 @@
 		            <!-- /.box-header -->
 		            <div class="box-body">
 						<form method="post" action="../kategori_produk/">
+		            		<div class="col-md-6" hidden="">
+		              			<!-- /.form-group -->
+		              			<div class="form-group">
+									<input class="form-control" id="id_kategori" type="text" name="id_kategori" value="<?php echo $id_kategori; ?>" placeholder="ID Kategori">							       
+		              			</div>
+		              			<!-- /.form-group -->
+		            		</div>
 		            		<div class="col-md-6">
 		              			<!-- /.form-group -->
 		              			<div class="form-group">
@@ -51,17 +58,7 @@
 		              			</div>
 		              			<!-- /.form-group -->
 		            		</div>
-		            		<div class="col-md-6">
-		              			<!-- /.form-group -->
-		              			<div class="form-group" hidden="">
-									<input class="form-control" id="id_kategori" type="text" name="id_kategori" value="<?php echo $id_kategori; ?>" placeholder="ID Kategori">							       
-		              			</div>
-		              			<!-- /.form-group -->
-		            		</div>
 		            		<div class="col-md-12"><button class="btn btn-primary" name="perbaharui">Perbaharui</button></div>
-		            		<div class="col-md-12">
-							</div>	
-		            		<!-- /.col -->
 					    </form>
 					</div>
 				    <!-- /.box-body -->    

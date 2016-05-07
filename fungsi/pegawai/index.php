@@ -20,7 +20,7 @@
 		if($stmt->execute()){
 			$stmt->insert_id;
 		}else{
-			die('Error : ('. $db->errno .')'. $db->error);
+			$_SESSION['status_operasi_u'] = "gagal_menyimpan";
 		}
 		$stmt->close();
 
@@ -39,9 +39,9 @@
 		$stmt = $db->prepare($sql);
 		$stmt->bind_param('sssi', $id_pegawai, $nama, $jabatan, $id_user);
 		if($stmt->execute()){
-			echo "Data berhasil disimpan";
+			$_SESSION['status_operasi_pg'] = "berhasil_menyimpan";
 		}else{
-			die('Error : ('. $db->errno .')'. $db->error);
+			$_SESSION['status_operasi_pg'] = "gagal_menyimpan";
 		}
 		$stmt->close();
 	}
@@ -55,16 +55,15 @@
 		$id_pegawai = $_POST['id_pegawai'];
 		$nama = $_POST['nama'];
 		$jabatan = $_POST['jabatan'];
-		$id = $_GET['id_user'];
 
 		//update ke tabel pegawai
-		$sql = "UPDATE pegawai SET id_pegawai = ?, nama = ?, jabatan = ? WHERE id_user = ?";
+		$sql = "UPDATE pegawai SET id_pegawai = ?, nama = ?, jabatan = ? WHERE id_pegawai = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('issi', $id_pegawai, $nama, $jabatan, $id);
+		$stmt->bind_param('issi', $id_pegawai, $nama, $jabatan, $id_pegawai);
 		if($stmt->execute()){
-			echo "Data berhasil diperbaharui";
+			$_SESSION['status_operasi_pg'] = "berhasil_memperbaharui";
 		}else{
-			die('Error : ('. $db->errno .')'. $db->error);
+			$_SESSION['status_operasi_pg'] = "gagal_memperbaharui";
 		}
 		$stmt->close();
 	}
@@ -82,9 +81,9 @@
 		$stmt = $db->prepare($sql);
 		$stmt->bind_param('i', $id);
 		if($stmt->execute()){
-			echo "Data berhasil dihapus";
+			$_SESSION['status_operasi_pg'] = "berhasil_menghapus";
 		}else{
-			die('Error : ('. $db->errno .')'. $db->error);
+			$_SESSION['status_operasi_pg'] = "gagal_menghapus";
 		}
 		$stmt->close();
 	}
@@ -105,9 +104,9 @@
 		$stmt = $db->prepare($sql);
 		$stmt->bind_param('ssi', $username, $password, $id_user);
 		if($stmt->execute()){
-			echo "Data berhasil diperbaharui";
+			$_SESSION['status_operasi_u'] = "berhasil_memperbaharui";
 		}else{
-			die('Error : ('. $db->errno .')'. $db->error);
+			$_SESSION['status_operasi_u'] = "gagal_memperbaharui";
 		}
 		$stmt->close();
 	}

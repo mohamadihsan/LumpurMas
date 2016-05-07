@@ -20,6 +20,8 @@
 					TambahDataProduk();
 					if ($_SESSION['status_operasi_p']=="berhasil_menyimpan") {
 						?> <body onload="BerhasilMenyimpan()"></body><?php
+					}else if ($_SESSION['status_operasi_p']=="gagal_menyimpan") {
+						?> <body onload="GagalMenyimpan()"></body><?php
 					}
 				}
 
@@ -28,6 +30,8 @@
 					EditDataProduk();
 					if ($_SESSION['status_operasi_p']=="berhasil_memperbaharui") {
 						?> <body onload="BerhasilMemperbaharui()"></body><?php
+					}else if ($_SESSION['status_operasi_p']=="gagal_memperbaharui") {
+						?> <body onload="GagalMemperbaharui()"></body><?php
 					}
 				}
 
@@ -35,6 +39,8 @@
 					HapusDataProduk();
 					if ($_SESSION['status_operasi_p']=="berhasil_menghapus") {
 						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../produk/"><?php
+					}else if ($_SESSION['status_operasi_p']=="gagal_menghapus") {
+						?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../produk/"><?php
 					}
 				}
 		?>

@@ -4,6 +4,7 @@
 	include '../../koneksi/koneksi.php';
 	include '../../fungsi/sidebar/index.php';
 	include '../../fungsi/register/index.php';
+	include '../../fungsi/pegawai/index.php';
 	include '../login/check_login_pegawai.php';
 
 	if (empty($_SESSION['username']) OR empty($_SESSION['jabatan'])) {
@@ -14,6 +15,35 @@
 		
 	//jika manager yang masuk
 	if (!empty($user_check) AND $jabatan == "manager") {
+
+		if (isset($_POST['buat_akun'])) {
+			//jika tombol submit ditekan maka excute fungsi ini
+			TambahDataPegawai();
+			if ($_SESSION['status_operasi_pg']=="berhasil_menyimpan") {
+				?> <body onload="BerhasilMenyimpan()"></body><?php
+			}else if ($_SESSION['status_operasi_pg']=="gagal_menyimpan" OR $_SESSION['status_operasi_u']=="gagal_menyimpan") {
+				?> <body onload="GagalMenyimpan()"></body><?php
+			}
+		}
+
+		if (isset($_POST['perbaharui'])) {
+			//jika tombol submit ditekan maka excute fungsi ini
+			EditDataPegawai();
+			if ($_SESSION['status_operasi_pg']=="berhasil_memperbaharui") {
+				?> <body onload="BerhasilMemperbaharui()"></body><?php
+			}else if ($_SESSION['status_operasi_pg']=="gagal_memperbaharui") {
+				?> <body onload="GagalMemperbaharui()"></body><?php
+			}
+		}
+
+		if (!empty($_GET['id_user'])) {
+			HapusDataPegawai();
+			if ($_SESSION['status_operasi_pg']=="berhasil_menghapus") {
+				?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../pegawai/"><?php
+			}else if ($_SESSION['status_operasi_pg']=="gagal_menghapus") {
+				?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../pegawai/"><?php
+			}
+		}
 		?>
 			<title>Pegawai</title>
 			
@@ -56,11 +86,11 @@
 						<?php
 							$jab = $_SESSION['jabatan'];
 							//Tampilkan Data Pegawai 
-							$sql = "SELECT id_pegawai, nama, jabatan FROM pegawai WHERE jabatan!='$jab'";							
+							$sql = "SELECT id_pegawai, nama, jabatan, id_user FROM pegawai WHERE jabatan!='$jab'";							
 							$stmt = $db->prepare($sql);
 							$stmt->execute();
 
-							$stmt->bind_result($id_pegawai, $nama, $jabatan);
+							$stmt->bind_result($id_pegawai, $nama, $jabatan, $id_user);
 						?>	
 						<div class="box">
 		            		<div class="box-header with-border">
@@ -86,8 +116,8 @@
 										<td><?php echo $id_pegawai; ?></td>
 										<td><?php echo $nama; ?></td>
 										<td><?php echo $jabatan; ?></td>
-										<td><a href="edit_pegawai.php?id_pegawai=<?php echo $id_pegawai;?>"><i class="fa fa-pencil"></i> Edit</a></td>
-										<td><a href="hapus_pegawai.php?id_user=<?php echo $id_user;?>"><i class="fa fa-trash"></i> Hapus</a></td>
+										<td><a href="edit.php?id_pegawai=<?php echo $id_pegawai;?>"><i class="fa fa-pencil"></i> Edit</a></td>
+										<td><a href="index.php?id_user=<?php echo $id_user;?>"><i class="fa fa-trash"></i> Hapus</a></td>
 									</tr>
 									<?php
 									}				

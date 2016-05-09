@@ -2,9 +2,9 @@
 	session_start();
 	include '../../koneksi/koneksi.php';
 	include '../../fungsi/login/index.php';
+	include '../../fungsi/sidebar/index.php';
 
 	if (isset($_POST['login'])) {
-		$_error = "";
 
 		//Inisialisasi
 		$username = $_POST['username'];
@@ -61,9 +61,10 @@
 				}
 			}
 		}else{
-			$_error = "Username atau Password Salah";
+			
+			?> <body onload="GagalLogin()"></body> <?php
 		}
-	}
+	}else
 
 	//Jika user sudah login
 	if (!empty($_SESSION['id_pelanggan'])) {

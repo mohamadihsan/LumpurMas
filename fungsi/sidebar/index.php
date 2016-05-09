@@ -302,22 +302,22 @@
 			<script src="../../bootstrap/dist/sweet/sweetalert.min.js"></script>
 			<!-- Page script -->
 			<script>
-			  $(function () {
-			    //Initialize Select2 Elements
-			    $(".select2").select2();
-			    //Money Euro
-			    $("[data-mask]").inputmask();
-			    //Data Tables
-			    $("#example1").DataTable();
-			    $('#example2').DataTable({
-			      "paging": true,
-			      "lengthChange": false,
-			      "searching": false,
-			      "ordering": true,
-			      "info": true,
-			      "autoWidth": true
-			    });
-			  });
+			  	$(function () {
+			    	//Initialize Select2 Elements
+			    	$(".select2").select2();
+			    	//Money Euro
+			    	$("[data-mask]").inputmask();
+			    	//Data Tables
+			    	$("#example1").DataTable();
+			    	$('#example2').DataTable({
+			      		"paging": true,
+			      		"lengthChange": false,
+			      		"searching": false,
+			      		"ordering": true,
+			      		"info": true,
+			      		"autoWidth": true
+			    	});
+			  	});
 
 				function BerhasilMenyimpan(){
 					swal({   
@@ -372,9 +372,46 @@
 						type: "error",
 						showConfirmButton: false });
 				}
+
+				function BerhasilDijawab(){
+					swal({   
+						title: "Berhasil!",   
+						text: "Balasan telah dikirim.",   
+						timer: 1500,   
+						type: "success",
+						showConfirmButton: false });
+				}
+
+				function GagalDijawab(){
+					swal({   
+						title: "Oops!",   
+						text: "Balasan gagal dikirim.",   
+						timer: 1500,   
+						type: "error",
+						showConfirmButton: false });
+				}
+
+				function GagalLogin(){
+					swal({   
+						title: "Oops!",   
+						text: "Username dan Password anda salah.",   
+						timer: 1500,   
+						type: "error",
+						showConfirmButton: false });
+				}
 			</script>
 		</body>
 		</html>
 		<?php
 	}
+
+	function Tanggal($tanggal){
+  		$BulanIndo = array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+  		$tahun = substr($tanggal, 0, 4);
+  		$bulan = substr($tanggal, 5, 2);
+  		$tgl = substr($tanggal, 8, 2);
+
+  		$hasil = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+  		return($hasil);
+  	}
 ?>

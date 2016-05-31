@@ -83,7 +83,7 @@
 	            		</div>
 	            		<!-- /.box-header -->
 			            <div class="box-body">
-							<form method="post" action="">
+							<form method="post" action="" enctype="multipart/form-data">
 					        	<!-- /.box-header -->
 					        	<div class="box-body">
 				            		<div class="col-md-6">
@@ -116,19 +116,15 @@
 						              	</div>
 				              			<!-- /.form-group -->
 				            		</div>
-				            		<div class="col-md-1"><button class="btn btn-primary" name="simpan">Simpan</button></div>
 				            		<div class="col-md-12">
-				            		<?php							            		
-										if (isset($_POST['simpan'])) {
-											//jika tombol submit ditekan maka excute fungsi ini
-											TambahDataProduk();
-											if ($_SESSION['status_operasi']=="OK") {
-												?> <body onload="BerhasilMenyimpan()"></body><?php
-											}
-										}
-									?>
-									</div>	
-				            		<!-- /.col -->
+					            		<div class="form-group">
+						                  	<label for="gambar_produk">Gambar Produk</label>
+						                  	<input type="file" name="gambar_produk" id="gambar_produk">
+
+						                  	<p class="help-block">Format : jpeg,png</p>
+						                </div>
+						            </div>    
+				            		<div class="col-md-1"><button class="btn btn-primary" name="simpan">Simpan</button></div>
 					        	</div>
 					        	<!-- /.box-body -->
 						    </form>
@@ -138,11 +134,14 @@
 					}
 
 					//Tampilkan Data Produk 
-					$sql = "SELECT id_produk, kode_produk, nama_produk, harga, status_produk, nama_kategori FROM produk, kategori_produk WHERE produk.id_kategori = kategori_produk.id_kategori";							
+					$sql = "SELECT id_produk, kode_produk, nama_produk, harga, status_produk, nama_kategori, url FROM produk, kategori_produk WHERE produk.id_kategori = kategori_produk.id_kategori";							
 					$stmt = $db->prepare($sql);
 					$stmt->execute();
 
-					$stmt->bind_result($id_produk, $kode_produk, $nama_produk, $harga, $status_produk, $nama_kategori);
+					$stmt->bind_result($id_produk, $kode_produk, $nama_produk, $harga, $status_produk, $nama_kategori, $url);
+
+					$file_path = '../gambar/produk/';
+
 					?>
 					<div class="box">
 	            		<div class="box-header with-border">
@@ -157,6 +156,7 @@
 										<th>Nama Produk</th>
 										<th>Harga</th>
 										<th>Kategori</th>
+										<th>Gambar Produk</th>
 										<?php
 											if ($jabatan=="inventori") {
 												?>
@@ -185,6 +185,7 @@
 											?>
 										</td>
 										<td><?php echo $nama_kategori; ?></td>
+										<td align="center"><img src="<?php echo $file_path.$url; ?>" alt="" height="100" width="100"></td>
 										<?php
 											if ($jabatan=="inventori") {
 												?>

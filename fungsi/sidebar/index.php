@@ -39,7 +39,7 @@
 				<div class="wrapper">
 				  	<header class="main-header">
 				    	<!-- Logo -->
-				    	<a href="../../index2.html" class="logo">
+				    	<a href="../login/" class="logo">
 				      		<!-- mini logo for sidebar mini 50x50 pixels -->
 				      		<span class="logo-mini"><b>L</b>M</span>
 				      		<!-- logo for regular state and mobile devices -->
@@ -57,29 +57,6 @@
 
 				      		<div class="navbar-custom-menu">
 				        		<ul class="nav navbar-nav">
-						          	<!-- Notifications: style can be found in dropdown.less -->
-						          	<li class="dropdown notifications-menu">
-						            	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						              		<i class="fa fa-bell-o"></i>
-						              		<span class="label label-warning">1</span>
-						            	</a>
-						            	<ul class="dropdown-menu">
-						              		<li class="header">Kamu mempunya 1 notifications</li>
-						              		<li>
-						                		<!-- inner menu: contains the actual data -->
-						                		<ul class="menu">
-								                  	<li>
-								                    	<a href="#">
-								                      		<i class="fa fa-users text-red"></i> Keluhan dari pelanggan
-								                    	</a>
-								                  	</li>
-								                </ul>
-						              		</li>
-						              		<li class="footer"><a href="#">View all</a></li>
-						            	</ul>
-						          	</li>
-						          	
-						          	</li>
 				          			<!-- User Account: style can be found in dropdown.less -->
 				          			<li class="dropdown user user-menu">
 				            			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -395,6 +372,15 @@
 					swal({   
 						title: "Oops!",   
 						text: "Username dan Password anda salah.",   
+						timer: 1500,   
+						type: "error",
+						showConfirmButton: false });
+				}
+
+				function GagalUploadGambar(){
+					swal({   
+						title: "Oops!",   
+						text: "Terjadi kesalahan saat mengupload gambar.",   
 						timer: 1500,   
 						type: "error",
 						showConfirmButton: false });

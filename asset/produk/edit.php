@@ -6,13 +6,14 @@
 
 	//get id_kategori
 	$id_produk = $_GET['id_produk'];
+	$folder = "../gambar/produk/";
 
 	//select data produk
-	$sql = "SELECT id_produk, nama_produk, harga, status_produk, produk.id_kategori, kode_produk, nama_kategori FROM produk, kategori_produk WHERE produk.id_kategori=kategori_produk.id_kategori AND id_produk='$id_produk'";
+	$sql = "SELECT id_produk, nama_produk, harga, status_produk, produk.id_kategori, kode_produk, nama_kategori, url FROM produk, kategori_produk WHERE produk.id_kategori=kategori_produk.id_kategori AND id_produk='$id_produk'";
 	$stmt = $db->prepare($sql);
 	$stmt->execute();
 
-	$stmt->bind_result($id_produk, $nama_produk, $harga, $status_produk, $id_kategori, $kode_produk, $nama_kategori);
+	$stmt->bind_result($id_produk, $nama_produk, $harga, $status_produk, $id_kategori, $kode_produk, $nama_kategori, $url);
 	$stmt->fetch();
 	$stmt->close();
 	
@@ -45,7 +46,7 @@
             		</div>
 		            <!-- /.box-header -->
 		            <div class="box-body">
-						<form method="post" action="../produk/">
+						<form method="post" action="../produk/" enctype="multipart/form-data">
 				        	<!-- /.box-header -->
 				        	<div class="box-body">
 
@@ -90,8 +91,21 @@
 					                	<input class="form-control" id="harga" type="text" name="harga" value="<?php echo $harga; ?>" placeholder="Harga Rp.0,00" required>
 					              	</div>
 			              			<!-- /.form-group -->
-			            		</div>	
-			            		<div class="col-md-1"><button class="btn btn-primary" name="perbaharui">Perbaharui</button></div>
+			            		</div>
+			            		<div class="col-md-6">
+				            		<div class="form-group">
+					                  	<label for="gambar_produk">Gambar Produk</label>
+					                  	<input type="file" name="gambar_produk" id="gambar_produk">
+
+					                  	<p class="help-block">Format : jpeg,png</p>
+					                </div>
+					                <button class="btn btn-primary" name="perbaharui">Perbaharui</button>
+						        </div>
+						        <div class="col-md-6">
+						        	<div class="form-group">
+						        		<img src="<?php echo $folder.$url; ?>" alt="" width="250" height="250">
+						        	</div>
+						        </div>    	
 				        	</div>
 				        	<!-- /.box-body -->
 					    </form>

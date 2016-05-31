@@ -10,18 +10,55 @@
 		$nama_produk = $_POST['nama_produk'];
 		$id_kategori = $_POST['kategori'];
 		$harga = $_POST['harga'];
+		$gambar_produk = $_FILES["gambar_produk"]["name"]; 
+		$file_basename = substr($gambar_produk, 0, strripos($gambar_produk, '.')); // get ekstensi 
+		$file_ext = substr($gambar_produk, strripos($gambar_produk, '.')); // get nama file 
 
-		//insert ke tabel user
-		$sql = "INSERT INTO produk (kode_produk, nama_produk, harga, id_kategori) VALUES(?, ?, ?, ?)";
-		$stmt = $db->prepare($sql);
-		$stmt->bind_param('ssii', $kode_produk, $nama_produk, $harga, $id_kategori);
-		if($stmt->execute()){
-			$stmt->insert_id;
-			$_SESSION['status_operasi_p'] = "berhasil_menyimpan";
-		}else{
-			$_SESSION['status_operasi_p'] = "gagal_menyimpan";
+		$folder = "../gambar/produk/";
+
+		if ($gambar_produk==null) {
+			$gambar_produk = "default.jpg";
 		}
-		$stmt->close();
+
+		if ($_FILES["gambar_produk"]["error"] > 0){
+		 	// jika file gambar tidak diupload
+		 	//insert ke tabel produk
+ 			$url = $gambar_produk;
+			$sql = "INSERT INTO produk (kode_produk, nama_produk, harga, id_kategori, url) VALUES(?, ?, ?, ?, ?)";
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param('ssiis', $kode_produk, $nama_produk, $harga, $id_kategori, $url);
+			if($stmt->execute()){
+				$stmt->insert_id;
+				$_SESSION['status_operasi_p'] = "berhasil_menyimpan";
+			}else{
+				$_SESSION['status_operasi_p'] = "gagal_menyimpan";
+			}
+			$stmt->close();
+		}else{
+			// Rename file
+		 	$newfilename = md5($file_basename) . $file_ext;
+
+		 	// cek apakah file sudah ada 
+		 	if (file_exists("$folder".$newfilename)){
+		 		$_SESSION['status_operasi_p'] = "gagal_memperbaharui";
+		 	}else{  
+		 		//simpan gambar ke folder lalu save path/url ke database
+		 		if(move_uploaded_file($_FILES["gambar_produk"]["tmp_name"],"$folder".$gambar_produk)){
+		 			$url = $gambar_produk;
+		 			//insert ke tabel produk
+					$sql = "INSERT INTO produk (kode_produk, nama_produk, harga, id_kategori, url) VALUES(?, ?, ?, ?, ?)";
+					$stmt = $db->prepare($sql);
+					$stmt->bind_param('ssiis', $kode_produk, $nama_produk, $harga, $id_kategori, $url);
+					if($stmt->execute()){
+						$stmt->insert_id;
+						$_SESSION['status_operasi_p'] = "berhasil_menyimpan";
+					}else{
+						$_SESSION['status_operasi_p'] = "gagal_menyimpan";
+					}
+					$stmt->close();
+		 		}
+		 	}
+		}
 	}
 
 	/*========================= EDIT DATA PRODUK ========================*/
@@ -35,17 +72,62 @@
 		$id_kategori = $_POST['kategori'];
 		$harga = $_POST['harga'];
 		$id_produk = $_POST['id_produk'];
+		$gambar_produk = $_FILES["gambar_produk"]["name"]; 
+		$file_basename = substr($gambar_produk, 0, strripos($gambar_produk, '.')); // get ekstensi 
+		$file_ext = substr($gambar_produk, strripos($gambar_produk, '.')); // get nama file
 
-		//update ke tabel produk
-		$sql = "UPDATE produk SET nama_produk = ?, harga = ?, id_kategori = ?, kode_produk = ? WHERE id_produk = ?";
-		$stmt = $db->prepare($sql);
-		$stmt->bind_param('siisi', $nama_produk, $harga, $id_kategori, $kode_produk, $id_produk);
-		if($stmt->execute()){
-			$_SESSION['status_operasi_p'] = "berhasil_memperbaharui";
+		$folder = "../gambar/produk/";
+
+		if ($_FILES["gambar_produk"]["error"] > 0){
+		 	// jika file gambar tidak diupload
+		 	//insert ke tabel produk
+ 			$url = $gambar_produk;
+			$sql = "INSERT INTO produk (kode_produk, nama_produk, harga, id_kategori, url) VALUES(?, ?, ?, ?, ?)";
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param('ssiis', $kode_produk, $nama_produk, $harga, $id_kategori, $url);
+			if($stmt->execute()){
+				$stmt->insert_id;
+				$_SESSION['status_operasi_p'] = "berhasil_menyimpan";
+			}else{
+				$_SESSION['status_operasi_p'] = "gagal_menyimpan";
+			}
+			$stmt->close();
 		}else{
-			$_SESSION['status_operasi_p'] = "gagal_memperbaharui";
+		 	// Rename file
+		 	$newfilename = md5($file_basename) . $file_ext;
+
+		 	// cek apakah file sudah ada 
+		 	if (file_exists("$folder".$newfilename)){
+		 		$_SESSION['status_operasi_p'] = "gagal_memperbaharui";
+		 	}else{  
+		 		//simpan gambar ke folder lalu save path/url ke database
+		 		if(move_uploaded_file($_FILES["gambar_produk"]["tmp_name"],"$folder".$gambar_produk)){
+		 			$url = $gambar_produk;
+		 			//update ke tabel produk
+					$sql = "UPDATE produk SET nama_produk = ?, harga = ?, id_kategori = ?, kode_produk = ?, url = ? WHERE id_produk = ?";
+					$stmt = $db->prepare($sql);
+					$stmt->bind_param('siissi', $nama_produk, $harga, $id_kategori, $kode_produk, $url, $id_produk);
+					if($stmt->execute()){
+						$_SESSION['status_operasi_p'] = "berhasil_memperbaharui";
+					}else{
+						$_SESSION['status_operasi_p'] = "gagal_memperbaharui";
+					}
+					$stmt->close();
+		 		}else{
+					//update ke tabel produk
+		 			$url = "default.jpg";
+					$sql = "UPDATE produk SET nama_produk = ?, harga = ?, id_kategori = ?, kode_produk = ?, url = ? WHERE id_produk = ?";
+					$stmt = $db->prepare($sql);
+					$stmt->bind_param('siissi', $nama_produk, $harga, $id_kategori, $kode_produk, $url, $id_produk);
+					if($stmt->execute()){
+						$_SESSION['status_operasi_p'] = "berhasil_memperbaharui";
+					}else{
+						$_SESSION['status_operasi_p'] = "gagal_memperbaharui";
+					}
+					$stmt->close();
+		 		}
+		 	}
 		}
-		$stmt->close();
 	}
 
 	/*========================= HAPUS DATA PRODUK ========================*/

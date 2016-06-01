@@ -184,7 +184,7 @@
 								            		<div class="icon">
 								              			<i class="fa fa-star"></i>
 								            		</div>
-								            		<a href="../keluhan_saran/" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+								            		<a href="../keluhan/" class="small-box-footer">Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
 								          		</div>
 								        	</div>
 								        	<!-- ./col -->

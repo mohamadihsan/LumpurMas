@@ -236,6 +236,20 @@
 							    		<?php
 							    	}
 							    ?>
+
+							    <!-- MENU PELANGGAN -->
+							    <?php
+							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
+							    		?>
+							    			<li class="treeview">
+										        <a href="../pelanggan/">
+										            <i class="fa fa-user"></i>
+										            <span>Pelanggan</span>
+										        </a>
+							   	 			</li>
+							    		<?php
+							    	}
+							    ?>
 					   	 	</ul>
 				    	</section>
 				    	<!-- /.sidebar -->

@@ -14,7 +14,7 @@
 	Sidebar();
 		
 	//jika manager yang masuk
-	if (!empty($user_check) AND $jabatan == "manager") {
+	if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur") {
 
 		if (isset($_POST['buat_akun'])) {
 			//jika tombol submit ditekan maka excute fungsi ini
@@ -62,28 +62,32 @@
 		    <section class="content">
 		      	<div class="row">
 		        	<div class="col-xs-12">
-						<div class="box box-primary">
-		            		<div class="box-header with-border">
-		              			<h3 class="box-title">Buat Akun Baru</h3>
-		              			<div class="box-tools pull-right">
-						            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-						         </div>
-		            		</div>
-				            <!-- /.box-header -->
-				            <div class="box-body">
-				            <?php
-				            	if (!empty($_SESSION['username']) AND !empty($_SESSION['jabatan'])) {
-									FormRegister();
-								}else{
-									FormRegisterPengunjung();
-								}
-				            ?>
-				            </div>
-				            <!-- /.box-body -->
-					    </div>
-					    <!-- /.box -->
-				
-						<?php
+		        		<?php 
+							if ($jabatan == "manager") {
+								?>
+									<div class="box box-primary">
+					            		<div class="box-header with-border">
+					              			<h3 class="box-title">Buat Akun Baru</h3>
+					              			<div class="box-tools pull-right">
+									            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+									         </div>
+					            		</div>
+							            <!-- /.box-header -->
+							            <div class="box-body">
+							            <?php
+							            	if (!empty($_SESSION['username']) AND !empty($_SESSION['jabatan'])) {
+												FormRegister();
+											}else{
+												FormRegisterPengunjung();
+											}
+							            ?>
+							            </div>
+							            <!-- /.box-body -->
+								    </div>
+								    <!-- /.box -->
+								<?php
+							}
+
 							$jab = $_SESSION['jabatan'];
 							//Tampilkan Data Pegawai 
 							$sql = "SELECT id_pegawai, nama, jabatan, id_user FROM pegawai WHERE jabatan!='$jab'";							
@@ -104,8 +108,14 @@
 											<th>ID Pegawai</th>
 											<th>Nama</th>
 											<th>Jabatan</th>
-											<th></th>
-											<th></th>
+											<?php
+												if ($_SESSION['jabatan'] =="manager") {
+													?>
+													<th></th>
+													<th></th>
+													<?php
+												}
+											?>
 										</tr>
 									</thead>
 									<tbody>	
@@ -116,8 +126,14 @@
 										<td><?php echo $id_pegawai; ?></td>
 										<td><?php echo $nama; ?></td>
 										<td><?php echo $jabatan; ?></td>
-										<td><a href="edit.php?id_pegawai=<?php echo $id_pegawai;?>"><i class="fa fa-pencil"></i> Edit</a></td>
-										<td><a href="index.php?id_user=<?php echo $id_user;?>"><i class="fa fa-trash"></i> Hapus</a></td>
+										<?php
+											if ($_SESSION['jabatan'] == "manager") {
+												?>
+												<td><a href="edit.php?id_pegawai=<?php echo $id_pegawai;?>"><i class="fa fa-pencil"></i> Edit</a></td>
+												<td><a href="index.php?id_user=<?php echo $id_user;?>"><i class="fa fa-trash"></i> Hapus</a></td>
+												<?php
+											}
+										?>
 									</tr>
 									<?php
 									}				

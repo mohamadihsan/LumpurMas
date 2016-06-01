@@ -1,6 +1,5 @@
 <?php
 	session_start();
-	include 'koneksi/koneksi.php';
 	$id_user = $_SESSION['id_user'];
 	$user_check = $_SESSION['username'];
 

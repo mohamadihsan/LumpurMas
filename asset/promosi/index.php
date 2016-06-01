@@ -3,7 +3,7 @@
 	session_start();
 	include '../../koneksi/koneksi.php';
 	include '../../fungsi/sidebar/index.php';
-	include '../../fungsi/produk/index.php';
+	include '../../fungsi/promosi/index.php';
 	include '../login/check_login_pegawai.php';
 
 	if (empty($_SESSION['username']) OR empty($_SESSION['jabatan'])) {
@@ -35,12 +35,12 @@
 					}
 				}
 
-				if (!empty($_GET['id_produk'])) {
+				if (!empty($_GET['id_promosi'])) {
 					HapusDataPromosi();
 					if ($_SESSION['status_operasi_promosi']=="berhasil_menghapus") {
-						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../produk/"><?php
+						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../promosi/"><?php
 					}else if ($_SESSION['status_operasi_promosi']=="gagal_menghapus") {
-						?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../produk/"><?php
+						?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../promosi/"><?php
 					}
 				}
 		?>
@@ -77,7 +77,7 @@
 	            		</div>
 	            		<!-- /.box-header -->
 			            <div class="box-body">
-							<form method="post" action="">
+							<form method="post" action="" enctype="multipart/form-data">
 					        	<!-- /.box-header -->
 					        	<div class="box-body">
 				            		<div class="col-md-12">
@@ -99,11 +99,11 @@
 					}
 
 					//Tampilkan Data Promosi 
-					$sql = "SELECT id_produk, kode_produk, nama_produk, harga, status_produk, nama_kategori FROM produk, kategori_produk WHERE produk.id_kategori = kategori_produk.id_kategori";							
+					$sql = "SELECT id_promosi, url, status, id_pegawai FROM promosi";							
 					$stmt = $db->prepare($sql);
 					$stmt->execute();
 
-					$stmt->bind_result($id_produk, $kode_produk, $nama_produk, $harga, $status_produk, $nama_kategori);
+					$stmt->bind_result($id_promosi, $url, $status, $id_pegawai);
 					?>
 					<div class="box">
 	            		<div class="box-header with-border">
@@ -114,12 +114,15 @@
 							<table id="example1" class="table table-bordered table-striped">
 								<thead>
 									<tr>
-										<th>Kode Produk</th>
-										<th>Nama Produk</th>
-										<th>Harga</th>
-										<th>Kategori</th>
+										<th>Gambar Promosi</th>
+										<th>Status</th>
 										<?php
-											if ($jabatan=="inventori") {
+											if (($jabatan=="manager")AND($jabatan=="direktur")) {
+												?>
+													<th>Dibuat oleh</th>
+												<?php
+											}
+											if ($jabatan=="pemasaran") {
 												?>
 													<th></th>
 													<th></th>
@@ -131,26 +134,27 @@
 								<tbody>	
 									<?php
 									while ($stmt->fetch()) {
+										$folder = "../gambar/promosi/";
 									?>
 									<tr>
-										<td><?php echo $kode_produk; ?></td>
-										<td><?php echo $nama_produk; ?></td>
-										<td>
-											<?php 
-												//format rupiah
-												$jumlah_desimal ="2";
-												$pemisah_desimal =",";
-												$pemisah_ribuan =".";
-
-												echo "Rp." .number_format($harga, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan); 
-											?>
-										</td>
-										<td><?php echo $nama_kategori; ?></td>
+										<td><img src="<?php echo $folder.$url; ?>" class="img-responsive" alt="" height="50" width="500"></td>
+										<td><?php 
+											if($status=="Y"){
+												echo "Sedang Diterbitkan"; 
+											}else{
+												echo "Tidak Diterbitkan";
+											}
+											?></td>
 										<?php
-											if ($jabatan=="inventori") {
+											if (($jabatan=="manager")AND($jabatan=="direktur")) {
 												?>
-													<td><a href="edit.php?id_produk=<?php echo $id_produk;?>"><i class="fa fa-pencil"></i> Edit</a></td>
-													<td><a href="index.php?id_produk=<?php echo $id_produk;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
+													<th><?php echo $id_pegawai; ?></th>
+												<?php
+											}
+											if ($jabatan=="pemasaran") {
+												?>
+													<td><a href="edit.php?id_promosi=<?php echo $id_promosi;?>"><i class="fa fa-pencil"></i> Edit</a></td>
+													<td><a href="index.php?id_promosi=<?php echo $id_promosi;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
 												<?php
 											}
 										?>

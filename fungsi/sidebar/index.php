@@ -125,6 +125,20 @@
 							        </a>
 							    </li>
 
+							    <!-- MENU PEGAWAI -->
+							     <?php
+							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur") {
+							    		?>
+							    			<li class="treeview">
+										        <a href="../pegawai/">
+										            <i class="fa fa-users"></i>
+										            <span>Pegawai</span>
+										        </a>
+							    			</li>
+							    		<?php
+							    	}
+							    ?>
+
 							    <!-- MENU KATEGORI PRODUK -->
 							    <?php
 							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="inventori") {
@@ -153,30 +167,16 @@
 							    	}
 							    ?>
 
-							    <!-- MENU PEGAWAI -->
-							     <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur") {
+							    <!-- MENU TRANSAKSI -->
+							    <?php
+							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
 							    		?>
 							    			<li class="treeview">
-										        <a href="../pegawai/">
-										            <i class="fa fa-users"></i>
-										            <span>Pegawai</span>
+										        <a href="../transaksi/">
+										            <i class="fa fa-money"></i>
+										            <span>Transaksi</span>
 										        </a>
 							    			</li>
-							    		<?php
-							    	}
-							    ?>
-
-							    <!-- MENU PROMOSI -->
-							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="pemasaran") {
-							    		?>
-							    			<li class="treeview">
-										        <a href="../promosi/">
-										            <i class="fa fa-star"></i>
-										            <span>Promosi</span>
-										        </a>
-							   	 			</li>
 							    		<?php
 							    	}
 							    ?>
@@ -195,12 +195,26 @@
 							    	}
 							    ?>
 
+							    <!-- MENU PESANAN -->
+							    <?php
+							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
+							    		?>
+							    			<li class="treeview">
+										        <a href="../pesanan/">
+										            <i class="fa fa-money"></i>
+										            <span>Data Pesanan</span>
+										        </a>
+							    			</li>
+							    		<?php
+							    	}
+							    ?>
+
 							    <!-- MENU KELUHAN & SARAN -->
 							    <?php
 							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
 							    		?>
 							    			<li class="treeview">
-										        <a href="../keluhan_saran/">
+										        <a href="../keluhan/">
 										            <i class="fa fa-comments"></i>
 										            <span>Keluhan & Saran</span>
 										        </a>
@@ -209,16 +223,16 @@
 							    	}
 							    ?>
 
-							    <!-- MENU TRANSAKSI -->
+							    <!-- MENU PROMOSI -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
+							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="pemasaran") {
 							    		?>
 							    			<li class="treeview">
-										        <a href="../transaksi/">
-										            <i class="fa fa-money"></i>
-										            <span>Transaksi</span>
+										        <a href="../promosi/">
+										            <i class="fa fa-star"></i>
+										            <span>Promosi</span>
 										        </a>
-							    			</li>
+							   	 			</li>
 							    		<?php
 							    	}
 							    ?>

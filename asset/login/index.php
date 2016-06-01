@@ -30,10 +30,12 @@
 
 			//cek apakah user adalah pegawai atau pelanggan
 			//jika id user ada di table pelanggan
-			$sql = "SELECT id_user FROM pelanggan WHERE id_user='$id'";
+			$sql = "SELECT id_pelanggan, nama, id_user FROM pelanggan WHERE id_user='$id'";
 			$result = mysqli_query($db, $sql);
 			$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			if (mysqli_num_rows($result) == 1) {
+				$nama_pelanggan = $_SESSION['nama'] = $row['nama'];
+				$id_pelanggan = $_SESSION['id_pelanggan'] = $row['id_pelanggan'];
 				?><meta http-equiv="refresh" content="0;url=../../"> <?php
 			}else{
 				//jika id user ada di table pegawai

@@ -103,7 +103,7 @@
 						        </div>
 						        <div class="col-md-6">
 						        	<div class="form-group">
-						        		<img src="<?php echo $folder.$url; ?>" alt="" width="250" height="250">
+						        		<img src="<?php echo $folder.$url; ?>" alt="" class="img-responsive">
 						        	</div>
 						        </div>    	
 				        	</div>

@@ -13,7 +13,7 @@
 	Sidebar();
 	
 	//jika manager yang masuk
-	if (!empty($user_check) AND $jabatan == "manager" OR $jabatan=="direktur" OR $jabatan=="inventori") {
+	if (!empty($user_check) AND $jabatan == "manager" OR $jabatan=="direktur" OR $jabatan=="inventori" OR $jabatan=="administrasi") {
 
 			if (isset($_POST['simpan'])) {
 					//jika tombol submit ditekan maka excute fungsi ini

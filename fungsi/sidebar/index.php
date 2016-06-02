@@ -34,6 +34,10 @@
 			  	<link rel="stylesheet" href="../../bootstrap/dist/css/skins/_all-skins.min.css">
 			  	<!-- SweetAlert -->
 			  	<link rel="stylesheet" type="text/css" href="../../bootstrap/dist/sweet/sweetalert.css">
+
+			  	<script type="text/javascript" src="../../bootstrap/bootstrap/js/jquery1.min.js"></script>
+
+			  	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 			</head>
 			<body class="hold-transition skin-blue sidebar-mini">
 				<div class="wrapper">
@@ -75,7 +79,7 @@
 				              				<!-- Menu Footer-->
 							              	<li class="user-footer">
 							                	<div class="pull-left">
-							                  		<a href="#" class="btn btn-default btn-flat">Profil</a>
+							                  		<a href="../lupa_password/" class="btn btn-default btn-flat">Lupa Password</a>
 							                	</div>
 							                	<div class="pull-right">
 							                  		<a href="../logout/" class="btn btn-default btn-flat">Keluar</a>
@@ -155,7 +159,7 @@
 
 							    <!-- MENU PRODUK -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="inventori") {
+							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="inventori" OR $_SESSION['jabatan']=="administrasi") {
 							    		?>
 							    			<li class="treeview">
 										        <a href="../produk/">
@@ -305,8 +309,19 @@
 			<script src="../../bootstrap/dist/js/demo.js"></script>
 			<!-- SweetAlert -->
 			<script src="../../bootstrap/dist/sweet/sweetalert.min.js"></script>
+			<!-- JQuery -->
+			<script src="../../bootstrap/dist/js/jquery.min.js"></script>
 			<!-- Page script -->
 			<script>
+
+				function TambahProduk_Old(){
+					$(".tambah_produk.clone").clone().add().addClass('additional').removeClass('clone').appendTo("div#clone").find('input').dropdown();
+				}
+
+				function TambahProduk(){
+					$("#tambah_produk").clone(false).insertAfter("#tambah_produk");
+				}
+
 			  	$(function () {
 			    	//Initialize Select2 Elements
 			    	$(".select2").select2();
@@ -323,6 +338,38 @@
 			      		"autoWidth": true
 			    	});
 			  	});
+
+			  	$(function () {
+
+		            $("input[name='member']").click(function () {
+
+		                if ($("#member").is(":checked")) {
+
+		                    $("#form_username").show();
+
+		                } else {
+
+		                    $("#form_username").hide();
+
+		                }
+
+		            });
+
+		            $("input[name='tukar_poin']").click(function () {
+
+		                if ($("#tukar_poin").is(":checked")) {
+
+		                    $("#form_tukar_poin").show();
+
+		                } else {
+
+		                    $("#form_tukar_poin").hide();
+
+		                }
+
+		            });
+
+		        });
 
 				function BerhasilMenyimpan(){
 					swal({   

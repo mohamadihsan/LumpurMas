@@ -369,6 +369,34 @@
 
 		            });
 
+		            $("input[name='member']").click(function () {
+
+		                if ($("#member").is(":checked")) {
+
+		                    $("#info_pelanggan").hide();
+
+		                } else {
+
+		                    $("#info_pelanggan").show();
+
+		                }
+
+		            });
+
+		            $("input[name='status_garansi']").click(function () {
+
+		                if ($("#tidak_garansi").is(":checked")) {
+
+		                    $("#info_pelanggan").hide();
+
+		                } else {
+
+		                    $("#info_pelanggan").show();
+
+		                }
+
+		            });
+
 		        });
 
 				function BerhasilMenyimpan(){
@@ -460,6 +488,22 @@
 						type: "error",
 						showConfirmButton: false });
 				}
+
+				function Berhasil_Update_Total_Bayar(){
+					swal({   
+						title: "Total Transaksi :",   
+						text: "<?php echo 'Rp.' . Rupiah($_SESSION['total_bayar']) ?>",  
+						showConfirmButton: true });
+				}
+
+				function Gagal_Update_Total_Bayar(){
+					swal({   
+						title: "Oops!",   
+						text: "Terjadi kesalahan pada proses Transaksi",   
+						timer: 1500,   
+						type: "error",
+						showConfirmButton: false });
+				}
 			</script>
 		</body>
 		</html>
@@ -474,5 +518,15 @@
 
   		$hasil = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
   		return($hasil);
+  	}
+
+  	function Rupiah($rupiah){
+		//format rupiah
+		$jumlah_desimal ="2";
+		$pemisah_desimal =",";
+		$pemisah_ribuan =".";
+
+		$hasil = number_format($rupiah, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan);
+		return($hasil);
   	}
 ?>

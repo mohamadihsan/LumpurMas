@@ -80,6 +80,32 @@
 					                	</select>
 					              	</div>
 			              			<!-- /.form-group -->
+			              			<div class="form-group">
+			              				<label>Status Produk</label>
+					                	<select class="form-control select2" style="width: 100%;" name="status_produk" required>
+					                		<option value="TD" 
+					                			<?php 
+					                				if($status_produk=="TD") echo "selected='selected'";
+					                			?> > Tidak Diskon dan Tidak Bergaransi
+					                		</option>
+					                		<option value="G" 
+					                			<?php 
+					                				if($status_produk=="G") echo "selected='selected'";
+					                			?> > Bergaransi
+					                		</option>
+					                		<option value="D" 
+					                			<?php 
+					                				if($status_produk=="D") echo "selected='selected'";
+					                			?> > Diskon
+					                		</option>
+					                		<option value="DG" 
+					                			<?php 
+					                				if($status_produk=="DG") echo "selected='selected'"; 
+					                			?> > Diskon dan Bergaransi
+					                		</option>
+					                	</select>
+					              	</div>
+			              			<!-- /.form-group -->
 			            		</div>
 			            		<!-- /.col -->
 					            <div class="col-md-6">
@@ -95,7 +121,7 @@
 			            		<div class="col-md-6">
 				            		<div class="form-group">
 					                  	<label for="gambar_produk">Gambar Produk</label>
-					                  	<input type="file" name="gambar_produk" id="gambar_produk">
+					                  	<input type="file" name="gambar_produk" id="gambar_produk" value="<?php echo $url; ?>">
 
 					                  	<p class="help-block">Format : jpeg,png</p>
 					                </div>

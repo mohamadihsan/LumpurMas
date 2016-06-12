@@ -10,11 +10,11 @@
 	$folder_struk = "../gambar/keluhan/struk/";
 
 	//select data produk
-	$sql = "SELECT id_keluhan, tgl_keluhan, isi_keluhan, foto_keluhan, foto_struk, status, pesan_respon, pelanggan.nama FROM keluhan, pelanggan WHERE keluhan.id_pelanggan=pelanggan.id_pelanggan AND id_keluhan='$id_keluhan'";
+	$sql = "SELECT id_keluhan, tgl_keluhan, isi_keluhan, pesan_respon, foto_keluhan, foto_struk, status, pesan_respon, pelanggan.nama FROM keluhan, pelanggan WHERE keluhan.id_pelanggan=pelanggan.id_pelanggan AND id_keluhan='$id_keluhan'";
 	$stmt = $db->prepare($sql);
 	$stmt->execute();
 
-	$stmt->bind_result($id_keluhan, $tgl_keluhan, $isi_keluhan, $foto_keluhan, $foto_struk, $status, $pesan_respon, $nama);
+	$stmt->bind_result($id_keluhan, $tgl_keluhan, $isi_keluhan, $pesan_respon, $foto_keluhan, $foto_struk, $status, $pesan_respon, $nama);
 	$stmt->fetch();
 	$stmt->close();
 	
@@ -106,6 +106,53 @@
 			        		<img src="<?php echo $folder_struk.$foto_struk; ?>" alt="" class="img-responsive">
 				        </div>
 				    </div>    
+				</div>
+				<!-- /.box -->  	
+			</div>
+			<!-- .col -->
+		</div>
+		<!-- .row -->
+
+		<div class="row">
+        	<div class="col-xs-12">
+        		<div class="box box-primary">
+            		<div class="box-header with-border">
+              			<h3 class="box-title">Kirim Jawaban <font color="red"><?php if ($status=="SR") {
+              				echo "(Sudah di respon)";
+              			} ?></font></h3>
+              			<div class="box-tools pull-right">
+				         </div>
+            		</div>
+		            <!-- /.box-header -->
+		            <form action="" method="post">
+			            <div class="box-body">
+					        <div class="col-md-12">
+					        	<div class="control-group form-group">
+		                            <div class="controls">
+		                            	<?php
+		                            		if ($status=="BR") {
+		                            			?>
+		                            				<textarea rows="10" cols="100" class="form-control" name="pesan_respon" placeholder="Ketikkan pesan balasan....." style="resize:none"></textarea>
+		                            			<?php
+		                            		}else {
+		                            			?>
+		                            				<textarea rows="10" cols="100" class="form-control" placeholder="<?php echo $pesan_respon; ?>" style="resize:none"></textarea>
+		                            			<?php
+		                            		}
+		                            	?>
+		        					</div>
+		                        </div>
+					        </div>
+					        <?php
+	                    		if ($status=="BR") {
+	                    			?>
+						        	<div class="col-md-12">
+						        		<input type="submit" name="balas" value="Balas" class="btn btn-primary">
+						        	</div>
+						        <?php
+						        }?>	
+					    </div>  
+					</form>      
 				</div>
 				<!-- /.box -->  	
 			</div>

@@ -25,92 +25,98 @@
       	</ol>
 	</section>
 
+	<?php
+		//jika pegawai pemasaran yang masuk
+		if (!empty($user_check) AND $jabatan == "pemasaran" OR $jabatan == "manager" OR $jabatan == "direktur") {
+			?>
+			<!-- Main content -->
+		    <section class="content">
+		      	<div class="row">
+		        	<div class="col-xs-12">
+						<?php
 
-	<center>
-		<?php
-			//jika pegawai pemasaran yang masuk
-			if (!empty($user_check) AND $jabatan == "pemasaran" OR $jabatan == "manager" OR $jabatan == "direktur") {
-				?>
-				<!-- Main content -->
-				<section class="content">
-					<!-- SELECT2 EXAMPLE -->
-					<div class="box box-primary">
-					<?php
-					$sql="SELECT DISTINCT transaksi.id_pelanggan, pelanggan.nama, pelanggan.no_telp  FROM transaksi, pelanggan 
-					WHERE transaksi.id_pelanggan=pelanggan.id_pelanggan";
-					// $stmt=$db->prepare($sql);
-					// $stmt->execute();
-
-					// $stmt->bind_result($id_pelanggan);
-					$stmt = mysqli_query($db, $sql);
-					$i=0;
-					while ($data = mysqli_fetch_array($stmt)) {
-						$id_pelanggan = $data[0];
-						$nama_pelanggan = $data[1];
-						$no_telp = $data[2];
-						$sql1="SELECT kategori_produk.id_kategori, SUM(detail_transaksi.jumlah_pembelian) as Pembelian, kategori_produk.nama_kategori 
-						FROM transaksi, detail_transaksi, kategori_produk, produk 
-						WHERE transaksi.id_transaksi=detail_transaksi.id_transaksi AND kategori_produk.id_kategori=produk.id_kategori 
-						AND produk.id_produk=detail_transaksi.id_produk  
-						AND id_pelanggan='$id_pelanggan' GROUP BY detail_transaksi.id_produk";
-						$stmt1=mysqli_query($db, $sql1);
-
-						$tampung = 0;
-						while ($data1 = mysqli_fetch_array($stmt1)) {
-							$similarity = 1/(1+$data1[1]);
-							$nilai_rekomendasi = $similarity*$data1[1];
-							if ($tampung < $nilai_rekomendasi) {
-								$tampung = $nilai_rekomendasi;
-								$kate[] = $data1[0];
-								$nama_kate = $data1[2];
-							}
-						}	
-
-							$sql2 = "SELECT detail_transaksi.id_produk, SUM(jumlah_pembelian), produk.nama_produk FROM `detail_transaksi`, produk 
-							WHERE produk.id_produk=detail_transaksi.id_produk AND produk.id_kategori='$kate[$i]'
-							GROUP BY id_produk";
-							$stmt2 = mysqli_query($db, $sql2);
-							$tampung1 = 0;
-							while ($data2 = mysqli_fetch_array($stmt2)) {
-								$pem = $data2[1];
-								if ($tampung1<$pem) {
-									$tampung1 = $pem;
-									$nama_produk = $data2[2];
-								}
-							}
-							?>
-								<table style="width:90%" class="table table-stripped">
-									<tr>
-										<th>No Telepon</th>
-										<th>Nama</th>
-										<th>Produk Rekomendasi</th>
-										<th>Isi SMS</th>
-										<th></th>
-									</tr>
-									<tr>
-										<td><?php echo $no_telp; ?></td>
-										<td><?php echo $nama_pelanggan?></td>
-										<td><?php echo $nama_kate ." - ". $nama_produk ?></td>
-										<td width="40%">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-										tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-										quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-										consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-										cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-										proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-										<td><button class="btn btn-primary">Kirim</button></td>
-									</tr>
-								</table>
-							<?php
+						//Tampilkan Data Produk 
+						$sql_nama = "SELECT DISTINCT nama_garansi FROM transaksi";
+						$result_nama = mysqli_query($db, $sql_nama);
+						$i=0;
+						while ($row_nama = mysqli_fetch_array($result_nama, MYSQLI_ASSOC)) {
+							$nama[$i] = $row_nama['nama_garansi'];
 							$i++;
-					}
-				?>
-				</div>
-				</section>	
-			<?php
-			}else{
-				//alihkan url jika bukan pegawai pemasaran
-				?><meta http-equiv="refresh" content="0;url=../login/"><?php
-			}
+						}
 
-			CloseSidebar();
-		?>
+						?>
+						<div class="box">
+		            		<div class="box-header with-border">
+		              			<h3 class="box-title"></h3>
+		            		</div>
+				            <!-- /.box-header -->
+				            <div class="box-body">
+								
+										<?php
+										$x=0;
+										$z=0;
+										while ($x < $i) {
+											?>
+												<table id="example1" class="table table-bordered table-striped">
+													<thead>
+														<tr>
+															<th>Nama Pelanggan</th>
+															<th>Nama Kategori</th>
+															<th>Nilai Sim</th>
+															<?php if ($jabatan=="pemasaran") {
+																?>
+																	<th></th>
+																<?php
+															} ?>
+														</tr>
+													</thead>
+													<tbody>	
+											<?php
+											$y=0;
+											while ($y < $i) {
+												
+												$sql = "SELECT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama[$x]."' UNION SELECT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama[$y++]."'";							
+												$result = mysqli_query($db, $sql);
+												
+												$sim[$z] = mysqli_num_rows($result);
+												$nilai_sim[$z] = 1/$sim[$z];
+												while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+												$nama_kategori = $row['nama_kategori'];
+												?>
+												<tr>
+													<td><?php echo $nama[$x]; ?></td>
+													<td><?php echo $nama_kategori; ?></td>
+													<td><?php echo $nilai_sim[$z]; ?></td>
+													<?php if ($jabatan=="pemasaran") {
+														?>
+															<td align="center"><a href=""><button class="btn-primary"> Kirim Pesan</button></a></td>
+														<?php
+													} ?>
+												</tr>	
+												<?php
+											}	
+											$x++;
+												$z++;
+											}	
+										}
+										
+										?>
+									</tbody>
+								</table>
+							</div>	
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->	
+			</section>
+		<?php
+		}else{
+			//alihkan url jika bukan pegawai pemasaran
+			?><meta http-equiv="refresh" content="0;url=../login/"><?php
+		}
+
+		CloseSidebar();
+	?>

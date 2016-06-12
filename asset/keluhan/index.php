@@ -45,7 +45,7 @@
 				}
 		?>
 		
-		<title>Kuluhan </title>
+		<title>Keluhan </title>
 
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
@@ -89,11 +89,11 @@
 					<?php
 
 					//Tampilkan Data Keluhan dan Saran 
-					$sql = "SELECT id_keluhan, tgl_keluhan, isi_keluhan, foto_keluhan, foto_struk, status, pesan_respon, id_pelanggan FROM keluhan ORDER BY status DESC";							
+					$sql = "SELECT id_keluhan, tgl_keluhan, isi_keluhan, foto_keluhan, foto_struk, status, pesan_respon, pelanggan.nama FROM keluhan, pelanggan  WHERE keluhan.id_pelanggan=pelanggan.id_pelanggan ORDER BY status DESC";							
 					$stmt = $db->prepare($sql);
 					$stmt->execute();
 
-					$stmt->bind_result($id_keluhan, $tgl_keluhan, $isi_keluhan, $foto_keluhan, $foto_struk, $status, $pesan_respon, $id_pelanggan);
+					$stmt->bind_result($id_keluhan, $tgl_keluhan, $isi_keluhan, $foto_keluhan, $foto_struk, $status, $pesan_respon, $nama);
 					?>
 					<div class="box box-primary">
 	            		<div class="box-header with-border">
@@ -105,19 +105,19 @@
 								<thead>
 									<tr>
 										<th width="15%">Pelanggan</th>
-										<th width="20%">Tanggal</th>
-										<th width="15%">Status Respon</th>
+										<th width="15%">Tanggal</th>
+										<th width="10%">Status Respon</th>
 										<th width="30%">Isi Keluhan</th>
 										<?php
 											if (($jabatan=="manager")OR($jabatan=="direktur")OR($jabatan=="administrasi")) {
 												?>
-													<th width="5%"></th>
+													<th width="10%"></th>
 												<?php
 											}
 											if ($jabatan=="administrasi") {
 												?>
-													<th width="5%"></th>
-													<th width="5%"></th>
+													<th width="10%"></th>
+													<th width="10%"></th>
 												<?php
 											}
 										?>
@@ -128,7 +128,7 @@
 									while ($stmt->fetch()) {
 									?>
 									<tr>
-										<td><?php echo $id_pelanggan; ?></td>
+										<td><?php echo $nama; ?></td>
 										<td><?php echo Tanggal($tgl_keluhan); ?></td>
 										<td>
 											<?php 
@@ -143,7 +143,7 @@
 										<?php
 											if (($jabatan=="manager")OR($jabatan=="direktur")OR($jabatan=="administrasi")) {
 												?>
-													<th><center><a href="detail.php?id_keluhan=<?php echo $id_keluhan;?>"><i class="fa fa-info"></i></a></center></th>
+													<th><center><a href="detail.php?id_keluhan=<?php echo $id_keluhan;?>"><i class="fa fa-info"> Baca</i></a></center></th>
 												<?php
 											}
 											if ($jabatan=="administrasi") {

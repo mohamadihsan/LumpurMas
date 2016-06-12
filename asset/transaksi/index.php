@@ -17,17 +17,17 @@
 
 			if (isset($_POST['simpan'])) {
 					//jika tombol submit ditekan maka excute fungsi ini
-					TambahDataProduk();
-					if ($_SESSION['status_operasi_tr']=="berhasil_menyimpan") {
-						?> <body onload="BerhasilMenyimpan()"></body><?php
-					}else if ($_SESSION['status_operasi_tr']=="gagal_menyimpan") {
-						?> <body onload="GagalMenyimpan()"></body><?php
+					TambahDataTransaksi();
+					if ($_SESSION['status_operasi_tr']=="berhasil_update_total_bayar") {
+						?> <body onload="Berhasil_Update_Total_Bayar()"></body><?php
+					}else if ($_SESSION['status_operasi_tr']=="gagal_update_total_bayar") {
+						?> <body onload="Gagal_Update_Total_Bayar()"></body><?php
 					}
 				}
 
 				if (isset($_POST['perbaharui'])) {
 					//jika tombol submit ditekan maka excute fungsi ini
-					EditDataProduk();
+					EditDataTransaksi();
 					if ($_SESSION['status_operasi_tr']=="berhasil_memperbaharui") {
 						?> <body onload="BerhasilMemperbaharui()"></body><?php
 					}else if ($_SESSION['status_operasi_tr']=="gagal_memperbaharui") {
@@ -35,11 +35,11 @@
 					}
 				}
 
-				if (!empty($_GET['id_produk'])) {
-					HapusDataProduk();
+				if (!empty($_GET['id_transaksi'])) {
+					HapusDataTransaksi();
 					if ($_SESSION['status_operasi_tr']=="berhasil_menghapus") {
 						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../transaksi/"><?php
-					}else if ($_SESSION['status_operasi_p']=="gagal_menghapus") {
+					}else if ($_SESSION['status_operasi_tr']=="gagal_menghapus") {
 						?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../transaksi/"><?php
 					}
 				}
@@ -70,7 +70,6 @@
 	            		<div class="box-header with-border">
 	              			<center>
 	              				<h3 class="box-title"><strong>Lumpur Mas</strong></h3><br>
-	              				<small>Jl.Simpay Asih No 2, Cijambe, Ujung Berung, Bandung<br>40619, Telp:(022)243644</small>
 	              			</center>
 	              			<div class="box-tools pull-right">
 					            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -90,7 +89,7 @@
 					        		</div>
 				            		<div class="col-md-6">
 				            			<!-- /.form-group -->
-				            			<div class="form-group">
+				            			<div class="form-group" style="display: none;">
 					              			<fieldset>
 					              				<legend>Status Produk</legend>
 
@@ -115,18 +114,18 @@
 					              				<div class="form-group">
 					              					<?php
 					              						//select produk
-														$sql = "SELECT id_produk, nama_produk, harga, status_produk, url, id_kategori, kode_produk FROM produk";							
+														$sql = "SELECT id_produk, nama_produk, harga, status_produk, url, id_kategori, kode_produk FROM produk ORDER BY nama_produk ASC";							
 														$stmt = $db->prepare($sql);
 														$stmt->execute();
 
 														$stmt->bind_result($id_produk, $nama_produk, $harga, $status_produk, $url, $id_kategori, $kode_produk);
 					              					?>
-								                	<select class="form-control select2" style="width: 100%;" name="produk[]" required>
+								                	<select class="form-control select" style="width: 100%;" name="produk[]" required>
 								                		<option selected="selected">Pilih Produk</option>
 								                		<?php
 															while ($stmt->fetch()) {
 																?>
-																	<option value="<?php echo $id_produk;?>"><?php echo $nama_produk; ?></option>
+																	<option value="<?php echo $id_produk;?>"><?php echo $nama_produk; if($status_produk == "DG" OR $status_produk == "G") echo "(Garansi)"; ?></option>
 																<?php
 															}
 															$stmt->close();
@@ -137,7 +136,7 @@
 					              			</div>
 					              			<div class="col-md-2">
 					              				<div class="form-group">
-					              					<input class="form-control" type="number" name="jumlah_beli[]" placeholder="0">
+					              					<input class="form-control" type="number" name="jumlah_beli[]" placeholder="0" min="0">
 					              				</div>
 					              			</div>
 				              			</div>
@@ -156,11 +155,32 @@
 												</div>
 												<div id="form_username" style="display: none;">
 													<div class="form-group">
-														<input class="form-control" type="text" name="username" placeholder="Username">
+														<select name="username" class="form-control select2" style="width: 100%;">
+															<?php
+																//select username
+																$sql = "SELECT pelanggan.nama, user.username FROM pelanggan, user WHERE pelanggan.id_user=user.id_user";							
+																$stmt = $db->prepare($sql);
+																$stmt->execute();
+
+																$stmt->bind_result($nama_pelanggan, $username);
+
+																?>
+																		<option selected="">Username (Kosong)</option>
+																<?php
+																
+																while ($stmt->fetch()) {
+																	?>
+																		<option value="<?php echo $nama_pelanggan;?>"><?php echo $username; ?></option>
+																	<?php
+																}
+																$stmt->close();
+															?>
+															
+														</select>
 													</div>
 												</div>							
 												
-					              				<div class="checkbox">
+					              				<div class="checkbox" style="display: none;">
 													<input id="tukar_poin" type="checkbox" name="tukar_poin" value="MB">Tukar Poin
 												</div>
 												<div id="form_tukar_poin" style="display: none;">
@@ -170,24 +190,18 @@
 												</div>	
 				              				</fieldset>								                		
 				              			</div>
-
-				              			<div class="form-group">
-				              				<label>Nama</label>
-											<input class="form-control" id="nama_garansi" type="text" name="nama_garansi" placeholder=" Masukkan Nama Pelanggan">							                		
-				              			</div>
-				              			<div class="form-group">
-				              				<label>No. Telp</label>
-											<input class="form-control" id="telp_garansi" type="telp" name="telp_garansi" placeholder="Masukkan No. Telp Pelanggan">							                		
-				              			</div>
-
-				            		</div>
-				            		<div class="col-md-12">
-				            			<div class="form-group">
-				            				<label>Total Bayar</label>
-											<input class="form-control" id="total_bayar" type="number" name="total_bayar" placeholder="Rp. ">							                		
-				              			</div>
-				            		</div>  
-				            		<div class="col-md-1"><button class="btn btn-primary" name="simpan">Simpan</button></div>
+				              			<div id="info_pelanggan">
+					              			<div class="form-group">
+					              				<label>Nama</label>
+												<input class="form-control" id="nama_garansi" type="text" name="nama_garansi" placeholder=" Masukkan Nama Pelanggan">							                		
+					              			</div>
+					              			<div class="form-group">
+					              				<label>No. Telp</label>
+												<input class="form-control" id="telp_garansi" type="telp" name="telp_garansi" placeholder="Masukkan No. Telp Pelanggan">							                		
+					              			</div>
+					              		</div>
+				            		</div> 
+				            		<div class="col-md-12"><button class="btn btn-primary" name="simpan">Simpan Transaksi</button></div>
 					        	</div>
 					        	<!-- /.box-body -->
 						    </form>
@@ -237,7 +251,7 @@
 									while ($stmt->fetch()) {
 									?>
 									<tr>
-										<td><?php echo $tgl_transaksi; ?></td>
+										<td><?php echo Tanggal($tgl_transaksi); ?></td>
 										<td><?php echo $nama_garansi; ?></td>
 										<td><?php echo $telp_garansi; ?></td>
 										<td>

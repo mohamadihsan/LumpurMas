@@ -104,6 +104,16 @@
 						                	</select>
 						              	</div>
 				              			<!-- /.form-group -->
+				              			<div class="form-group">
+				              				<label>Status Produk</label>
+						                	<select class="form-control select2" style="width: 100%;" name="status_produk" required>
+						                		<option selected="selected" value="TD">Tidak Diskon dan Tidak Begaransi</option>
+						                		<option value="G">Bergaransi</option>
+						                		<option value="D">Diskon</option>
+						                		<option value="DG">Diskon Bergaransi</option>
+						                	</select>
+						              	</div>
+				              			<!-- /.form-group -->
 				            		</div>
 				            		<!-- /.col -->
 						            <div class="col-md-6">
@@ -115,15 +125,13 @@
 						                	<input class="form-control" id="harga" type="text" name="harga" placeholder="Harga Rp.0,00" required>
 						              	</div>
 				              			<!-- /.form-group -->
-				            		</div>
-				            		<div class="col-md-12">
-					            		<div class="form-group">
+				              			<div class="form-group">
 						                  	<label for="gambar_produk">Gambar Produk</label>
 						                  	<input type="file" name="gambar_produk" id="gambar_produk">
 
 						                  	<p class="help-block">Format : jpeg,png</p>
 						                </div>
-						            </div>    
+				            		</div>
 				            		<div class="col-md-1"><button class="btn btn-primary" name="simpan">Simpan</button></div>
 					        	</div>
 					        	<!-- /.box-body -->
@@ -156,6 +164,7 @@
 										<th>Nama Produk</th>
 										<th>Harga</th>
 										<th>Kategori</th>
+										<th>Status</th>
 										<th>Gambar Produk</th>
 										<?php
 											if ($jabatan=="inventori") {
@@ -185,6 +194,19 @@
 											?>
 										</td>
 										<td><?php echo $nama_kategori; ?></td>
+										<td>
+											<?php 
+												if ($status_produk=="TD") {
+													echo "Tidak Diskon dan Tidak Garansi";
+												}else if ($status_produk=="D") {
+													echo "Diskon";
+												}else if ($status_produk=="G") {
+													echo "Garansi";
+												}else if ($status_produk=="DG") {
+													echo " Diskon dan Garansi";
+												}  
+											?>
+										</td>
 										<td align="center"><img src="<?php echo $file_path.$url; ?>" alt="" height="100" width="100"></td>
 										<?php
 											if ($jabatan=="inventori") {

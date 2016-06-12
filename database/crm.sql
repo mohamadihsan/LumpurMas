@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2016 at 04:49 PM
+-- Generation Time: Jun 12, 2016 at 11:36 AM
 -- Server version: 5.7.9
 -- PHP Version: 5.6.16
 
@@ -48,6 +48,36 @@ CREATE TABLE IF NOT EXISTS `detail_transaksi` (
   KEY `constraint_id_produk` (`id_produk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `detail_transaksi`
+--
+
+INSERT INTO `detail_transaksi` (`id_transaksi`, `id_produk`, `jumlah_beli`) VALUES
+(1, 40, 1),
+(2, 41, 1),
+(3, 44, 1),
+(3, 42, 1),
+(3, 43, 1),
+(4, 45, 1),
+(5, 46, 1),
+(6, 47, 1),
+(7, 48, 1),
+(8, 49, 1),
+(10, 2, 2),
+(10, 38, 1),
+(11, 3, 1),
+(15, 38, 1),
+(18, 66, 1),
+(25, 38, 1),
+(26, 8, 1),
+(26, 2, 1),
+(26, 38, 1),
+(27, 38, 1),
+(27, 41, 1),
+(28, 66, 1),
+(28, 2, 1),
+(28, 42, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -90,41 +120,16 @@ CREATE TABLE IF NOT EXISTS `keluhan` (
   `id_pelanggan` int(11) NOT NULL,
   PRIMARY KEY (`id_keluhan`),
   KEY `id_pelanggan` (`id_pelanggan`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `keluhan`
 --
 
 INSERT INTO `keluhan` (`id_keluhan`, `tgl_keluhan`, `isi_keluhan`, `foto_keluhan`, `foto_struk`, `status`, `pesan_respon`, `id_pelanggan`) VALUES
-(7, '2016-06-01 15:27:42', 'Halaman Buku nya ada yang rusak pa', 'rusak.png', 'Struk.jpg', 'BR', NULL, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `keluhan_saran`
---
-
-DROP TABLE IF EXISTS `keluhan_saran`;
-CREATE TABLE IF NOT EXISTS `keluhan_saran` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `subjek` varchar(30) DEFAULT NULL,
-  `tgl_keluhansaran` datetime DEFAULT NULL,
-  `isi_keluhansaran` text,
-  `status_keluhansaran` char(1) DEFAULT NULL,
-  `url_foto_struk` varchar(100) DEFAULT NULL,
-  `url_foto_keluhan` varchar(100) DEFAULT NULL,
-  `id_pelanggan` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `constraint_id_pelanggan_keluhan` (`id_pelanggan`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `keluhan_saran`
---
-
-INSERT INTO `keluhan_saran` (`id`, `subjek`, `tgl_keluhansaran`, `isi_keluhansaran`, `status_keluhansaran`, `url_foto_struk`, `url_foto_keluhan`, `id_pelanggan`) VALUES
-(1, 'Pemesanan', '2016-05-06 00:00:00', 'Pemesanan buku dengan ID=TRX0001 belum sampai ke sekolah kami', 'B', NULL, NULL, 1);
+(7, '2016-06-01 15:27:42', 'Halaman Buku nya ada yang rusak pa', 'rusak.png', 'Struk.jpg', 'SR', 'Silahkan tukarkan kembali ke toko kami saja pa.\r\nTerima Kasih', 1),
+(8, '2016-06-02 09:26:20', 'halaman 200 hilang', 'buker ipa 1a.jpg', 'Struk.jpg', 'BR', NULL, 1),
+(9, '2016-06-12 07:01:39', 'Halaman 100 robek', 'robek.png', 'struk1.jpg', 'BR', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -138,17 +143,21 @@ CREATE TABLE IF NOT EXISTS `kritiksaran` (
   `tgl_kritiksaran` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status_kritiksaran` char(2) NOT NULL DEFAULT 'BR',
   `isi_kritiksaran` text NOT NULL,
-  `id_pelanggan` int(11) NOT NULL,
+  `id_pelanggan` int(11) DEFAULT NULL,
+  `nama` varchar(30) DEFAULT NULL,
+  `no_telp` varchar(12) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_kritiksaran`),
   KEY `id_pelanggan` (`id_pelanggan`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `kritiksaran`
 --
 
-INSERT INTO `kritiksaran` (`id_kritiksaran`, `tgl_kritiksaran`, `status_kritiksaran`, `isi_kritiksaran`, `id_pelanggan`) VALUES
-(1, '2016-06-01 16:26:49', 'BR', 'Pelayanan nya kurang cepat, tolong di tingkatkan kembali', 1);
+INSERT INTO `kritiksaran` (`id_kritiksaran`, `tgl_kritiksaran`, `status_kritiksaran`, `isi_kritiksaran`, `id_pelanggan`, `nama`, `no_telp`, `email`) VALUES
+(3, '2016-06-12 06:52:06', 'BR', 'Respon untuk pemesanan barang masih terlalu lama', NULL, 'Ahmad Nugraha', '085720054204', 'mohamadihsan@outlook.com'),
+(9, '2016-06-12 08:11:37', 'BR', 'tes', 2, 'Annisa Amelia', '087720054255', NULL);
 
 -- --------------------------------------------------------
 
@@ -197,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `pelanggan` (
   `id_user` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_pelanggan`),
   KEY `constratint_id_user_pelanggan` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `pelanggan`
@@ -205,7 +214,10 @@ CREATE TABLE IF NOT EXISTS `pelanggan` (
 
 INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `alamat`, `no_telp`, `email`, `poin`, `id_user`) VALUES
 (1, 'Hardo Pratama', 'Jalan Dipati Ukur No 10 Bandung', '085720054204', NULL, 0, 6),
-(2, 'Annisa Amelia', 'Jalan Simpay Asih No 2 Bandung', '087720054255', NULL, 0, 8);
+(2, 'Annisa Amelia', 'Jalan Simpay Asih No 2 Bandung', '087720054255', NULL, 6, 8),
+(3, 'Ria', NULL, NULL, NULL, 0, NULL),
+(4, 'Asri Nurmala', NULL, NULL, NULL, 0, NULL),
+(5, 'Eva Safitri', NULL, NULL, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -236,14 +248,14 @@ CREATE TABLE IF NOT EXISTS `produk` (
   `id_produk` int(11) NOT NULL AUTO_INCREMENT,
   `nama_produk` varchar(50) NOT NULL,
   `harga` int(11) DEFAULT NULL,
-  `status_produk` char(1) DEFAULT NULL,
+  `status_produk` char(2) DEFAULT 'TD',
   `url` varchar(255) DEFAULT 'default.jpg',
   `id_kategori` int(11) DEFAULT NULL,
   `kode_produk` varchar(8) DEFAULT NULL,
   PRIMARY KEY (`id_produk`),
   UNIQUE KEY `kode_produk` (`kode_produk`),
   KEY `constraint_id_kategori` (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `produk`
@@ -252,12 +264,23 @@ CREATE TABLE IF NOT EXISTS `produk` (
 INSERT INTO `produk` (`id_produk`, `nama_produk`, `harga`, `status_produk`, `url`, `id_kategori`, `kode_produk`) VALUES
 (1, 'Koala Kumal', 60000, 'D', 'cover-koala-kumal.JPG', 1, 'BN0001'),
 (2, 'Laskar Pelangi', 80000, 'D', 'b3-2013-08-30-novel-andrea-hirata-laskar-pelangi-ctk-22.jpg', 1, 'BN0002'),
-(3, 'Erlangga IPA Terpadu 3A', 45000, 'N', 'buker ipa 1a.jpg', 2, 'BS0001'),
-(4, 'Bahasa Inggris 2A', 30000, 'N', 'buker ipa 2a.jpg', 2, 'BS0002'),
+(3, 'Erlangga IPA Terpadu 3A', 45000, 'G', 'buker ipa 1a.jpg', 2, 'BS0001'),
+(4, 'Bahasa Inggris 2A', 30000, 'G', 'buker ipa 2a.jpg', 2, 'BS0002'),
 (5, 'Molten Bola Voli', 350000, 'D', 'molten.jpg', 4, 'AO0001'),
-(8, 'Brontosaurus', 85000, NULL, '20151218_181629_scaled.png', 1, 'BN003'),
-(38, 'Spalding Bola Basket', 350000, NULL, 'splading.jpg', 4, 'AO0002'),
-(39, 'Erlangga IPA Terpadu 2A', 30000, NULL, 'buker ipa 2a.jpg', 2, 'BS0003');
+(8, 'Brontosaurus', 85000, 'TD', '20151218_181629_scaled.png', 1, 'BN003'),
+(38, 'Spalding Bola Basket', 350000, 'DG', 'splading.jpg', 4, 'AO0002'),
+(39, 'Erlangga IPA Terpadu 2A', 30000, 'G', 'buker ipa 2a.jpg', 2, 'BS0003'),
+(40, 'Kutinggal Dia Karena Dia', 43000, 'TD', 'kutinggal_dia_karena_dia.jpg', 1, 'BN004 '),
+(41, 'Mencari Tuhan Yang Hilang', 60000, 'TD', 'mencari-tuhan-yang-hilang.jpg', 1, 'BN005'),
+(42, 'Manusia Setengah Salmon', 42000, 'TD', 'manusia-salmon.jpg', 1, 'BN006'),
+(43, 'Kiss The Rain', 45000, 'TD', 'kiss-the-rain.jpg', 1, 'BN007'),
+(44, 'Yudistira Matematika SMP 3', 93000, 'G', 'yudistira matematika 3.jpg', 2, 'BS0004'),
+(45, 'Raket Yonex ArcSaber Light', 250000, 'DG', 'RACKET-YONEX-ARC-SABER-3-FL-MR-2.jpg', 4, 'AO0003'),
+(46, 'Apa Ini Cinta?', 42000, 'TD', 'apa ini cinta.jpg', 1, 'BN008'),
+(47, 'Di Bawah Langit Jakarta', 55000, 'TD', 'di bawah langit jakarta.jpg', 1, 'BN0009'),
+(48, 'Yudistira Kimia SMA 3', 54000, 'G', 'Yudistira Kimia SMA 3.png', 2, 'BS0005'),
+(49, 'Erlangga Fisika SMA 3', 50000, 'G', 'Erlanggan Fisika SMA 3.jpg', 2, 'BS0006'),
+(66, 'Ada Apa Dengan Cinta', 100000, 'G', 'default.jpg', 1, 'BN010');
 
 -- --------------------------------------------------------
 
@@ -273,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `promosi` (
   `id_pegawai` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_promosi`),
   KEY `constratint_id_pegawai` (`id_pegawai`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `promosi`
@@ -312,14 +335,36 @@ DROP TABLE IF EXISTS `transaksi`;
 CREATE TABLE IF NOT EXISTS `transaksi` (
   `id_transaksi` int(11) NOT NULL AUTO_INCREMENT,
   `tgl_transaksi` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status_transaksi` char(2) DEFAULT NULL,
+  `status_transaksi` char(2) DEFAULT 'BL',
   `nama_garansi` varchar(30) DEFAULT NULL,
   `telp_garansi` varchar(12) DEFAULT NULL,
   `total_bayar` int(11) NOT NULL DEFAULT '0',
   `id_pelanggan` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_transaksi`),
   KEY `constraint_id_pelanggan_trans` (`id_pelanggan`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`id_transaksi`, `tgl_transaksi`, `status_transaksi`, `nama_garansi`, `telp_garansi`, `total_bayar`, `id_pelanggan`) VALUES
+(1, '2015-12-20 00:00:00', NULL, 'Ria', '085720054204', 43000, 3),
+(2, '2015-01-17 00:00:00', NULL, 'Ria', '085720054204', 60000, 3),
+(3, '2016-01-17 00:00:00', NULL, 'Ria', '085720054204', 180000, 3),
+(4, '2015-12-03 00:00:00', NULL, 'Asri Nurmala', '081323570024', 250000, 4),
+(5, '2016-01-15 00:00:00', NULL, 'Asri Nurmala', '081323570024', 42000, 4),
+(6, '2016-01-26 00:00:00', NULL, 'Asri Nurmala', '081323570024', 55000, 4),
+(7, '2015-12-28 00:00:00', NULL, 'Eva Safitri', '087734454112', 54000, 5),
+(8, '2016-01-04 00:00:00', NULL, 'Eva Safitri', '087734454112', 50000, 5),
+(10, '2016-06-11 15:13:01', 'BL', '', '', 0, NULL),
+(11, '2016-06-11 15:14:21', 'BL', 'Indra', '085723470047', 0, NULL),
+(15, '2016-06-12 12:40:23', 'BL', 'Ihsan', '08720054204', 0, NULL),
+(18, '2016-06-12 13:01:18', 'BL', 'Hardo Pratama', '', 0, NULL),
+(25, '2016-06-12 13:29:39', 'L', 'Annisa Amelia', '', 350000, NULL),
+(26, '2016-06-12 13:31:59', 'L', 'Hardo Pratama', '', 515000, NULL),
+(27, '2016-06-12 18:24:13', 'L', 'Annisa Amelia', '', 410000, NULL),
+(28, '2016-06-12 18:26:34', 'L', 'Annisa Amelia', '', 222000, NULL);
 
 -- --------------------------------------------------------
 
@@ -360,12 +405,6 @@ INSERT INTO `user` (`id_user`, `username`, `password`) VALUES
 ALTER TABLE `detail_transaksi`
   ADD CONSTRAINT `constraint_id_produk` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `constraint_id_transaksi` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `keluhan_saran`
---
-ALTER TABLE `keluhan_saran`
-  ADD CONSTRAINT `constraint_id_pelanggan_keluhan` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pegawai`

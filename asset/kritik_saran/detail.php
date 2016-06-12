@@ -8,11 +8,11 @@
 	$id_kritiksaran = $_GET['id_kritiksaran'];
 
 	//select data produk
-	$sql = "SELECT id_kritiksaran, tgl_kritiksaran, status_kritiksaran, isi_kritiksaran, pelanggan.nama FROM kritiksaran, pelanggan WHERE kritiksaran.id_pelanggan=pelanggan.id_pelanggan AND id_kritiksaran='$id_kritiksaran'";
+	$sql = "SELECT id_kritiksaran, tgl_kritiksaran, status_kritiksaran, isi_kritiksaran, nama, no_telp, email FROM kritiksaran WHERE id_kritiksaran='$id_kritiksaran'";
 	$stmt = $db->prepare($sql);
 	$stmt->execute();
 
-	$stmt->bind_result($id_kritiksaran, $tgl_kritiksaran, $status_kritiksaran, $isi_kritiksaran, $nama);
+	$stmt->bind_result($id_kritiksaran, $tgl_kritiksaran, $status_kritiksaran, $isi_kritiksaran, $nama, $no_telp, $email);
 	$stmt->fetch();
 	$stmt->close();
 	
@@ -67,29 +67,15 @@
 				        </div>
 				        <div class="col-md-1">
 			        		<label>
-			        			Status
-			        		</label>
-			        	</div>	
-				        <div class="col-md-11">
-				        	<label>
-				        		<?php
-				        			if ($status_kritiksaran=="BR") {
-				        			 	echo ": Belum di respon";
-				        			}else{
-				        				echo ": Sudah di respon";
-				        			} 
-				        		?>
-				        	</label>	
-				        </div>
-				        <div class="col-md-1">
-			        		<label>
 			        			Pesan
 			        		</label>
 			        	</div>	
-				        <div class="col-md-11">
-				        	<label>
-				        		<?php echo ":   ".$isi_kritiksaran; ?>
-				        	</label>	
+				        <div class="col-md-12">
+	                        <div class="control-group form-group">
+	                            <div class="controls">
+	        						<textarea rows="10" cols="100" class="form-control" placeholder="<?php echo $isi_kritiksaran; ?>" style="resize:none" disabled></textarea>
+	        					</div>
+	                        </div>
 				        </div>
 				    </div>    
 				</div>

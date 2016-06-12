@@ -83,7 +83,7 @@
                 }
             }
         }
-    }else if (isset($_POST['kirim']) AND $jenis == "kritik_saran") {
+    }else if (isset($_POST['kirim']) AND $jenis == "kritik_saran" AND isset($_SESSION['id_pelanggan'])) {
         //inisialisasi
         $isi_kritiksaran = $_POST['pesan'];
         $tgl_kritiksaran = date('Y-m-d H:i:s');
@@ -92,6 +92,54 @@
         $sql = "INSERT INTO kritiksaran (tgl_kritiksaran, isi_kritiksaran, id_pelanggan) VALUES(?, ?, ?)";
         $stmt = $db->prepare($sql);
         $stmt->bind_param('ssi', $tgl_kritiksaran, $isi_kritiksaran, $id_pelanggan);
+        if($stmt->execute()){
+            $stmt->insert_id;
+            ?>
+            <body onload="BerhasilMengirim()"></body>
+            <?php
+        }else{
+            ?>
+            <body onload="GagalMengirim()"></body>
+            <?php
+        }
+        $stmt->close();
+
+        //get id kritiksaran
+        $sql = "SELECT id_kritiksaran, id_pelanggan FROM kritiksaran ORDER BY id_kritiksaran DESC LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $stmt->bind_result($id_kritiksaran, $id_pelanggan);
+        $stmt->fetch();
+        $stmt->close();
+
+        if ($id_pelanggan!=null) {
+            //get info pelanggan terdaftar
+            $sql = "SELECT pelanggan.nama, pelanggan.no_telp, pelanggan.email FROM pelanggan, kritiksaran WHERE kritiksaran.id_pelanggan=pelanggan.id_pelanggan AND kritiksaran.id_kritiksaran='$id_kritiksaran'";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $stmt->bind_result($nama_pel, $no_telp_pel, $email_pel);
+            $stmt->fetch();
+            $stmt->close();
+
+            //update info pelanggan di kritiksaran
+            $sql = "UPDATE kritiksaran SET nama = ?, no_telp = ?, email = ? WHERE id_kritiksaran = ?";
+            $stmt = $db->prepare($sql);
+            $stmt->bind_param('sssi', $nama_pel, $no_telp_pel, $email_pel, $id_kritiksaran);
+            $stmt->execute();
+            $stmt->close();
+        }
+        
+    }else if (isset($_POST['kirim']) AND $jenis == "kritik_saran" AND empty($_SESSION['id_pelanggan'])) {
+        //inisialisasi
+        $nama = $_POST['nama'];
+        $no_telp = $_POST['no_telp'];
+        $email = $_POST['email'];
+        $isi_kritiksaran = $_POST['pesan'];
+        $tgl_kritiksaran = date('Y-m-d H:i:s');
+
+        $sql = "INSERT INTO kritiksaran (tgl_kritiksaran, isi_kritiksaran, nama, no_telp, email) VALUES(?, ?, ?, ?, ?)";
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param('sssss', $tgl_kritiksaran, $isi_kritiksaran, $nama, $no_telp, $email);
         if($stmt->execute()){
             $stmt->insert_id;
             ?>
@@ -234,7 +282,7 @@
                     <div class="col-md-12">  
                         <div class="control-group form-group">
                             <div class="controls">
-                                <input type="tel" class="form-control" name="no_telp" id="no_telp" placeholder="No Telp...">
+                                <input type="tel" class="form-control" name="no_telp" id="no_telp" placeholder="No Telp..." required="">
                             </div>
                         </div>
                     </div>

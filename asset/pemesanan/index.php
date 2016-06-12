@@ -3,7 +3,7 @@
 	session_start();
 	include '../../koneksi/koneksi.php';
 	include '../../fungsi/sidebar/index.php';
-	include '../../fungsi/transaksi/index.php';
+	include '../../fungsi/pemesanan/index.php';
 	include '../login/check_login_pegawai.php';
 
 	if (empty($_SESSION['username']) OR empty($_SESSION['jabatan'])) {
@@ -17,8 +17,8 @@
 
 			if (isset($_POST['simpan'])) {
 					//jika tombol submit ditekan maka excute fungsi ini
-					TambahDataTransaksi();
-					if ($_SESSION['status_operasi_tr']=="berhasil_update_total_bayar") {
+					TambahDataPemesanan();
+					if ($_SESSION['status_operasi_pemesanan']=="berhasil_update_total_bayar") {
 						?> <body onload="Berhasil_Update_Total_Bayar()"></body><?php
 					}else if ($_SESSION['status_operasi_tr']=="gagal_update_total_bayar") {
 						?> <body onload="Gagal_Update_Total_Bayar()"></body><?php
@@ -27,34 +27,34 @@
 
 				if (isset($_POST['perbaharui'])) {
 					//jika tombol submit ditekan maka excute fungsi ini
-					EditDataTransaksi();
-					if ($_SESSION['status_operasi_tr']=="berhasil_memperbaharui") {
+					EditDataPemesanan();
+					if ($_SESSION['status_operasi_pemesanan']=="berhasil_memperbaharui") {
 						?> <body onload="BerhasilMemperbaharui()"></body><?php
 					}else if ($_SESSION['status_operasi_tr']=="gagal_memperbaharui") {
 						?> <body onload="GagalMemperbaharui()"></body><?php
 					}
 				}
 
-				if (!empty($_GET['id_transaksi'])) {
-					HapusDataTransaksi();
-					if ($_SESSION['status_operasi_tr']=="berhasil_menghapus") {
-						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../transaksi/"><?php
+				if (!empty($_GET['id_pemesanan'])) {
+					HapusDataPemesanan();
+					if ($_SESSION['status_operasi_pemesanan']=="berhasil_menghapus") {
+						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../pemesanan/"><?php
 					}else if ($_SESSION['status_operasi_tr']=="gagal_menghapus") {
-						?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../transaksi/"><?php
+						?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../pemesanan/"><?php
 					}
 				}
 		?>
 		
-		<title>Transaksi</title>
+		<title>Pemesanan</title>
 
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 		  	<h1>
-		    	Transaksi
+		    	Pemesanan
 		    	<small></small>
 		  	</h1>
 		  	<ol class="breadcrumb">
-		    	<li class="active"><i class="fa fa-tasks"></i> Transaksi</li>
+		    	<li class="active"><i class="fa fa-tasks"></i> Pemesanan</li>
 		  	</ol>
 		</section>
 
@@ -80,29 +80,7 @@
 							<form method="post" action="" enctype="multipart/form-data">
 					        	<!-- /.box-header -->
 					        	<div class="box-body">
-					        		<div class="col-md-12">
-						            	<div class="form-group" align="right">
-				              				<label>
-				              					<h5><strong>Tanggal : <?php echo Tanggal(date("Y-m-d")); ?></strong></h5>
-				              				</label>	
-				              			</div>
-					        		</div>
 				            		<div class="col-md-6">
-				            			<!-- /.form-group -->
-				            			<div class="form-group" style="display: none;">
-					              			<fieldset>
-					              				<legend>Status Produk</legend>
-
-						              				<div class="radio">
-														<input id="garansi" type="radio" name="status_garansi" value="G">Ada yang bergaransi
-													</div>								                		
-						              			
-						              				<div class="radio">
-														<input id="tidak_garansi" type="radio" name="status_garansi" value="N" checked="">Tidak Garansi
-													</div>								                		
-						              			
-					              			</fieldset>
-				              			</div>
 				              			<div class="col-md-10">
 				              				<label>Produk</label>
 				              			</div>
@@ -158,11 +136,11 @@
 														<select name="username" class="form-control select2" style="width: 100%;">
 															<?php
 																//select username
-																$sql = "SELECT pelanggan.nama, user.username FROM pelanggan, user WHERE pelanggan.id_user=user.id_user";							
+																$sql = "SELECT pelanggan.id_pelanggan, user.username FROM pelanggan, user WHERE pelanggan.id_user=user.id_user";							
 																$stmt = $db->prepare($sql);
 																$stmt->execute();
 
-																$stmt->bind_result($nama_pelanggan, $username);
+																$stmt->bind_result($id_pelanggan, $username);
 
 																?>
 																		<option selected="">Username (Kosong)</option>
@@ -170,7 +148,7 @@
 																
 																while ($stmt->fetch()) {
 																	?>
-																		<option value="<?php echo $nama_pelanggan;?>"><?php echo $username; ?></option>
+																		<option value="<?php echo $id_pelanggan;?>"><?php echo $username; ?></option>
 																	<?php
 																}
 																$stmt->close();
@@ -178,16 +156,7 @@
 															
 														</select>
 													</div>
-												</div>							
-												
-					              				<div class="checkbox" style="display: none;">
-													<input id="tukar_poin" type="checkbox" name="tukar_poin" value="MB">Tukar Poin
-												</div>
-												<div id="form_tukar_poin" style="display: none;">
-													<div class="form-group">
-														<input class="form-control" type="number" name="poin" placeholder="Poin">
-													</div>
-												</div>	
+												</div>		
 				              				</fieldset>								                		
 				              			</div>
 				              			<div id="info_pelanggan">
@@ -201,7 +170,7 @@
 					              			</div>
 					              		</div>
 				            		</div> 
-				            		<div class="col-md-12"><button class="btn btn-primary" name="simpan">Simpan Transaksi</button></div>
+				            		<div class="col-md-12"><button class="btn btn-primary" name="pesan">Pesan</button></div>
 					        	</div>
 					        	<!-- /.box-body -->
 						    </form>
@@ -210,27 +179,28 @@
 						<?php
 					}
 
-					//Tampilkan Data Transaksi 
-					$sql = "SELECT id_transaksi, tgl_transaksi, status_transaksi, nama_garansi, telp_garansi, total_bayar, id_pelanggan FROM transaksi";							
+					//Tampilkan Data Pemesanan 
+					$sql = "SELECT id_pemesanan, tgl_pemesanan, status_pemesanan, total_bayar, tgl_pengambilan, pelanggan.nama FROM pemesanan, pelanggan WHERE pemesanan.id_pelanggan=pelanggan.id_pelanggan";							
 					$stmt = $db->prepare($sql);
 					$stmt->execute();
 
-					$stmt->bind_result($id_transaksi, $tgl_transaksi, $status_transaksi, $nama_garansi, $telp_garansi, $total_bayar, $id_pelanggan);
+					$stmt->bind_result($id_pemesanan, $tgl_pemesanan, $status_pemesanan, $total_bayar, $tgl_pengambilan, $nama_pelanggan);
 
 					?>
 					<div class="box">
 	            		<div class="box-header with-border">
-	              			<h3 class="box-title">Data Transaksi</h3>
+	              			<h3 class="box-title">Data Pemesanan</h3>
 	            		</div>
 			            <!-- /.box-header -->
 			            <div class="box-body">
 							<table id="example1" class="table table-bordered table-striped">
 								<thead>
 									<tr>
-										<th>Tanggal Transaksi</th>
 										<th>Nama Pelanggan</th>
-										<th>Telp</th>
+										<th>Status</th>
 										<th>Total Bayar</th>
+										<th>Tanggal Pemesanan</th>
+										<th>Tanggal Pengambilan</th>
 										<?php
 											if ($jabatan=="administrasi") {
 												?>
@@ -251,9 +221,15 @@
 									while ($stmt->fetch()) {
 									?>
 									<tr>
-										<td><?php echo Tanggal($tgl_transaksi); ?></td>
-										<td><?php echo $nama_garansi; ?></td>
-										<td><?php echo $telp_garansi; ?></td>
+										<td><?php echo $nama_pelanggan; ?></td>
+										<td>
+											<?php
+												if ($status_pemesanan=="BL") {
+												 	echo "Belum Dibayar";
+												}else{
+												 	echo "Sudah Dibayar";
+												} ?>
+										</td>
 										<td>
 											<?php 
 												//format rupiah
@@ -264,16 +240,18 @@
 												echo "Rp." .number_format($total_bayar, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan); 
 											?>
 										</td>
+										<td><?php echo Tanggal($tgl_pemesanan); ?></td>
+										<td><?php echo Tanggal($tgl_pengambilan); ?></td>
 										<?php
 											if ($jabatan=="administrasi") {
 												?>
-													<td><a href="detail.php?id_transaksi=<?php echo $id_transaksi;?>"><i class="fa fa-info"></i> Detail</a></td>
-													<td><a href="edit.php?id_transaksi=<?php echo $id_transaksi;?>"><i class="fa fa-pencil"></i> Edit</a></td>
-													<td><a href="index.php?id_transaksi=<?php echo $id_transaksi;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
+													<td><a href="detail.php?id_pemesanan=<?php echo $id_pemesanan;?>"><i class="fa fa-info"></i> Detail</a></td>
+													<td><a href="edit.php?id_pemesanan=<?php echo $id_pemesanan;?>"><i class="fa fa-pencil"></i> Edit</a></td>
+													<td><a href="index.php?id_pemesanan=<?php echo $id_pemesanan;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
 												<?php
 											}else if(($jabatan=="manager")OR($jabatan=="direktur")){
 												?>
-													<td><a href="detail.php?id_transaksi=<?php echo $id_transaksi;?>"><i class="fa fa-info"></i> Detail</a></td>
+													<td><a href="detail.php?id_pemesanan=<?php echo $id_pemesanan;?>"><i class="fa fa-info"></i> Detail</a></td>
 												<?php
 											}
 										?>

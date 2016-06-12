@@ -1,65 +1,39 @@
 <?php
 	
 	/*========================= TAMBAH DATA KELUHAN SARAN ========================*/
-	function TambahDataKeluhanSaran()
+	function BalasKeluhan()
 	{
 		include '../../koneksi/koneksi.php';
 
 		//inisialisasi
-		$kode_produk = $_POST['kode_produk'];
-		$nama_produk = $_POST['nama_produk'];
-		$id_kategori = $_POST['kategori'];
-		$harga = $_POST['harga'];
+		$pesan_respon = $_POST['pesan_respon'];
+		$id_keluhan = $_GET['id_keluhan'];
+		$status = "SR";
 
-		//insert ke tabel user
-		$sql = "INSERT INTO produk (kode_produk, nama_produk, harga, id_kategori) VALUES(?, ?, ?, ?)";
+		//update ke tabel keluhan
+		$sql = "UPDATE keluhan SET pesan_respon = ?, status = ? WHERE id_keluhan = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('ssii', $kode_produk, $nama_produk, $harga, $id_kategori);
+		$stmt->bind_param('ssi', $pesan_respon, $status, $id_keluhan);
 		if($stmt->execute()){
-			$stmt->insert_id;
-			$_SESSION['status_operasi_ks'] = "berhasil_menyimpan";
+			$_SESSION['status_operasi_ks'] = "berhasil_dibalas";
 		}else{
-			$_SESSION['status_operasi_ks'] = "gagal_menyimpan";
-		}
-		$stmt->close();
-	}
-
-	/*========================= EDIT DATA KELUHAN SARAN ========================*/
-	function EditDataKeluhanSaran()
-	{
-		include '../../koneksi/koneksi.php';
-
-		//inisialisasi
-		$kode_produk = $_POST['kode_produk'];
-		$nama_produk = $_POST['nama_produk'];
-		$id_kategori = $_POST['kategori'];
-		$harga = $_POST['harga'];
-		$id_produk = $_POST['id_produk'];
-
-		//update ke tabel produk
-		$sql = "UPDATE produk SET nama_produk = ?, harga = ?, id_kategori = ?, kode_produk = ? WHERE id_produk = ?";
-		$stmt = $db->prepare($sql);
-		$stmt->bind_param('siisi', $nama_produk, $harga, $id_kategori, $kode_produk, $id_produk);
-		if($stmt->execute()){
-			$_SESSION['status_operasi_ks'] = "berhasil_memperbaharui";
-		}else{
-			$_SESSION['status_operasi_ks'] = "gagal_memperbaharui";
+			$_SESSION['status_operasi_ks'] = "gagal_dibalas";
 		}
 		$stmt->close();
 	}
 
 	/*========================= HAPUS DATA KELUHAN SARAN ========================*/
-	function HapusDataKeluhanSaran()
+	function HapusDataKeluhan()
 	{
 		include '../../koneksi/koneksi.php';
 
 		//inisialisasi
-		$id_produk = $_GET['id_produk'];
+		$id_keluhan = $_GET['id_keluhan'];
 
 		//hapus dari tabel produk
-		$sql = "DELETE FROM produk WHERE id_produk = ?";
+		$sql = "DELETE FROM keluhan WHERE id_keluhan = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('i', $id_produk);
+		$stmt->bind_param('i', $id_keluhan);
 		if($stmt->execute()){
 			$_SESSION['status_operasi_ks'] = "berhasil_menghapus";
 		}else{

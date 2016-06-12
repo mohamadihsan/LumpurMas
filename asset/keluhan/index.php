@@ -15,34 +15,14 @@
 	//jika manager yang masuk
 	if (!empty($user_check) AND $jabatan == "manager" OR $jabatan=="direktur" OR $jabatan=="administrasi") {
 
-			if (isset($_POST['jawab'])) {
-					//jika tombol submit ditekan maka excute fungsi ini
-					JawabKeluhanSaran();
-					if ($_SESSION['status_operasi_ks']=="berhasil_dijawab") {
-						?> <body onload="BerhasilDijawab()"></body><?php
-					}else if ($_SESSION['status_operasi_ks']=="gagal_dijawab") {
-						?> <body onload="GagalDijawab()"></body><?php
-					}
-				}
-
-				if (isset($_POST['perbaharui'])) {
-					//jika tombol submit ditekan maka excute fungsi ini
-					EditDataKeluhanSaran();
-					if ($_SESSION['status_operasi_ks']=="berhasil_memperbaharui") {
-						?> <body onload="BerhasilMemperbaharui()"></body><?php
-					}else if ($_SESSION['status_operasi_ks']=="gagal_memperbaharui") {
-						?> <body onload="GagalMemperbaharui()"></body><?php
-					}
-				}
-
-				if (!empty($_GET['id'])) {
-					HapusDataProduk();
-					if ($_SESSION['status_operasi_ks']=="berhasil_menghapus") {
-						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../produk/"><?php
-					}else if ($_SESSION['status_operasi_ks']=="gagal_menghapus") {
-						?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../produk/"><?php
-					}
-				}
+		if (!empty($_GET['id_keluhan'])) {
+			HapusDataKeluhan();
+			if ($_SESSION['status_operasi_ks']=="berhasil_menghapus") {
+				?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../keluhan/"><?php
+			}else if ($_SESSION['status_operasi_ks']=="gagal_menghapus") {
+				?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../keluhan/"><?php
+			}
+		}
 		?>
 		
 		<title>Keluhan </title>
@@ -109,7 +89,7 @@
 										<th width="10%">Status Respon</th>
 										<th width="30%">Isi Keluhan</th>
 										<?php
-											if (($jabatan=="manager")OR($jabatan=="direktur")OR($jabatan=="administrasi")) {
+											if (($jabatan=="manager")OR($jabatan=="direktur")) {
 												?>
 													<th width="10%"></th>
 												<?php
@@ -141,14 +121,14 @@
 										</td>
 										<td><?php echo substr($isi_keluhan,0,30)."....."; ?></td>
 										<?php
-											if (($jabatan=="manager")OR($jabatan=="direktur")OR($jabatan=="administrasi")) {
+											if (($jabatan=="manager")OR($jabatan=="direktur")) {
 												?>
 													<th><center><a href="detail.php?id_keluhan=<?php echo $id_keluhan;?>"><i class="fa fa-info"> Baca</i></a></center></th>
 												<?php
 											}
 											if ($jabatan=="administrasi") {
 												?>
-													<td><a href="balas.php?id_keluhan=<?php echo $id_keluhan;?>"><i class="fa fa-pencil"></i> Balas</a></td>
+													<td><a href="detail.php?id_keluhan=<?php echo $id_keluhan;?>"><i class="fa fa-pencil"></i> Respon</a></td>
 													<td><a href="index.php?id_keluhan=<?php echo $id_keluhan;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
 												<?php
 											}

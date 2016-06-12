@@ -4,6 +4,7 @@
     include '../../koneksi/koneksi.php';
     include '../navbar.php';
     include '../../asset/login/check_login_pegawai.php';
+    include '../../asset/login/check_login_pelanggan.php';
 
     //inisialisasi
         $jenis = $_POST['jenis'];

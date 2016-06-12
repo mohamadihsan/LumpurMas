@@ -16,14 +16,29 @@
 
 		if ($member=="M") {
 			$nama_pelanggan_trx = $username;
+
+			$sql = "SELECT id_user FROM pelanggan WHERE nama='$username'";
+			$stmt = $db->prepare($sql);
+			$stmt->execute();
+			$stmt->bind_result($id_user);
+			$stmt->fetch();
+			$stmt->close();
+
+			$sql = "SELECT no_telp FROM pelanggan WHERE id_user='$id_user'";
+			$stmt = $db->prepare($sql);
+			$stmt->execute();
+			$stmt->bind_result($telp);
+			$stmt->fetch();
+			$stmt->close();
 		}else{
 			$nama_pelanggan_trx = $nama_garansi;
+			$telp = $telp_garansi;
 		}
 
 		//insert ke transaksi
 		$sql = "INSERT INTO transaksi (nama_garansi, telp_garansi) VALUES(?, ?)";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('ss', $nama_pelanggan_trx, $telp_garansi);
+		$stmt->bind_param('ss', $nama_pelanggan_trx, $telp);
 		if($stmt->execute()){
 			$stmt->insert_id;
 			$_SESSION['status_operasi_tr'] = "berhasil_menyimpan";

@@ -199,14 +199,14 @@
 							    	}
 							    ?>
 
-							    <!-- MENU PESANAN -->
+							    <!-- MENU PEMESANAN -->
 							    <?php
 							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
 							    		?>
 							    			<li class="treeview">
-										        <a href="../pesanan/">
+										        <a href="../pemesanan/">
 										            <i class="fa fa-money"></i>
-										            <span>Data Pesanan</span>
+										            <span>Data Pemesanan</span>
 										        </a>
 							    			</li>
 							    		<?php
@@ -504,6 +504,22 @@
 						type: "error",
 						showConfirmButton: false });
 				}
+
+				function BerhasilMengirimBalasan(){
+		            swal({
+		                title: "Berhasil",      
+		                text: "Pesan berhasil dikirim.",   
+		                timer: 1000,  
+		                showConfirmButton: false });
+		        }
+
+		        function GagalMengirimBalasan(){
+		            swal({      
+		                title: "Ooops",
+		                text: "Pesan gagal dikirim.",   
+		                timer: 1000,  
+		                showConfirmButton: false });
+		        }
 			</script>
 		</body>
 		</html>

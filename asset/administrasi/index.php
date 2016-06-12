@@ -48,7 +48,7 @@
 							          		<div class="small-box bg-green">
 							            		<div class="inner">
 							            			<?php
-							            				$sql = "SELECT COUNT(id) FROM keluhan_saran";
+							            				$sql = "SELECT COUNT(id_keluhan) FROM keluhan WHERE status='BR'";
 							            				$stmt = mysqli_query($db, $sql);
 
 														while($data = mysqli_fetch_array($stmt)){

@@ -3,9 +3,21 @@
 	session_start();
 	include '../../fungsi/sidebar/index.php';
 	include '../../koneksi/koneksi.php';
+	include '../../fungsi/keluhan/index.php';
 
 	//get id_kategori
 	$id_keluhan = $_GET['id_keluhan'];
+
+	if (isset($_POST['balas'])) {
+		//jika tombol submit ditekan maka excute fungsi ini
+		BalasKeluhan();
+		if ($_SESSION['status_operasi_ks']=="berhasil_dibalas") {
+			?> <body onload="BerhasilMengirimBalasan()"></body><?php
+		}else if ($_SESSION['status_operasi_ks']=="gagal_dibalas") {
+			?> <body onload="GagalMengirimBalasan()"></body><?php
+		}
+	}
+
 	$folder_produk = "../gambar/keluhan/gambar_produk/";
 	$folder_struk = "../gambar/keluhan/struk/";
 
@@ -89,9 +101,7 @@
 			        		</label>
 			        	</div>	
 				        <div class="col-md-11">
-				        	<label>
-				        		<?php echo ":   ".$isi_keluhan; ?>
-				        	</label>	
+				        	<textarea rows="10" cols="100" class="form-control" placeholder="<?php echo $isi_keluhan; ?>" style="resize:none" disabled></textarea>
 				        </div>
 				        <div class="col-md-6">
 			        		<label>
@@ -113,52 +123,58 @@
 		</div>
 		<!-- .row -->
 
-		<div class="row">
-        	<div class="col-xs-12">
-        		<div class="box box-primary">
-            		<div class="box-header with-border">
-              			<h3 class="box-title">Kirim Jawaban <font color="red"><?php if ($status=="SR") {
-              				echo "(Sudah di respon)";
-              			} ?></font></h3>
-              			<div class="box-tools pull-right">
-				         </div>
-            		</div>
-		            <!-- /.box-header -->
-		            <form action="" method="post">
-			            <div class="box-body">
-					        <div class="col-md-12">
-					        	<div class="control-group form-group">
-		                            <div class="controls">
-		                            	<?php
-		                            		if ($status=="BR") {
-		                            			?>
-		                            				<textarea rows="10" cols="100" class="form-control" name="pesan_respon" placeholder="Ketikkan pesan balasan....." style="resize:none"></textarea>
-		                            			<?php
-		                            		}else {
-		                            			?>
-		                            				<textarea rows="10" cols="100" class="form-control" placeholder="<?php echo $pesan_respon; ?>" style="resize:none"></textarea>
-		                            			<?php
-		                            		}
-		                            	?>
-		        					</div>
-		                        </div>
-					        </div>
-					        <?php
-	                    		if ($status=="BR") {
-	                    			?>
-						        	<div class="col-md-12">
-						        		<input type="submit" name="balas" value="Balas" class="btn btn-primary">
-						        	</div>
-						        <?php
-						        }?>	
-					    </div>  
-					</form>      
+		<?php 
+		if ($_SESSION['jabatan']=="administrasi") {
+			?>
+				<div class="row">
+		        	<div class="col-xs-12">
+		        		<div class="box box-primary">
+		            		<div class="box-header with-border">
+		              			<h3 class="box-title">Kirim Jawaban <font color="red"><?php if ($status=="SR") {
+		              				echo "(Sudah di respon)";
+		              			} ?></font></h3>
+		              			<div class="box-tools pull-right">
+						         </div>
+		            		</div>
+				            <!-- /.box-header -->
+				            <form action="" method="post">
+					            <div class="box-body">
+							        <div class="col-md-12">
+							        	<div class="control-group form-group">
+				                            <div class="controls">
+				                            	<?php
+				                            		if ($status=="BR") {
+				                            			?>
+				                            				<textarea rows="10" cols="100" class="form-control" name="pesan_respon" placeholder="Ketikkan pesan balasan....." style="resize:none"></textarea>
+				                            			<?php
+				                            		}else {
+				                            			?>
+				                            				<textarea rows="10" cols="100" class="form-control" placeholder="<?php echo $pesan_respon; ?>" style="resize:none" disabled></textarea>
+				                            			<?php
+				                            		}
+				                            	?>
+				        					</div>
+				                        </div>
+							        </div>
+							        <?php
+			                    		if ($status=="BR") {
+			                    			?>
+								        	<div class="col-md-12">
+								        		<input type="submit" name="balas" value="Balas" class="btn btn-primary">
+								        	</div>
+								        <?php
+								        }?>	
+							    </div>  
+							</form>      
+						</div>
+						<!-- /.box -->  	
+					</div>
+					<!-- .col -->
 				</div>
-				<!-- /.box -->  	
-			</div>
-			<!-- .col -->
-		</div>
-		<!-- .row -->
+				<!-- .row -->
+			<?php
+		}
+		?>
 	</section>		
 	<?php
 

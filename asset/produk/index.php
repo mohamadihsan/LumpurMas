@@ -114,6 +114,30 @@
 						                	</select>
 						              	</div>
 				              			<!-- /.form-group -->
+				              			<div class="form-group">
+				              				<label>Diskon</label>
+						                	<select class="form-control select2" style="width: 20%;" name="diskon" required>
+						                		<option selected="selected" value="0">0%</option>
+						                		<option value="10">10%</option>
+						                		<option value="15">15%</option>
+						                		<option value="20">20%</option>
+						                		<option value="25">25%</option>
+						                		<option value="30">30%</option>
+						                		<option value="35">35%</option>
+						                		<option value="40">40%</option>
+						                		<option value="45">45%</option>
+						                		<option value="50">50%</option>
+						                		<option value="55">55%</option>
+						                		<option value="60">60%</option>
+						                		<option value="65">65%</option>
+						                		<option value="70">70%</option>
+						                		<option value="75">75%</option>
+						                		<option value="80">80%</option>
+						                		<option value="85">85%</option>
+						                		<option value="90">90%</option>
+						                	</select>
+						              	</div>
+				              			<!-- /.form-group -->
 				            		</div>
 				            		<!-- /.col -->
 						            <div class="col-md-6">
@@ -142,11 +166,11 @@
 					}
 
 					//Tampilkan Data Produk 
-					$sql = "SELECT id_produk, kode_produk, nama_produk, harga, status_produk, nama_kategori, url FROM produk, kategori_produk WHERE produk.id_kategori = kategori_produk.id_kategori";							
+					$sql = "SELECT id_produk, kode_produk, nama_produk, harga, status_produk, diskon, nama_kategori, url FROM produk, kategori_produk WHERE produk.id_kategori = kategori_produk.id_kategori";							
 					$stmt = $db->prepare($sql);
 					$stmt->execute();
 
-					$stmt->bind_result($id_produk, $kode_produk, $nama_produk, $harga, $status_produk, $nama_kategori, $url);
+					$stmt->bind_result($id_produk, $kode_produk, $nama_produk, $harga, $status_produk, $diskon, $nama_kategori, $url);
 
 					$file_path = '../gambar/produk/';
 
@@ -199,11 +223,11 @@
 												if ($status_produk=="TD") {
 													echo "Tidak Diskon dan Tidak Garansi";
 												}else if ($status_produk=="D") {
-													echo "Diskon";
+													echo "Diskon (<font color='green'>" .$diskon."%</font>)";
 												}else if ($status_produk=="G") {
 													echo "Garansi";
 												}else if ($status_produk=="DG") {
-													echo " Diskon dan Garansi";
+													echo " Garansi & Diskon (<font color='green'>".$diskon."%</font>)";
 												}  
 											?>
 										</td>

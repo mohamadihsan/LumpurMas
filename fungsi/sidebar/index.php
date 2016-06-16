@@ -548,6 +548,29 @@
 			            text: "Terjadi kesalahan dalam proses transaksi",   
 			            showConfirmButton: true });
 			    }
+
+			    function BerhasilMengalisa(){
+					swal({   
+						title: "OK",   
+						text: "Analisa rekomendasi telah selesai",   
+						timer: 1000,   
+						type: "success",
+						showConfirmButton: false });
+				}
+
+				function GagalMenganalisa(){
+		            swal({      
+		                title: "Ooops",
+		                text: "Terjadi kesalahan dalam menganalisa.",  
+		                showConfirmButton: true });
+		        }
+
+		        function SmsGateway(){
+		            swal({      
+		                title: "SMS GATEWAY",
+		                text: "Fitur ini belum tersedia untuk saat ini.",  
+		                showConfirmButton: true });
+		        }
 			</script>
 		</body>
 		</html>

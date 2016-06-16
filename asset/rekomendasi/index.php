@@ -382,6 +382,13 @@
 										<br><br><br>
 										<div class="col-md-12">
 								            <fieldset>
+								            	<?php
+								            		if ($hasil_AO > $hasil_AP)AND($hasil_AO > $hasil_ATK)AND($hasil_AO > $hasil_BS)AND($hasil_AO > $hasil_NOV) {
+								            			$hasil = "Novel";
+								            		}else{
+								            			$hasil = "";
+								            		}
+								            	?>
 								            	<legend><h2>Hasil Analisa</h2></legend>
 								            	<?php
 								            		//cek nilai tertinggi dari kategori produk untuk direkomendasikan
@@ -389,7 +396,7 @@
 								            			$rekomendasi = "Alat Peraga";
 								            		}*/
 								            	?>
-								            	<p>Kategori Produk yang direkomendasi untuk <b><?php echo $nama_rekomendasi; ?></b> adalah <b></b></p>
+								            	<p>Kategori Produk yang direkomendasi untuk <b><?php echo $nama_rekomendasi; ?></b> adalah <b><?php echo $hasil; ?></b></p>
 								            </fieldset>
 							            </div>
 					            		<?php

@@ -90,7 +90,7 @@
 
 							$jab = $_SESSION['jabatan'];
 							//Tampilkan Data Pegawai 
-							$sql = "SELECT id_pegawai, nama, jabatan, id_user FROM pegawai WHERE jabatan!='$jab'";							
+							$sql = "SELECT id_pegawai, nama, jabatan, id_user FROM pegawai WHERE jabatan!='$jab' AND status_hapus ='1'";							
 							$stmt = $db->prepare($sql);
 							$stmt->execute();
 

@@ -3,7 +3,7 @@
 	session_start();
 	include '../../koneksi/koneksi.php';
 	include '../../fungsi/sidebar/index.php';
-	include '../../fungsi/transaksi/index.php';
+	include '../../fungsi/tukar_poin/index.php';
 	include '../login/check_login_pegawai.php';
 
 	if (empty($_SESSION['username']) OR empty($_SESSION['jabatan'])) {
@@ -17,17 +17,17 @@
 
 			if (isset($_POST['simpan'])) {
 					//jika tombol submit ditekan maka excute fungsi ini
-					TambahDataTransaksi();
+					BeliDenganPoin();
 					if ($_SESSION['status_operasi_tr']=="berhasil_update_total_bayar") {
-						?> <body onload="Berhasil_Update_Total_Bayar()"></body><?php
+						?> <body onload="TransaksiDitolak()"></body><?php
 					}else if ($_SESSION['status_operasi_tr']=="gagal_update_total_bayar") {
-						?> <body onload="Gagal_Update_Total_Bayar()"></body><?php
+						?> <body onload="TerjadiKesalahan()"></body><?php
 					}
 				}
 
 				if (isset($_POST['perbaharui'])) {
 					//jika tombol submit ditekan maka excute fungsi ini
-					EditDataTransaksi();
+					EditBeliDenganPoin();
 					if ($_SESSION['status_operasi_tr']=="berhasil_memperbaharui") {
 						?> <body onload="BerhasilMemperbaharui()"></body><?php
 					}else if ($_SESSION['status_operasi_tr']=="gagal_memperbaharui") {
@@ -36,25 +36,25 @@
 				}
 
 				if (!empty($_GET['id_transaksi'])) {
-					HapusDataTransaksi();
+					HapusDataTransaksiPoin();
 					if ($_SESSION['status_operasi_tr']=="berhasil_menghapus") {
-						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../transaksi/"><?php
+						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../tukar_poin/"><?php
 					}else if ($_SESSION['status_operasi_tr']=="gagal_menghapus") {
-						?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../transaksi/"><?php
+						?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../tukar_poin/"><?php
 					}
 				}
 		?>
 		
-		<title>Transaksi</title>
+		<title>Tukar Poin</title>
 
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 		  	<h1>
-		    	Transaksi
+		    	Transaksi dengan Tukar Poin
 		    	<small></small>
 		  	</h1>
 		  	<ol class="breadcrumb">
-		    	<li class="active"><i class="fa fa-tasks"></i> Transaksi</li>
+		    	<li class="active"><i class="fa fa-tasks"></i> Tukar Poin</li>
 		  	</ol>
 		</section>
 
@@ -150,60 +150,33 @@
 				            		<!-- /.col -->
 						            <div class="col-md-6">
 						            	<div class="form-group">
-				              				<fieldset>
-				              					<legend>Status Pelanggan</legend>
-				              					<div class="checkbox">
-													<input id="member" type="checkbox" name="member" value="M">Member
-												</div>
-												<div id="form_username" style="display: none;">
-													<div class="form-group">
-														<select name="username" class="form-control select2" style="width: 100%;">
-															<?php
-																//select username
-																$sql = "SELECT pelanggan.nama, user.username FROM pelanggan, user WHERE pelanggan.id_user=user.id_user";							
-																$stmt = $db->prepare($sql);
-																$stmt->execute();
+						            		<label>Username</label>
+											<div class="form-group">
+												<select name="username" class="form-control select2" style="width: 100%;">
+													<?php
+														//select username
+														$sql = "SELECT pelanggan.nama, user.username FROM pelanggan, user WHERE pelanggan.id_user=user.id_user";							
+														$stmt = $db->prepare($sql);
+														$stmt->execute();
 
-																$stmt->bind_result($nama_pelanggan, $username);
+														$stmt->bind_result($nama_pelanggan, $username);
 
-																?>
-																		<option selected="">Username (Kosong)</option>
-																<?php
-																
-																while ($stmt->fetch()) {
-																	?>
-																		<option value="<?php echo $nama_pelanggan;?>"><?php echo $username; ?></option>
-																	<?php
-																}
-																$stmt->close();
+														?>
+																<option selected="">Username (Kosong)</option>
+														<?php
+														
+														while ($stmt->fetch()) {
 															?>
-															
-														</select>
-													</div>
-												</div>							
-												
-					              				<div class="checkbox" style="display: none;">
-													<input id="tukar_poin" type="checkbox" name="tukar_poin" value="MB">Tukar Poin
-												</div>
-												<div id="form_tukar_poin" style="display: none;">
-													<div class="form-group">
-														<input class="form-control" type="number" name="poin" placeholder="Poin">
-													</div>
-												</div>	
-				              				</fieldset>								                		
+																<option value="<?php echo $nama_pelanggan;?>"><?php echo $username; ?></option>
+															<?php
+														}
+														$stmt->close();
+													?>	
+												</select>
+											</div>							                		
 				              			</div>
-				              			<div id="info_pelanggan">
-					              			<div class="form-group">
-					              				<label>Nama</label>
-												<input class="form-control" id="nama_garansi" type="text" name="nama_garansi" placeholder=" Masukkan Nama Pelanggan">							                		
-					              			</div>
-					              			<div class="form-group">
-					              				<label>No. Telp</label>
-												<input class="form-control" id="telp_garansi" type="telp" name="telp_garansi" placeholder="Masukkan No. Telp Pelanggan">							                		
-					              			</div>
-					              		</div>
 				            		</div> 
-				            		<div class="col-md-12"><button class="btn btn-primary" name="simpan">Simpan Transaksi</button></div>
+				            		<div class="col-md-12"><button class="btn btn-primary" name="simpan">Simpan</button></div>
 					        	</div>
 					        	<!-- /.box-body -->
 						    </form>
@@ -213,7 +186,7 @@
 					}
 
 					//Tampilkan Data Transaksi 
-					$sql = "SELECT id_transaksi, tgl_transaksi, status_transaksi, nama_garansi, telp_garansi, total_bayar, id_pelanggan FROM transaksi";							
+					$sql = "SELECT id_transaksi, tgl_transaksi, status_transaksi, nama_garansi, telp_garansi, total_bayar, id_pelanggan FROM transaksi WHERE status_transaksi='P'";							
 					$stmt = $db->prepare($sql);
 					$stmt->execute();
 
@@ -222,7 +195,7 @@
 					?>
 					<div class="box">
 	            		<div class="box-header with-border">
-	              			<h3 class="box-title">Data Transaksi</h3>
+	              			<h3 class="box-title">Data Transaksi Dengan Penukaran Poin</h3>
 	            		</div>
 			            <!-- /.box-header -->
 			            <div class="box-body">

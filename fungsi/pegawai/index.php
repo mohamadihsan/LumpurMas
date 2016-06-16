@@ -76,10 +76,19 @@
 		//inisialisasi
 		$id = $_GET['id_user'];
 
+		$username = $id;
+		$status_hapus = "0";
+
 		//hapus dari tabel user
-		$sql = "DELETE FROM user WHERE id_user = ?";
+		$sql = "UPDATE user SET username = ?, status_hapus = ? WHERE id_user = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('i', $id);
+		$stmt->bind_param('ssi', $username, $status_hapus, $id);
+		$stmt->execute();
+
+		//hapus data pegawai
+		$sql = "UPDATE pegawai SET status_hapus = ? WHERE id_user = ?";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param('si', $status_hapus, $id);
 		if($stmt->execute()){
 			$_SESSION['status_operasi_pg'] = "berhasil_menghapus";
 		}else{

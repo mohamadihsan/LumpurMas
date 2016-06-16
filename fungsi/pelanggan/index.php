@@ -48,16 +48,16 @@
 		include '../../koneksi/koneksi.php';
 
 		//inisialisasi
-		$id_kategori_produk = $_GET['id_kategori'];
+		$id_pelanggan = $_GET['id_pelanggan'];
 
 		//hapus dari tabel user
-		$sql = "DELETE FROM kategori_produk WHERE id_kategori = ?";
+		$sql = "DELETE FROM pelanggan WHERE id_pelanggan = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('i', $id_kategori_produk);
+		$stmt->bind_param('i', $id_pelanggan);
 		if($stmt->execute()){
-			$_SESSION['status_operasi_kp'] = "berhasil_menghapus";
+			$_SESSION['status_operasi_p'] = "berhasil_menghapus";
 		}else{
-			$_SESSION['status_operasi_kp'] = "gagal_menghapus";
+			$_SESSION['status_operasi_p'] = "gagal_menghapus";
 		}
 		$stmt->close();
 	}

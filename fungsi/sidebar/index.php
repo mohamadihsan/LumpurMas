@@ -254,6 +254,20 @@
 							    		<?php
 							    	}
 							    ?>
+
+							    <!-- MENU TUKAR POIN -->
+							    <?php
+							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
+							    		?>
+							    			<li class="treeview">
+										        <a href="../tukar_poin/">
+										            <i class="fa fa-money"></i>
+										            <span>Tukar Poin</span>
+										        </a>
+							    			</li>
+							    		<?php
+							    	}
+							    ?>	
 					   	 	</ul>
 				    	</section>
 				    	<!-- /.sidebar -->
@@ -520,6 +534,20 @@
 		                timer: 1000,  
 		                showConfirmButton: false });
 		        }
+
+			    function TransaksiDitolak(){
+			        swal({
+			            title: "Maaf",      
+			            text: "Total Pembelian anda : Rp.<?php echo $_SESSION['total_bayar']; ?>. POIN anda tidak mencukupi. Jumlah uang dari poin anda adalah Rp.<?php echo $_SESSION['poin_pelanggan']; ?>",   
+			            showConfirmButton: true });
+			    }
+
+			    function TerjadiKesalahan(){
+			        swal({
+			            title: "Ooops",      
+			            text: "Terjadi kesalahan dalam proses transaksi",   
+			            showConfirmButton: true });
+			    }
 			</script>
 		</body>
 		</html>

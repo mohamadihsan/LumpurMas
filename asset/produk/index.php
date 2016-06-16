@@ -67,7 +67,7 @@
 					//Jika pegawai inventori yang masuk
 					if ($jabatan=="inventori") {
 						//select kategori
-						$sql = "SELECT id_kategori, nama_kategori FROM kategori_produk";							
+						$sql = "SELECT id_kategori, nama_kategori FROM kategori_produk WHERE status_hapus='1'";							
 						$stmt = $db->prepare($sql);
 						$stmt->execute();
 
@@ -166,7 +166,7 @@
 					}
 
 					//Tampilkan Data Produk 
-					$sql = "SELECT id_produk, kode_produk, nama_produk, harga, status_produk, diskon, nama_kategori, url FROM produk, kategori_produk WHERE produk.id_kategori = kategori_produk.id_kategori";							
+					$sql = "SELECT id_produk, kode_produk, nama_produk, harga, status_produk, diskon, nama_kategori, url FROM produk, kategori_produk WHERE produk.id_kategori = kategori_produk.id_kategori AND produk.status_hapus=1";							
 					$stmt = $db->prepare($sql);
 					$stmt->execute();
 

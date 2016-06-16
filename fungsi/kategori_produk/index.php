@@ -50,10 +50,12 @@
 		//inisialisasi
 		$id_kategori_produk = $_GET['id_kategori'];
 
-		//hapus dari tabel user
-		$sql = "DELETE FROM kategori_produk WHERE id_kategori = ?";
+		$status_hapus = "0";
+
+		//hapus dari tabel kategori produk
+		$sql = "UPDATE kategori_produk SET status_hapus = ? WHERE id_kategori = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('i', $id_kategori_produk);
+		$stmt->bind_param('si', $status_hapus, $id_kategori_produk);
 		if($stmt->execute()){
 			$_SESSION['status_operasi_kp'] = "berhasil_menghapus";
 		}else{

@@ -13,6 +13,10 @@
 		$username = $_POST['username'];
 		$nama_garansi = $_POST['nama_garansi'];
 		$telp_garansi = $_POST['telp_garansi'];
+		$tanggal = $_POST['tanggal'];
+		if ($tanggal=="") {
+			$tanggal = date("Y-m-d");
+		}
 
 		if ($member=="M") {
 			$nama_pelanggan_trx = $username;
@@ -24,10 +28,10 @@
 			$stmt->fetch();
 			$stmt->close();
 
-			$sql = "SELECT no_telp FROM pelanggan WHERE id_user='$id_user'";
+			$sql = "SELECT no_telp, id_pelanggan FROM pelanggan WHERE id_user='$id_user'";
 			$stmt = $db->prepare($sql);
 			$stmt->execute();
-			$stmt->bind_result($telp);
+			$stmt->bind_result($telp, $id_pel);
 			$stmt->fetch();
 			$stmt->close();
 		}else{
@@ -36,9 +40,9 @@
 		}
 
 		//insert ke transaksi
-		$sql = "INSERT INTO transaksi (nama_garansi, telp_garansi) VALUES(?, ?)";
+		$sql = "INSERT INTO transaksi (nama_garansi, telp_garansi, id_pelanggan, tgl_transaksi) VALUES(?, ?, ?, ?)";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('ss', $nama_pelanggan_trx, $telp);
+		$stmt->bind_param('ssis', $nama_pelanggan_trx, $telp, $id_pel, $tanggal);
 		if($stmt->execute()){
 			$stmt->insert_id;
 			$_SESSION['status_operasi_tr'] = "berhasil_menyimpan";
@@ -156,6 +160,34 @@
 		//inisialisasi
 		$id_transaksi = $_GET['id_transaksi'];
 
+		//get total bayar pada transaksi ini
+		$sql = "SELECT total_bayar, id_pelanggan FROM transaksi WHERE id_transaksi = $id_transaksi";
+		$stmt = $db->prepare($sql);
+		$stmt->execute();
+		$stmt->bind_result($total_bayar, $id_pelanggan);
+		$stmt->fetch();
+		$stmt->close();
+
+		if ($id_pelanggan!=null) {
+
+			//get poin pelanggan
+			$sql = "SELECT poin FROM pelanggan WHERE id_pelanggan = $id_pelanggan";
+			$stmt = $db->prepare($sql);
+			$stmt->execute();
+			$stmt->bind_result($poin);
+			$stmt->fetch();
+			$stmt->close();
+
+			$minus_poin = ($total_bayar/100000) - $poin;
+
+			//update poin pelanggan
+			$sql = "UPDATE pelanggan SET poin = ? WHERE id_pelanggan = ?";
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param('ii', $minus_poin, $id_pelanggan);
+			$stmt->execute();
+			$stmt->close();
+		}
+
 		//hapus dari tabel user
 		$sql = "DELETE FROM transaksi WHERE id_transaksi = ?";
 		$stmt = $db->prepare($sql);
@@ -164,45 +196,6 @@
 			$_SESSION['status_operasi_tr'] = "berhasil_menghapus";
 		}else{
 			$_SESSION['status_operasi_tr'] = "gagal_menghapus";
-		}
-		$stmt->close();
-	}
-
-	function TransaksiPembayaran()
-	{
-		//select id trx
-		$sql = "SELECT id_transaksi FROM transaksi ORDER BY id_transaksi DESC LIMIT 1";
-		$stmt = $db->prepare($sql);
-		$stmt->execute();
-
-		$stmt->bind_result($id_transaksi);
-		$stmt->fetch();
-		$stmt->close();
-
-		//select data produk
-		$sql = "SELECT detail_transaksi.id_transaksi, detail_transaksi.id_produk, jumlah_beli, nama_garansi, telp_garansi, nama_produk, kode_produk, harga FROM detail_transaksi, transaksi, produk WHERE detail_transaksi.id_transaksi='$id_transaksi' AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND detail_transaksi.id_produk=produk.id_produk";
-		$stmt = $db->prepare($sql);
-		$stmt->execute();
-
-		$stmt->bind_result($id_transaksi, $id_produk, $jumlah_beli, $nama_garansi, $telp_garansi, $nama_produk, $kode_produk, $harga);
-
-		$total_bayar = 0;
-
-		while ($stmt->fetch()) {
-			$total_bayar = $total_bayar + ($harga*$jumlah_beli);
-		}
-		$stmt->close();	
-
-		//Update Transaksi
-		$status_transaksi = "L";
-
-		$sql = "UPDATE status_transaksi, total_bayar SET id_transaksi = ? WHERE id_transaksi = ?";
-		$stmt = $db->prepare($sql);
-		$stmt->bind_param('si', $status_transaksi, $id_kategori_produk);
-		if($stmt->execute()){
-			$_SESSION['status_operasi_tr'] = "berhasil_memperbaharui";
-		}else{
-			$_SESSION['status_operasi_tr'] = "gagal_memperbaharui";
 		}
 		$stmt->close();
 	}

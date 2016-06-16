@@ -64,7 +64,7 @@
 					                	<select class="form-control select2" style="width: 100%;" name="kategori" required>
 					                		<option selected="selected">Kategori Produk</option>
 					                		<?php
-					                			$sql = "SELECT id_kategori, nama_kategori FROM kategori_produk";
+					                			$sql = "SELECT id_kategori, nama_kategori FROM kategori_produk WHERE status_hapus='1'";
 												$stmt = $db->prepare($sql);
 												$stmt->execute();
 

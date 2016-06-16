@@ -119,7 +119,7 @@
 					                <tbody>
 					                <?php
 					                	//Tampilkan Data Produk 
-										$sql = "SELECT id_kategori, nama_kategori FROM kategori_produk";							
+										$sql = "SELECT id_kategori, nama_kategori FROM kategori_produk WHERE status_hapus='1'";							
 										$stmt = $db->prepare($sql);
 										$stmt->execute();
 

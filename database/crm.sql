@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2016 at 07:10 PM
+-- Generation Time: Jun 16, 2016 at 01:57 PM
 -- Server version: 5.7.9
 -- PHP Version: 5.6.16
 
@@ -40,9 +40,9 @@ CREATE TABLE IF NOT EXISTS `detail_pemesanan` (
 --
 
 INSERT INTO `detail_pemesanan` (`id_pemesanan`, `id_produk`, `jumlah_beli`) VALUES
-(15, 48, 20),
-(15, 4, 20),
-(15, 49, 20);
+(20, 49, 20),
+(20, 44, 20),
+(20, 48, 20);
 
 -- --------------------------------------------------------
 
@@ -74,7 +74,7 @@ INSERT INTO `detail_transaksi` (`id_transaksi`, `id_produk`, `jumlah_beli`) VALU
 (47, 42, 1),
 (47, 41, 1),
 (47, 44, 1),
-(48, 38, 1);
+(47, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -86,19 +86,21 @@ DROP TABLE IF EXISTS `kategori_produk`;
 CREATE TABLE IF NOT EXISTS `kategori_produk` (
   `id_kategori` int(11) NOT NULL AUTO_INCREMENT,
   `nama_kategori` varchar(30) NOT NULL,
+  `status_hapus` char(1) DEFAULT '1',
   PRIMARY KEY (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `kategori_produk`
 --
 
-INSERT INTO `kategori_produk` (`id_kategori`, `nama_kategori`) VALUES
-(1, 'Novel'),
-(2, 'Buku Sekolah'),
-(3, 'Alat Peraga'),
-(4, 'Alat Olahraga'),
-(5, 'ATK');
+INSERT INTO `kategori_produk` (`id_kategori`, `nama_kategori`, `status_hapus`) VALUES
+(1, 'Novel', '1'),
+(2, 'Buku Sekolah', '1'),
+(3, 'Alat Peraga', '1'),
+(4, 'Alat Olahraga', '1'),
+(5, 'ATK', '1'),
+(6, 'Mainan', '0');
 
 -- --------------------------------------------------------
 
@@ -146,15 +148,8 @@ CREATE TABLE IF NOT EXISTS `kritiksaran` (
   `no_telp` varchar(12) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_kritiksaran`),
-  KEY `constraint_id_pelanggan_kritiksaran` (`id_pelanggan`) USING BTREE
+  KEY `id_pelanggan` (`id_pelanggan`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `kritiksaran`
---
-
-INSERT INTO `kritiksaran` (`id_kritiksaran`, `tgl_kritiksaran`, `status_kritiksaran`, `isi_kritiksaran`, `id_pelanggan`, `nama`, `no_telp`, `email`) VALUES
-(3, '2016-06-12 06:52:06', 'BR', 'Respon untuk pemesanan barang masih terlalu lama', NULL, 'Ahmad Nugraha', '085720054204', 'mohamadihsan@outlook.com');
 
 -- --------------------------------------------------------
 
@@ -169,6 +164,7 @@ CREATE TABLE IF NOT EXISTS `pegawai` (
   `nama` varchar(30) NOT NULL,
   `jabatan` enum('direktur','manager','administrasi','pemasaran','pengunjung','inventori') DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL,
+  `status_hapus` char(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_pegawai` (`id_pegawai`),
   KEY `constratint_id_user` (`id_user`)
@@ -178,13 +174,13 @@ CREATE TABLE IF NOT EXISTS `pegawai` (
 -- Dumping data for table `pegawai`
 --
 
-INSERT INTO `pegawai` (`id`, `id_pegawai`, `nama`, `jabatan`, `id_user`) VALUES
-(2, 10112645, 'Mohamad Ihsan', 'direktur', 2),
-(4, 10112637, 'Irfan Rangga Gumilar', 'administrasi', 4),
-(5, 10112438, 'Julio Febryanto', 'pemasaran', 5),
-(7, 10112711, 'Rismoyo Bayu', 'inventori', 9),
-(10, 10112448, 'Iqbal Aditya Pangestu', 'manager', 14),
-(13, 10112233, 'Ahmad Nugraha', 'inventori', 17);
+INSERT INTO `pegawai` (`id`, `id_pegawai`, `nama`, `jabatan`, `id_user`, `status_hapus`) VALUES
+(2, 10112645, 'Mohamad Ihsan', 'direktur', 2, '1'),
+(4, 10112637, 'Irfan Rangga Gumilar', 'administrasi', 4, '1'),
+(5, 10112438, 'Julio Febryanto', 'pemasaran', 5, '1'),
+(7, 10112711, 'Rismoyo Bayu', 'inventori', 9, '1'),
+(10, 10112448, 'Iqbal Aditya Pangestu', 'manager', 14, '1'),
+(13, 10112233, 'Ahmad Nugraha', 'inventori', 17, '0');
 
 -- --------------------------------------------------------
 
@@ -232,14 +228,14 @@ CREATE TABLE IF NOT EXISTS `pemesanan` (
   `tgl_pengambilan` datetime DEFAULT NULL,
   `id_pelanggan` int(11) NOT NULL,
   PRIMARY KEY (`id_pemesanan`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pemesanan`
 --
 
 INSERT INTO `pemesanan` (`id_pemesanan`, `tgl_pemesanan`, `status_pemesanan`, `total_bayar`, `bukti_transfer`, `tgl_pengambilan`, `id_pelanggan`) VALUES
-(15, '2016-06-13 01:24:44', 'BL', 2680000, NULL, NULL, 1);
+(20, '2016-06-13 05:47:44', 'BL', 3940000, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -255,37 +251,41 @@ CREATE TABLE IF NOT EXISTS `produk` (
   `status_produk` char(2) DEFAULT 'TD',
   `diskon` int(2) NOT NULL DEFAULT '0',
   `url` varchar(255) DEFAULT 'default.jpg',
+  `status_hapus` char(1) DEFAULT '1',
   `id_kategori` int(11) DEFAULT NULL,
   `kode_produk` varchar(8) DEFAULT NULL,
   PRIMARY KEY (`id_produk`),
   UNIQUE KEY `kode_produk` (`kode_produk`),
   KEY `constraint_id_kategori` (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `produk`
 --
 
-INSERT INTO `produk` (`id_produk`, `nama_produk`, `harga`, `status_produk`, `diskon`, `url`, `id_kategori`, `kode_produk`) VALUES
-(1, 'Koala Kumal', 60000, 'TD', 0, 'cover-koala-kumal.JPG', 1, 'BN0001'),
-(2, 'Laskar Pelangi', 80000, 'TD', 0, 'b3-2013-08-30-novel-andrea-hirata-laskar-pelangi-ctk-22.jpg', 1, 'BN0002'),
-(3, 'Erlangga IPA Terpadu 3A', 45000, 'G', 0, 'buker ipa 1a.jpg', 2, 'BS0001'),
-(4, 'Bahasa Inggris 2A', 30000, 'G', 0, 'buker ipa 2a.jpg', 2, 'BS0002'),
-(5, 'Molten Bola Voli', 350000, 'G', 0, 'molten.jpg', 4, 'AO0001'),
-(8, 'Brontosaurus', 85000, 'TD', 0, '20151218_181629_scaled.png', 1, 'BN003'),
-(38, 'Spalding Bola Basket', 350000, 'G', 0, 'splading.jpg', 4, 'AO0002'),
-(39, 'Erlangga IPA Terpadu 2A', 30000, 'G', 0, 'buker ipa 2a.jpg', 2, 'BS0003'),
-(40, 'Kutinggal Dia Karena Dia', 43000, 'TD', 0, 'kutinggal_dia_karena_dia.jpg', 1, 'BN004 '),
-(41, 'Mencari Tuhan Yang Hilang', 60000, 'TD', 0, 'mencari-tuhan-yang-hilang.jpg', 1, 'BN005'),
-(42, 'Manusia Setengah Salmon', 42000, 'TD', 0, 'manusia-salmon.jpg', 1, 'BN006'),
-(43, 'Kiss The Rain', 45000, 'TD', 0, 'kiss-the-rain.jpg', 1, 'BN007'),
-(44, 'Yudistira Matematika SMP 3', 93000, 'G', 0, 'yudistira matematika 3.jpg', 2, 'BS0004'),
-(45, 'Raket Yonex ArcSaber Light', 250000, 'DG', 10, 'RACKET-YONEX-ARC-SABER-3-FL-MR-2.jpg', 4, 'AO0003'),
-(46, 'Apa Ini Cinta?', 42000, 'TD', 0, 'apa ini cinta.jpg', 1, 'BN008'),
-(47, 'Di Bawah Langit Jakarta', 55000, 'TD', 0, 'di bawah langit jakarta.jpg', 1, 'BN0009'),
-(48, 'Yudistira Kimia SMA 3', 54000, 'G', 0, 'Yudistira Kimia SMA 3.png', 2, 'BS0005'),
-(49, 'Erlangga Fisika SMA 3', 50000, 'G', 0, 'Erlanggan Fisika SMA 3.jpg', 2, 'BS0006'),
-(66, 'Ada Apa Dengan Cinta', 100000, 'G', 0, 'default.jpg', 1, 'BN010');
+INSERT INTO `produk` (`id_produk`, `nama_produk`, `harga`, `status_produk`, `diskon`, `url`, `status_hapus`, `id_kategori`, `kode_produk`) VALUES
+(1, 'Koala Kumal', 60000, 'TD', 0, 'cover-koala-kumal.JPG', '1', 1, 'BN0001'),
+(2, 'Laskar Pelangi', 80000, 'TD', 0, 'b3-2013-08-30-novel-andrea-hirata-laskar-pelangi-ctk-22.jpg', '1', 1, 'BN0002'),
+(3, 'Erlangga IPA Terpadu 3A', 45000, 'G', 0, 'buker ipa 1a.jpg', '1', 2, 'BS0001'),
+(4, 'Bahasa Inggris 2A', 30000, 'G', 0, 'buker ipa 2a.jpg', '1', 2, 'BS0002'),
+(5, 'Molten Bola Voli', 350000, 'G', 0, 'molten.jpg', '1', 4, 'AO0001'),
+(8, 'Brontosaurus', 85000, 'TD', 0, '20151218_181629_scaled.png', '1', 1, 'BN003'),
+(38, 'Spalding Bola Basket', 350000, 'G', 0, 'splading.jpg', '1', 4, 'AO0002'),
+(39, 'Erlangga IPA Terpadu 2A', 30000, 'G', 0, 'buker ipa 2a.jpg', '1', 2, 'BS0003'),
+(40, 'Kutinggal Dia Karena Dia', 43000, 'TD', 0, 'kutinggal_dia_karena_dia.jpg', '1', 1, 'BN004 '),
+(41, 'Mencari Tuhan Yang Hilang', 60000, 'TD', 0, 'mencari-tuhan-yang-hilang.jpg', '1', 1, 'BN005'),
+(42, 'Manusia Setengah Salmon', 42000, 'TD', 0, 'manusia-salmon.jpg', '1', 1, 'BN006'),
+(43, 'Kiss The Rain', 45000, 'TD', 0, 'kiss-the-rain.jpg', '1', 1, 'BN007'),
+(44, 'Yudistira Matematika SMP 3', 93000, 'G', 0, 'yudistira matematika 3.jpg', '1', 2, 'BS0004'),
+(45, 'Raket Yonex ArcSaber Light', 250000, 'DG', 10, 'RACKET-YONEX-ARC-SABER-3-FL-MR-2.jpg', '1', 4, 'AO0003'),
+(46, 'Apa Ini Cinta?', 42000, 'TD', 0, 'apa ini cinta.jpg', '1', 1, 'BN008'),
+(47, 'Di Bawah Langit Jakarta', 55000, 'TD', 0, 'di bawah langit jakarta.jpg', '1', 1, 'BN0009'),
+(48, 'Yudistira Kimia SMA 3', 54000, 'G', 0, 'Yudistira Kimia SMA 3.png', '1', 2, 'BS0005'),
+(49, 'Erlangga Fisika SMA 3', 50000, 'G', 0, 'Erlanggan Fisika SMA 3.jpg', '1', 2, 'BS0006'),
+(66, 'Ada Apa Dengan Cinta', 100000, 'G', 0, 'default.jpg', '1', 1, 'BN010'),
+(68, 'Globe', 250000, 'TD', 0, 'default.jpg', '0', 6, '68'),
+(69, 'Globe', 250000, 'TD', 0, 'default.jpg', '1', 3, 'AP0001'),
+(70, 'Pesil', 2500, 'TD', 0, 'default.jpg', '1', 5, 'ATK001');
 
 -- --------------------------------------------------------
 
@@ -320,14 +320,15 @@ INSERT INTO `promosi` (`id_promosi`, `status`, `url`, `id_pegawai`) VALUES
 
 DROP TABLE IF EXISTS `rekomendasi`;
 CREATE TABLE IF NOT EXISTS `rekomendasi` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `produk_rekomendasi` varchar(30) NOT NULL,
-  `pesan` varchar(160) NOT NULL,
-  `id_pelanggan` int(11) NOT NULL,
-  `id_kategori` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `nama` varchar(30) DEFAULT NULL,
+  `no_telp` varchar(12) DEFAULT NULL,
+  `pesan` varchar(160) DEFAULT NULL,
+  `kategori_produk` varchar(50) DEFAULT NULL,
+  `id_transaksi` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `id_kategori` (`id_kategori`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `id_transaksi` (`id_transaksi`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -346,7 +347,7 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
   `id_pelanggan` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_transaksi`),
   KEY `constraint_id_pelanggan_trans` (`id_pelanggan`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `transaksi`
@@ -355,8 +356,7 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
 INSERT INTO `transaksi` (`id_transaksi`, `tgl_transaksi`, `status_transaksi`, `nama_garansi`, `telp_garansi`, `total_bayar`, `id_pelanggan`) VALUES
 (45, '2016-06-12 22:13:44', 'L', 'Eva Safitri', '085830075395', 104000, NULL),
 (46, '2016-06-12 22:14:44', 'L', 'Asri Nurmala', '081323045394', 347000, NULL),
-(47, '2016-06-12 22:16:00', 'L', 'Ria', '085730045394', 283000, NULL),
-(48, '2016-06-12 22:17:38', 'L', 'Mohamad Ihsan', '085720054204', 350000, NULL);
+(47, '2016-06-12 22:16:00', 'L', 'Ria', '085730045394', 363000, NULL);
 
 -- --------------------------------------------------------
 
@@ -369,6 +369,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id_user` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(15) NOT NULL,
   `password` varchar(50) NOT NULL,
+  `status_hapus` char(1) DEFAULT '1',
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
@@ -377,18 +378,75 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id_user`, `username`, `password`) VALUES
-(2, 'direktur', '4fbfd324f5ffcdff5dbf6f019b02eca8'),
-(4, 'administrasi', '15ff3c0a0310a2e3de3e95c8aeb328d0'),
-(5, 'pemasaran', '229eaac0894a3379d759a720e0e3410c'),
-(6, 'pengunjung', '3fbe7200a4b9a894e16c9d998314dc80'),
-(8, 'pengunjung2', 'e55093db9c1fcfc25152e7ca2c6d3cab'),
-(9, 'inventori', '4e943c28c3b011e0540ff9a19334953b'),
-(14, 'manager', '1d0258c2440a8d19e716292b231e3190'),
-(17, 'ahmadnugraha', '965dabeb1ed76937028796eec8daa5d4'),
-(18, 'ria', 'd42a9ad09e9778b177d409f5716ac621'),
-(19, 'asrinurmala', '48feb56abc3e86dd649d46ee0fb670fb'),
-(20, 'evasafitri', '7a33e86c33a4061c5d2e11d2b50d7308');
+INSERT INTO `user` (`id_user`, `username`, `password`, `status_hapus`) VALUES
+(2, 'direktur', '4fbfd324f5ffcdff5dbf6f019b02eca8', '1'),
+(4, 'administrasi', '15ff3c0a0310a2e3de3e95c8aeb328d0', '1'),
+(5, 'pemasaran', '229eaac0894a3379d759a720e0e3410c', '1'),
+(6, 'pengunjung', '3fbe7200a4b9a894e16c9d998314dc80', '1'),
+(8, 'pengunjung2', 'e55093db9c1fcfc25152e7ca2c6d3cab', '1'),
+(9, 'inventori', '4e943c28c3b011e0540ff9a19334953b', '1'),
+(14, 'manager', '1d0258c2440a8d19e716292b231e3190', '1'),
+(17, '17', '965dabeb1ed76937028796eec8daa5d4', '0'),
+(18, 'ria', 'd42a9ad09e9778b177d409f5716ac621', '1'),
+(19, 'asrinurmala', '48feb56abc3e86dd649d46ee0fb670fb', '1'),
+(20, 'evasafitri', '7a33e86c33a4061c5d2e11d2b50d7308', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `v_kecuali_produk`
+--
+DROP VIEW IF EXISTS `v_kecuali_produk`;
+CREATE TABLE IF NOT EXISTS `v_kecuali_produk` (
+`nama_kategori` varchar(30)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `v_pelanggan`
+--
+DROP VIEW IF EXISTS `v_pelanggan`;
+CREATE TABLE IF NOT EXISTS `v_pelanggan` (
+`nama_kategori` varchar(30)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `v_pelanggan_pembanding`
+--
+DROP VIEW IF EXISTS `v_pelanggan_pembanding`;
+CREATE TABLE IF NOT EXISTS `v_pelanggan_pembanding` (
+`nama_kategori` varchar(30)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `v_kecuali_produk`
+--
+DROP TABLE IF EXISTS `v_kecuali_produk`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_kecuali_produk`  AS  select distinct `kategori_produk`.`nama_kategori` AS `nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Ria') and `kategori_produk`.`nama_kategori` in (select distinct `kategori_produk`.`nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Asri Nurmala')))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `v_pelanggan`
+--
+DROP TABLE IF EXISTS `v_pelanggan`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_pelanggan`  AS  select distinct `kategori_produk`.`nama_kategori` AS `nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Ria')) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `v_pelanggan_pembanding`
+--
+DROP TABLE IF EXISTS `v_pelanggan_pembanding`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_pelanggan_pembanding`  AS  select distinct `kategori_produk`.`nama_kategori` AS `nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Asri Nurmala')) ;
 
 --
 -- Constraints for dumped tables
@@ -442,7 +500,7 @@ ALTER TABLE `promosi`
 -- Constraints for table `rekomendasi`
 --
 ALTER TABLE `rekomendasi`
-  ADD CONSTRAINT `constraint_id_kategori_rek` FOREIGN KEY (`id_kategori`) REFERENCES `kategori_produk` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `rekomendasi_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transaksi`

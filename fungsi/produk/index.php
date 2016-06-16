@@ -141,10 +141,13 @@
 		//inisialisasi
 		$id_produk = $_GET['id_produk'];
 
+		$status_hapus = "0";
+		$kode = $id_produk;
+
 		//hapus dari tabel produk
-		$sql = "DELETE FROM produk WHERE id_produk = ?";
+		$sql = "UPDATE produk SET status_hapus = ?, kode_produk = ? WHERE id_produk = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('i', $id_produk);
+		$stmt->bind_param('ssi', $status_hapus, $kode, $id_produk);
 		if($stmt->execute()){
 			$_SESSION['status_operasi_p'] = "berhasil_menghapus";
 		}else{

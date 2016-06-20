@@ -38,6 +38,40 @@
 			  	<script type="text/javascript" src="../../bootstrap/bootstrap/js/jquery1.min.js"></script>
 
 			  	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+			  	<style type="text/css" media="screen">
+			  		.modalDialog{
+			  			position: fixed;
+			  			font-family: Arial, Helvetica, sans-serif;
+			  			top: 0;
+			  			right: 0;
+			  			bottom: 0;
+			  			left: 0;
+			  			background: rgba(0,0,0,0.8);
+			  			z-index: 99999;
+			  			opacity: 0;
+			  			-webkit-transition: opacity 400ms ease-in;
+			  			-moz-transition: opacity 400ms ease-in;
+			  			transition: opacity 400ms ease-in;
+			  			pointer-events: none;
+			  		}
+
+			  		.modalDialog:target{
+			  			opacity: 1;
+			  			pointer-events: auto;
+			  		}	
+
+			  		.modalDialog > div{
+			  			width: 400px;
+			  			position: relative;
+			  			margin: 10% auto;
+			  			padding: 5px 20px 13px 20px;
+			  			border-radius: 10px;
+			  			background: #fff;
+			  			background: -moz-linear-gradient(#fff, #999);
+			  			background: -webkit-linear-gradient(#fff, #999);
+			  			background: -o-linear-gradient(#fff, #999);
+			  		}
+			  	</style>
 			</head>
 			<body class="hold-transition skin-blue sidebar-mini">
 				<div class="wrapper">
@@ -267,6 +301,20 @@
 							    			</li>
 							    		<?php
 							    	}
+							    ?>
+
+							    <!-- MENU TEMPLATE PESAN -->
+							    <?php
+							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="pemasaran") {
+							    		?>
+							    			<li class="treeview">
+										        <a href="../template_pesan/">
+										            <i class="fa fa-comments"></i>
+										            <span>Template Pesan</span>
+										        </a>
+							    			</li>
+							    		<?php
+							    	}
 							    ?>	
 					   	 	</ul>
 				    	</section>
@@ -415,7 +463,7 @@
 
 				function BerhasilMenyimpan(){
 					swal({   
-						title: "Berhasil!",   
+						title: "",   
 						text: "Data telah disimpan.",   
 						timer: 1500,   
 						type: "success",
@@ -424,7 +472,7 @@
 
 				function GagalMenyimpan(){
 					swal({   
-						title: "Oops!",   
+						title: "",   
 						text: "Data gagal disimpan.",   
 						timer: 1500,   
 						type: "error",
@@ -433,7 +481,7 @@
 
 				function BerhasilMemperbaharui(){
 					swal({   
-						title: "Berhasil!",   
+						title: "",   
 						text: "Data telah diperbaharui.",   
 						timer: 1500,   
 						type: "success",
@@ -442,7 +490,7 @@
 
 				function GagalMemperbaharui(){
 					swal({   
-						title: "Oops!",   
+						title: "",   
 						text: "Data gagal diperbaharui.",   
 						timer: 1500,   
 						type: "error",
@@ -451,7 +499,7 @@
 
 				function BerhasilMenghapus(){
 					swal({   
-						title: "Berhasil!",   
+						title: "",   
 						text: "Data telah dihapus.",   
 						timer: 1500,   
 						type: "success",
@@ -460,7 +508,7 @@
 
 				function GagalMenghapus(){
 					swal({   
-						title: "Oops!",   
+						title: "",   
 						text: "Data gagal dihapus.",   
 						timer: 1500,   
 						type: "error",
@@ -469,7 +517,7 @@
 
 				function BerhasilDijawab(){
 					swal({   
-						title: "Berhasil!",   
+						title: "",   
 						text: "Balasan telah dikirim.",   
 						timer: 1500,   
 						type: "success",
@@ -478,7 +526,7 @@
 
 				function GagalDijawab(){
 					swal({   
-						title: "Oops!",   
+						title: "",   
 						text: "Balasan gagal dikirim.",   
 						timer: 1500,   
 						type: "error",
@@ -487,7 +535,7 @@
 
 				function GagalLogin(){
 					swal({   
-						title: "Oops!",   
+						title: "",   
 						text: "Username dan Password anda salah.",   
 						timer: 1500,   
 						type: "error",
@@ -496,7 +544,7 @@
 
 				function GagalUploadGambar(){
 					swal({   
-						title: "Oops!",   
+						title: "",   
 						text: "Terjadi kesalahan saat mengupload gambar.",   
 						timer: 1500,   
 						type: "error",
@@ -551,11 +599,10 @@
 
 			    function BerhasilMengalisa(){
 					swal({   
-						title: "OK",   
-						text: "Analisa rekomendasi telah selesai",   
-						timer: 1000,   
+						title: "",   
+						text: "Analisa rekomendasi produk seluruh pelanggan telah selesai",   
 						type: "success",
-						showConfirmButton: false });
+						showConfirmButton: true });
 				}
 
 				function GagalMenganalisa(){
@@ -570,6 +617,24 @@
 		                title: "SMS GATEWAY",
 		                text: "Fitur ini belum tersedia untuk saat ini.",  
 		                showConfirmButton: true });
+		        }
+
+		        function BerhasilMengirimRekomendasi(){
+		            swal({
+		                title: "",      
+		                text: "Pesan dikirim.",   
+		                timer: 2000,  
+		                type: "success",
+		                showConfirmButton: false });
+		        }
+
+		        function GagalMengirimRekomendasi(){
+		            swal({      
+		                title: "",
+		                text: "Terjadi kesalahan dalam mengirim pesan.",   
+		                timer: 2000,  
+		                type: "error",
+		                showConfirmButton: false });
 		        }
 			</script>
 		</body>

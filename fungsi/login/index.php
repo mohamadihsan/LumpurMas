@@ -1,8 +1,7 @@
 <?php
-	/*========================= FORM LOGIN ========================*/
-	function FormLogin()
-	{
-		?>
+/*========================= FORM LOGIN ========================*/
+function FormLogin() {
+	?>
 			<!DOCTYPE html>
 			<html>
 			<head>
@@ -54,7 +53,7 @@
 			    	<a href="../register/" class="text-center">Daftar Akun</a>
 				</div>
 			</div>
-			
+
 			<!-- jQuery 2.2.0 -->
 			<script src="../../bootstrap/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 			<!-- Bootstrap 3.3.6 -->
@@ -64,5 +63,5 @@
 		</body>
 		</html>
 		<?php
-	}
+}
 ?>

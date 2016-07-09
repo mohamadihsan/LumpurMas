@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2016 at 03:26 AM
+-- Generation Time: Jun 20, 2016 at 06:22 PM
 -- Server version: 5.7.9
 -- PHP Version: 5.6.16
 
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `kategori_produk` (
   `nama_kategori` varchar(30) NOT NULL,
   `status_hapus` char(1) DEFAULT '1',
   PRIMARY KEY (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `kategori_produk`
@@ -99,7 +99,9 @@ INSERT INTO `kategori_produk` (`id_kategori`, `nama_kategori`, `status_hapus`) V
 (3, 'Alat Peraga', '1'),
 (4, 'Alat Olahraga', '1'),
 (5, 'ATK', '1'),
-(6, 'Mainan', '0');
+(6, 'Mainan', '0'),
+(7, 'Majalah', '1'),
+(8, 'Alat Elektronik', '1');
 
 -- --------------------------------------------------------
 
@@ -354,16 +356,7 @@ CREATE TABLE IF NOT EXISTS `rekomendasi` (
   PRIMARY KEY (`id`),
   KEY `id_transaksi` (`id_transaksi`),
   KEY `id_pesan` (`id_pesan`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `rekomendasi`
---
-
-INSERT INTO `rekomendasi` (`id`, `nama`, `no_telp`, `pesan`, `kategori_produk`, `status_kirim`, `id_transaksi`, `id_pesan`) VALUES
-(16, 'Eva Safitri', '085830075395', NULL, 'Novel', 'SD', NULL, 2),
-(17, 'Asri Nurmala', '081323045394', NULL, 'Alat Olahraga', 'SD', NULL, 3),
-(18, 'Ria', '085730045394', NULL, 'Novel', 'SD', NULL, 3);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -382,7 +375,7 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
   `id_pelanggan` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_transaksi`),
   KEY `constraint_id_pelanggan_trans` (`id_pelanggan`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `transaksi`
@@ -443,7 +436,7 @@ CREATE TABLE IF NOT EXISTS `v_produk_dibeli` (
 --
 DROP TABLE IF EXISTS `v_produk_dibeli`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_produk_dibeli`  AS  select distinct `kategori_produk`.`nama_kategori` AS `nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where (((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Ria')) or ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Asri Nurmala') and (not(`kategori_produk`.`nama_kategori` in (select `kategori_produk`.`nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Ria') and (not(`kategori_produk`.`nama_kategori` in (select `kategori_produk`.`nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Asri Nurmala'))))))))))) order by `kategori_produk`.`nama_kategori` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_produk_dibeli`  AS  select distinct `kategori_produk`.`nama_kategori` AS `nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where (((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Ria')) or ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Eva Safitri') and (not(`kategori_produk`.`nama_kategori` in (select `kategori_produk`.`nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Ria') and (not(`kategori_produk`.`nama_kategori` in (select `kategori_produk`.`nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Eva Safitri'))))))))))) ;
 
 --
 -- Constraints for dumped tables

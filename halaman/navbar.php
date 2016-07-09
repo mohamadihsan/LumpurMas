@@ -1,7 +1,6 @@
 <?php
-    function Navbar()
-    {
-        ?>  
+function Navbar() {
+	?>
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
@@ -36,11 +35,26 @@
                             </li>
                             <!-- LOGIN -->
                             <?php
-                                if (!empty($_SESSION['username']) AND !empty($_SESSION['id_user'])) {
-                                    ?>
+if (!empty($_SESSION['username']) AND !empty($_SESSION['id_user'])) {
+		?>
+                                    <!-- MENU KOTAK INFORMASI -->
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <?php  echo "Selamat datang," .$_SESSION['nama']; ?> 
+                                            Kotak Informasi
+                                            <b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="../info_pemesanan/">Info Pemesanan</a>
+                                            </li>
+                                            <li>
+                                                <a href="../info_keluhan/">Info Keluhan</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <?php echo "Selamat datang," . $_SESSION['nama']; ?>
                                             <b class="caret"></b>
                                         </a>
                                         <ul class="dropdown-menu">
@@ -50,16 +64,17 @@
                                             <li>
                                                 <a href="../../asset/logout/">Logout</a>
                                             </li>
-                                        </ul>        
+                                        </ul>
+                                    </li>
                                     <?php
-                                }else{
-                                    ?>
+} else {
+		?>
                                     <li>
                                         <a href="../../asset/login/">Login</a>
                                     </li>
                                     <?php
-                                }
-                            ?>
+}
+	?>
                         </ul>
                     </div>
                     <!-- /.navbar-collapse -->
@@ -67,5 +82,5 @@
                 <!-- /.container -->
             </nav>
         <?php
-    }
+}
 ?>

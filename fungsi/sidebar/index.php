@@ -1,6 +1,6 @@
 <?php
-	function Sidebar(){
-		?>
+function Sidebar() {
+	?>
 			<!DOCTYPE html>
 			<html>
 			<head>
@@ -58,7 +58,7 @@
 			  		.modalDialog:target{
 			  			opacity: 1;
 			  			pointer-events: auto;
-			  		}	
+			  		}
 
 			  		.modalDialog > div{
 			  			width: 400px;
@@ -73,7 +73,7 @@
 			  		}
 			  	</style>
 			</head>
-			<body class="hold-transition skin-blue sidebar-mini">
+			<body class="hold-transition skin-black-light sidebar-mini">
 				<div class="wrapper">
 				  	<header class="main-header">
 				    	<!-- Logo -->
@@ -145,18 +145,18 @@
 					        	<!-- MENU HALAMAN UTAMA -->
 					        	<li class="treeview">
 					        		<?php
-					        			if ($_SESSION['jabatan']=="manager") {
-					        				$url = "../manager/";
-					        			}else if ($_SESSION['jabatan']=="direktur") {
-					        				$url = "../direktur/";
-					        			}else if ($_SESSION['jabatan']=="pemasaran") {
-					        				$url = "../pemasaran/";
-					        			}else if ($_SESSION['jabatan']=="administrasi") {
-					        				$url = "../administrasi/";
-					        			}else if ($_SESSION['jabatan']=="inventori") {
-					        				$url = "../inventori/";
-					        			}
-					        		?>
+if ($_SESSION['jabatan'] == "manager") {
+		$url = "../manager/";
+	} else if ($_SESSION['jabatan'] == "direktur") {
+		$url = "../direktur/";
+	} else if ($_SESSION['jabatan'] == "pemasaran") {
+		$url = "../pemasaran/";
+	} else if ($_SESSION['jabatan'] == "administrasi") {
+		$url = "../administrasi/";
+	} else if ($_SESSION['jabatan'] == "inventori") {
+		$url = "../inventori/";
+	}
+	?>
 							        <a href="<?php echo $url; ?>">
 							            <i class="fa fa-dashboard"></i>
 							            <span>Halaman Utama</span>
@@ -165,8 +165,8 @@
 
 							    <!-- MENU PEGAWAI -->
 							     <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur") {
-							    		?>
+if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur") {
+		?>
 							    			<li class="treeview">
 										        <a href="../pegawai/">
 										            <i class="fa fa-users"></i>
@@ -174,13 +174,13 @@
 										        </a>
 							    			</li>
 							    		<?php
-							    	}
-							    ?>
+}
+	?>
 
 							    <!-- MENU KATEGORI PRODUK -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="inventori") {
-							    		?>
+if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "inventori") {
+		?>
 							    			<li class="treeview">
 										        <a href="../kategori_produk/">
 										            <i class="fa fa-list-alt"></i>
@@ -188,13 +188,13 @@
 										        </a>
 							    			</li>
 							    		<?php
-							    	}
-							    ?>
+}
+	?>
 
 							    <!-- MENU PRODUK -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="inventori" OR $_SESSION['jabatan']=="administrasi") {
-							    		?>
+if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "inventori" OR $_SESSION['jabatan'] == "administrasi") {
+		?>
 							    			<li class="treeview">
 										        <a href="../produk/">
 										            <i class="fa fa-tasks"></i>
@@ -202,13 +202,13 @@
 										        </a>
 							    			</li>
 							    		<?php
-							    	}
-							    ?>
+}
+	?>
 
 							    <!-- MENU TRANSAKSI -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
-							    		?>
+if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
+		?>
 							    			<li class="treeview">
 										        <a href="../transaksi/">
 										            <i class="fa fa-money"></i>
@@ -216,13 +216,13 @@
 										        </a>
 							    			</li>
 							    		<?php
-							    	}
-							    ?>
+}
+	?>
 
 							    <!-- MENU REKOMENDASI -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="pemasaran") {
-							    		?>
+if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "pemasaran") {
+		?>
 							    			<li class="treeview">
 										        <a href="../rekomendasi/">
 										            <i class="fa fa-trophy"></i>
@@ -230,13 +230,13 @@
 										        </a>
 							    			</li>
 							    		<?php
-							    	}
-							    ?>
+}
+	?>
 
 							    <!-- MENU PEMESANAN -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
-							    		?>
+if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
+		?>
 							    			<li class="treeview">
 										        <a href="../pemesanan/">
 										            <i class="fa fa-money"></i>
@@ -244,13 +244,13 @@
 										        </a>
 							    			</li>
 							    		<?php
-							    	}
-							    ?>
+}
+	?>
 
 							    <!-- MENU KELUHAN & SARAN -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
-							    		?>
+if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
+		?>
 							    			<li class="treeview">
 										        <a href="../keluhan/">
 										            <i class="fa fa-comments"></i>
@@ -258,13 +258,13 @@
 										        </a>
 							    			</li>
 							    		<?php
-							    	}
-							    ?>
+}
+	?>
 
 							    <!-- MENU PROMOSI -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="pemasaran") {
-							    		?>
+if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "pemasaran") {
+		?>
 							    			<li class="treeview">
 										        <a href="../promosi/">
 										            <i class="fa fa-star"></i>
@@ -272,13 +272,13 @@
 										        </a>
 							   	 			</li>
 							    		<?php
-							    	}
-							    ?>
+}
+	?>
 
 							    <!-- MENU PELANGGAN -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
-							    		?>
+if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
+		?>
 							    			<li class="treeview">
 										        <a href="../pelanggan/">
 										            <i class="fa fa-user"></i>
@@ -286,13 +286,13 @@
 										        </a>
 							   	 			</li>
 							    		<?php
-							    	}
-							    ?>
+}
+	?>
 
 							    <!-- MENU TUKAR POIN -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="administrasi") {
-							    		?>
+if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
+		?>
 							    			<li class="treeview">
 										        <a href="../tukar_poin/">
 										            <i class="fa fa-money"></i>
@@ -300,13 +300,13 @@
 										        </a>
 							    			</li>
 							    		<?php
-							    	}
-							    ?>
+}
+	?>
 
 							    <!-- MENU TEMPLATE PESAN -->
 							    <?php
-							    	if ($_SESSION['jabatan']=="manager" OR $_SESSION['jabatan']=="direktur" OR $_SESSION['jabatan']=="pemasaran") {
-							    		?>
+if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "pemasaran") {
+		?>
 							    			<li class="treeview">
 										        <a href="../template_pesan/">
 										            <i class="fa fa-comments"></i>
@@ -314,8 +314,8 @@
 										        </a>
 							    			</li>
 							    		<?php
-							    	}
-							    ?>	
+}
+	?>
 					   	 	</ul>
 				    	</section>
 				    	<!-- /.sidebar -->
@@ -324,10 +324,10 @@
 				  	<!-- Content Wrapper. Contains page content -->
 				  	<div class="content-wrapper">
 		<?php
-	}
+}
 
-	function CloseSidebar(){
-		?>
+function CloseSidebar() {
+	?>
 		<!-- Wrapper -->
 		</div>
 		<footer class="main-footer">
@@ -337,8 +337,8 @@
 	    	<strong>Copyright &copy; 2016-2017 <a href="#">Lumpur Mas</a>.</strong>
 	  	</footer>
   		<!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
-  		<div class="control-sidebar-bg"></div>	
-		<!-- jQuery 2.2.0 -->
+  		<div class="control-sidebar-bg"></div>
+			<!-- jQuery 2.2.0 -->
 			<script src="../../bootstrap/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 			<!-- Bootstrap 3.3.6 -->
 			<script src="../../bootstrap/bootstrap/js/bootstrap.min.js"></script>
@@ -462,177 +462,177 @@
 		        });
 
 				function BerhasilMenyimpan(){
-					swal({   
-						title: "",   
-						text: "Data telah disimpan.",   
-						timer: 1500,   
+					swal({
+						title: "",
+						text: "Data telah disimpan.",
+						timer: 1500,
 						type: "success",
 						showConfirmButton: false });
 				}
 
 				function GagalMenyimpan(){
-					swal({   
-						title: "",   
-						text: "Data gagal disimpan.",   
-						timer: 1500,   
+					swal({
+						title: "",
+						text: "Data gagal disimpan.",
+						timer: 1500,
 						type: "error",
 						showConfirmButton: false });
 				}
 
 				function BerhasilMemperbaharui(){
-					swal({   
-						title: "",   
-						text: "Data telah diperbaharui.",   
-						timer: 1500,   
+					swal({
+						title: "",
+						text: "Data telah diperbaharui.",
+						timer: 1500,
 						type: "success",
 						showConfirmButton: false });
 				}
 
 				function GagalMemperbaharui(){
-					swal({   
-						title: "",   
-						text: "Data gagal diperbaharui.",   
-						timer: 1500,   
+					swal({
+						title: "",
+						text: "Data gagal diperbaharui.",
+						timer: 1500,
 						type: "error",
 						showConfirmButton: false });
 				}
 
 				function BerhasilMenghapus(){
-					swal({   
-						title: "",   
-						text: "Data telah dihapus.",   
-						timer: 1500,   
+					swal({
+						title: "",
+						text: "Data telah dihapus.",
+						timer: 1500,
 						type: "success",
 						showConfirmButton: false });
 				}
 
 				function GagalMenghapus(){
-					swal({   
-						title: "",   
-						text: "Data gagal dihapus.",   
-						timer: 1500,   
+					swal({
+						title: "",
+						text: "Data gagal dihapus.",
+						timer: 1500,
 						type: "error",
 						showConfirmButton: false });
 				}
 
 				function BerhasilDijawab(){
-					swal({   
-						title: "",   
-						text: "Balasan telah dikirim.",   
-						timer: 1500,   
+					swal({
+						title: "",
+						text: "Balasan telah dikirim.",
+						timer: 1500,
 						type: "success",
 						showConfirmButton: false });
 				}
 
 				function GagalDijawab(){
-					swal({   
-						title: "",   
-						text: "Balasan gagal dikirim.",   
-						timer: 1500,   
+					swal({
+						title: "",
+						text: "Balasan gagal dikirim.",
+						timer: 1500,
 						type: "error",
 						showConfirmButton: false });
 				}
 
 				function GagalLogin(){
-					swal({   
-						title: "",   
-						text: "Username dan Password anda salah.",   
-						timer: 1500,   
+					swal({
+						title: "",
+						text: "Username dan Password anda salah.",
+						timer: 1500,
 						type: "error",
 						showConfirmButton: false });
 				}
 
 				function GagalUploadGambar(){
-					swal({   
-						title: "",   
-						text: "Terjadi kesalahan saat mengupload gambar.",   
-						timer: 1500,   
+					swal({
+						title: "",
+						text: "Terjadi kesalahan saat mengupload gambar.",
+						timer: 1500,
 						type: "error",
 						showConfirmButton: false });
 				}
 
 				function Berhasil_Update_Total_Bayar(){
-					swal({   
-						title: "Total Transaksi :",   
-						text: "<?php echo 'Rp.' . Rupiah($_SESSION['total_bayar']) ?>",  
+					swal({
+						title: "Total Transaksi :",
+						text: "<?php echo 'Rp.' . Rupiah($_SESSION['total_bayar']) ?>",
 						showConfirmButton: true });
 				}
 
 				function Gagal_Update_Total_Bayar(){
-					swal({   
-						title: "Oops!",   
-						text: "Terjadi kesalahan pada proses Transaksi",   
-						timer: 1500,   
+					swal({
+						title: "Oops!",
+						text: "Terjadi kesalahan pada proses Transaksi",
+						timer: 1500,
 						type: "error",
 						showConfirmButton: false });
 				}
 
 				function BerhasilMengirimBalasan(){
 		            swal({
-		                title: "Berhasil",      
-		                text: "Pesan berhasil dikirim.",   
-		                timer: 1000,  
+		                title: "Berhasil",
+		                text: "Pesan berhasil dikirim.",
+		                timer: 1000,
 		                showConfirmButton: false });
 		        }
 
 		        function GagalMengirimBalasan(){
-		            swal({      
+		            swal({
 		                title: "Ooops",
-		                text: "Pesan gagal dikirim.",   
-		                timer: 1000,  
+		                text: "Pesan gagal dikirim.",
+		                timer: 1000,
 		                showConfirmButton: false });
 		        }
 
 			    function TransaksiDitolak(){
 			        swal({
-			            title: "Maaf",      
-			            text: "Total Pembelian anda : Rp.<?php echo $_SESSION['total_bayar']; ?>. POIN anda tidak mencukupi. Jumlah uang dari poin anda adalah Rp.<?php echo $_SESSION['poin_pelanggan']; ?>",   
+			            title: "Maaf",
+			            text: "Total Pembelian anda : Rp.<?php echo $_SESSION['total_bayar']; ?>. POIN anda tidak mencukupi. Jumlah uang dari poin anda adalah Rp.<?php echo $_SESSION['poin_pelanggan']; ?>",
 			            showConfirmButton: true });
 			    }
 
 			    function TerjadiKesalahan(){
 			        swal({
-			            title: "Ooops",      
-			            text: "Terjadi kesalahan dalam proses transaksi",   
+			            title: "Ooops",
+			            text: "Terjadi kesalahan dalam proses transaksi",
 			            showConfirmButton: true });
 			    }
 
 			    function BerhasilMengalisa(){
-					swal({   
-						title: "",   
-						text: "Analisa rekomendasi produk seluruh pelanggan telah selesai",   
+					swal({
+						title: "",
+						text: "Analisa rekomendasi produk seluruh pelanggan telah selesai",
 						type: "success",
 						showConfirmButton: true });
 				}
 
 				function GagalMenganalisa(){
-		            swal({      
+		            swal({
 		                title: "Ooops",
-		                text: "Terjadi kesalahan dalam menganalisa.",  
+		                text: "Terjadi kesalahan dalam menganalisa.",
 		                showConfirmButton: true });
 		        }
 
 		        function SmsGateway(){
-		            swal({      
+		            swal({
 		                title: "SMS GATEWAY",
-		                text: "Fitur ini belum tersedia untuk saat ini.",  
+		                text: "Fitur ini belum tersedia untuk saat ini.",
 		                showConfirmButton: true });
 		        }
 
 		        function BerhasilMengirimRekomendasi(){
 		            swal({
-		                title: "",      
-		                text: "Pesan dikirim.",   
-		                timer: 2000,  
+		                title: "",
+		                text: "Pesan dikirim.",
+		                timer: 2000,
 		                type: "success",
 		                showConfirmButton: false });
 		        }
 
 		        function GagalMengirimRekomendasi(){
-		            swal({      
+		            swal({
 		                title: "",
-		                text: "Terjadi kesalahan dalam mengirim pesan.",   
-		                timer: 2000,  
+		                text: "Terjadi kesalahan dalam mengirim pesan.",
+		                timer: 2000,
 		                type: "error",
 		                showConfirmButton: false });
 		        }
@@ -640,25 +640,25 @@
 		</body>
 		</html>
 		<?php
-	}
+}
 
-	function Tanggal($tanggal){
-  		$BulanIndo = array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-  		$tahun = substr($tanggal, 0, 4);
-  		$bulan = substr($tanggal, 5, 2);
-  		$tgl = substr($tanggal, 8, 2);
+function Tanggal($tanggal) {
+	$BulanIndo = array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+	$tahun = substr($tanggal, 0, 4);
+	$bulan = substr($tanggal, 5, 2);
+	$tgl = substr($tanggal, 8, 2);
 
-  		$hasil = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
-  		return($hasil);
-  	}
+	$hasil = $tgl . " " . $BulanIndo[(int) $bulan - 1] . " " . $tahun;
+	return ($hasil);
+}
 
-  	function Rupiah($rupiah){
-		//format rupiah
-		$jumlah_desimal ="2";
-		$pemisah_desimal =",";
-		$pemisah_ribuan =".";
+function Rupiah($rupiah) {
+	//format rupiah
+	$jumlah_desimal = "2";
+	$pemisah_desimal = ",";
+	$pemisah_ribuan = ".";
 
-		$hasil = number_format($rupiah, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan);
-		return($hasil);
-  	}
+	$hasil = number_format($rupiah, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan);
+	return ($hasil);
+}
 ?>

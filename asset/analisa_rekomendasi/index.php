@@ -85,7 +85,7 @@
 					            if(isset($_POST['lihat_rekomendasi'])OR isset($_POST['analisa'])){
 					            	 
 				            		if (isset($_POST['analisa'])) {
-				            			$sql_seluruh_nama = "SELECT DISTINCT nama_garansi FROM transaksi";
+				            			$sql_seluruh_nama = "SELECT DISTINCT nama_garansi FROM transaksi ORDER BY nama_garansi";
 										$result_seluruh_nama = mysqli_query($db, $sql_seluruh_nama);
 										$s=0;
 										while ($row_seluruh_nama = mysqli_fetch_array($result_seluruh_nama, MYSQLI_ASSOC)) {
@@ -97,7 +97,7 @@
 									for($k=0;$k<$s;$k++){
 										$nama_rekomendasi = $seluruh_nama[$k];
 
-										$sql_nama = "SELECT DISTINCT nama_garansi FROM transaksi WHERE nama_garansi!='$nama_rekomendasi'";
+										$sql_nama = "SELECT DISTINCT nama_garansi FROM transaksi WHERE nama_garansi!='$nama_rekomendasi' ORDER BY nama_garansi DESC";
 										$result_nama = mysqli_query($db, $sql_nama);
 										$i=0;
 										while ($row_nama = mysqli_fetch_array($result_nama, MYSQLI_ASSOC)) {
@@ -143,17 +143,17 @@
 														$y++;
 													}
 													if ($nama[$y]!=null) {
-														$sql1 = "CREATE OR REPLACE VIEW v_produk_dibeli AS SELECT DISTINCT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama_rekomendasi."' OR produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama[$y]."' AND kategori_produk.nama_kategori NOT IN (SELECT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama_rekomendasi."' AND kategori_produk.nama_kategori NOT IN (SELECT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama[$y]."')) ORDER BY nama_kategori ASC";
+														$sql1 = "CREATE OR REPLACE VIEW v_produk_dibeli AS SELECT DISTINCT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama_rekomendasi."' OR produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama[$y]."' AND kategori_produk.nama_kategori NOT IN (SELECT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama_rekomendasi."' AND kategori_produk.nama_kategori NOT IN (SELECT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama[$y]."'))";
 
 														$result1 = mysqli_query($db, $sql1);
 
-														$sql2 = "SELECT DISTINCT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama_rekomendasi."' AND kategori_produk.nama_kategori IN (SELECT DISTINCT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama[$y]."') ORDER BY nama_kategori ASC";
+														$sql2 = "SELECT DISTINCT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama_rekomendasi."' AND kategori_produk.nama_kategori IN (SELECT DISTINCT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama[$y]."')";
 
 														$result2 = mysqli_query($db, $sql2);
 														$jml_produk = mysqli_num_rows($result2);
 
 														if ($jml_produk<=0) {
-															$sql = "SELECT * FROM v_produk_dibeli ORDER BY nama_kategori ASC";
+															$sql = "SELECT nama_kategori FROM v_produk_dibeli ORDER BY nama_kategori ASC";
 														}else{
 															//select/mencari barang yang tidak sama dibeli 
 															$sql = "SELECT * FROM v_produk_dibeli WHERE nama_kategori NOT IN (SELECT DISTINCT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama_rekomendasi."' AND kategori_produk.nama_kategori IN (SELECT DISTINCT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama[$y]."')) ORDER BY nama_kategori ASC";
@@ -165,7 +165,7 @@
 														//hitung similarity
 														$nilai_sim[$z] = 1/(1+$sim[$z]);
 														
-														?>
+															?>
 														<tr>
 															<td><?php echo $nama_rekomendasi; ?></td>
 															<td><?php echo $nama[$y]; ?></td>
@@ -174,153 +174,227 @@
 															
 															$n=0;
 															while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-																$nama_kate_pro[$c][$n] = $row['nama_kategori'];
+																$nama_kate_pro1[$c][$n] = $row['nama_kategori'];
 																$n++;
 															}
-															$f=0;
-															$g=0;
-															for($j=0;$j<$sim[$z];$j++){
+															$sql = "SELECT DISTINCT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama[$y]."' ORDER BY nama_kategori ASC";
 
-																if ($f==0) {
-																	if ($nama_kate_pro[$c][$j]==$nama_kate[0]) {
-																		?>
-																			<td>
-																				<?php 
-																					$temp_sim[$c][$j] = $nilai_sim[$z]*1;
-																					$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
-																					$AO[$c] = $temp_sim[$c][$j]; 
-																					echo round($temp_sim[$c][$j], 2);$g++;
-																				?>
-																			</td>
-																		<?php
-																	}else{
-																		?>
-																			<td>
-																				<?php  
-																					$temp_sim[$c][$j] = $nilai_sim[$z]*0;
-																					$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
-																					$AO[$c] = $temp_sim[$c][$j];
-																					echo round($temp_sim[$c][$j], 2);$f++;$g++;
-																				?>
-																			</td>
-																		<?php
-																	}
-																}
-																
-																if ($f==1) {
-																	if ($nama_kate_pro[$c][$j]==$nama_kate[1]) {
-																		?>
-																			<td>
-																				<?php 
-																					$temp_sim[$c][$j] = $nilai_sim[$z]*1;
-																					$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
-																					$AP[$c] = $temp_sim[$c][$j]; 
-																					echo round($temp_sim[$c][$j], 2);$g++; 
-																				?>
-																			</td>
-																		<?php
-																	}else{
-																		?>
-																			<td>
-																				<?php 
-																					$temp_sim[$c][$j] = $nilai_sim[$z]*0;
-																					$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
-																					$AP[$c] = $temp_sim[$c][$j]; 
-																					echo round($temp_sim[$c][$j], 2);$f++;$g++;	 
-																				?>
-																			</td>
-																		<?php
-																	}
+																$result = mysqli_query($db, $sql);
+																$p=0;
+																while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+																	$nama_kate_pro[$c][$p] = $row['nama_kategori'];
+																	$p++;
 																}
 
-																if ($f==2) {
-																	if ($nama_kate_pro[$c][$j]==$nama_kate[2]) {
-																		?>
-																			<td>
-																				<?php
-																					$temp_sim[$c][$j] = $nilai_sim[$z]*1;
-																					$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
-																					$ATK[$c] = $temp_sim[$c][$j]; 
-																					echo round($temp_sim[$c][$j], 2);$g++; 
-																				?>
-																			</td>
-																		<?php
-																	}else{
-																		?>
-																			<td>
-																				<?php 
-																					$temp_sim[$c][$j] = $nilai_sim[$z]*0;
-																					$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
-																					$ATK[$c] = $temp_sim[$c][$j]; 
-																					echo round($temp_sim[$c][$j], 2);$f++;$g++;
-																				?>
-																			</td>
-																		<?php
+																$f=0;
+																$g=0;
+																for($j=0;$j<=$sim[$z];$j++){
+
+																	if ($f==0) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[0]) {
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*1;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$AE[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$g++;
+																					?>
+																				</td>
+																			<?php
+																		}else{
+																			?>
+																				<td>
+																					<?php  
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*0;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$AE[$c] = $temp_sim[$c][$j];
+																						echo round($temp_sim[$c][$j], 2);$f++;$g++;
+																					?>
+																				</td>
+																			<?php
+																		}
 																	}
+
+																	if ($f==1) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[1]) {
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*1;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$AO[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$g++;
+																					?>
+																				</td>
+																			<?php
+																		}else{
+																			?>
+																				<td>
+																					<?php  
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*0;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$AO[$c] = $temp_sim[$c][$j];
+																						echo round($temp_sim[$c][$j], 2);$f++;$g++;
+																					?>
+																				</td>
+																			<?php
+																		}
+																	}
+																	
+																	if ($f==2) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[2]) {
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*1;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$AP[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$g++; 
+																					?>
+																				</td>
+																			<?php
+																		}else{
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*0;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$AP[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$f++;$g++;	 
+																					?>
+																				</td>
+																			<?php
+																		}
+																	}
+
+																	if ($f==3) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[3]) {
+																			?>
+																				<td>
+																					<?php
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*1;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$ATK[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$g++; 
+																					?>
+																				</td>
+																			<?php
+																		}else{
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*0;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$ATK[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$f++;$g++;
+																					?>
+																				</td>
+																			<?php
+																		}
+																	}
+
+																	if ($f==4) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[4]) {
+																			?>
+																				<td>
+																					<?php
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*1;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$BS[$c] = $temp_sim[$c][$j];  
+																						echo round($temp_sim[$c][$j], 2);$g++; 
+																					?>
+																				</td>
+																			<?php
+																		}else{
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*0;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$BS[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$f++;$g++; 
+																					?>
+																				</td>
+																			<?php
+																		}
+																	}
+
+																	if ($f==5) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[5]) {
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*1;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$MA[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$g++; 
+																					?>
+																				</td>
+																			<?php
+																		}else{
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*0;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$MA[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$f++;$g++; 
+																					?>
+																				</td>
+																			<?php
+																		}
+																	}
+
+																	if ($f==6) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[6]) {
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*1;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$NOV[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$g++; 
+																					?>
+																				</td>
+																			<?php
+																		}else{
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*0;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$NOV[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$g++; 
+																					?>
+																				</td>
+																			<?php
+																		}
+																	}	
+																	$nama_kate_pro[$c][$j]="";
+																	$f++;
 																}
 
-																if ($f==3) {
-																	if ($nama_kate_pro[$c][$j]==$nama_kate[3]) {
-																		?>
-																			<td>
-																				<?php
-																					$temp_sim[$c][$j] = $nilai_sim[$z]*1;
-																					$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
-																					$BS[$c] = $temp_sim[$c][$j];  
-																					echo round($temp_sim[$c][$j], 2);$g++; 
-																				?>
-																			</td>
-																		<?php
-																	}else{
-																		?>
-																			<td>
-																				<?php 
-																					$temp_sim[$c][$j] = $nilai_sim[$z]*0;
-																					$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
-																					$BS[$c] = $temp_sim[$c][$j]; 
-																					echo round($temp_sim[$c][$j], 2);$f++;$g++; 
-																				?>
-																			</td>
-																		<?php
-																	}
-																}
-
-																if ($f==4) {
-																	if ($nama_kate_pro[$c][$j]==$nama_kate[4]) {
+																while ($g<$jml_kategori) {
+																	if ($nama_kate_pro[$c][$j]==$nama_kate[6]) {
 																		?>
 																			<td>
 																				<?php 
 																					$temp_sim[$c][$j] = $nilai_sim[$z]*1;
 																					$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
 																					$NOV[$c] = $temp_sim[$c][$j]; 
-																					echo round($temp_sim[$c][$j], 2);$g++;
+																					echo round($temp_sim[$c][$j], 2);$g++; 
 																				?>
 																			</td>
 																		<?php
 																	}else{
-																		?>
-																			<td>
-																				<?php 
-																					$temp_sim[$c][$j] = $nilai_sim[$z]*0;
-																					$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
-																					$NOV[$c] = $temp_sim[$c][$j]; 
-																					echo round($temp_sim[$c][$j], 2);$f++;$g++; 
-																				?>
-																			</td>
-																		<?php
+																	?>
+																		<td><?php echo $nilai_sim[$z]*0;$g++; ?></td>
+																	<?php
 																	}
-																}	
-																$f++;
-															}
-
-															while ($g<$jml_kategori) {
-																$NOV[$c] = $temp_sim[$c][$g];
-																?>
-																	<td><?php echo $nilai_sim[$z]*0;$g++; ?></td>
-																<?php
-															} ?>
-														</tr>	
-														<?php
+																} ?>
+															</tr>	
+															<?php
 														$c++;
 														$y++;	
 														$z++;
@@ -345,60 +419,83 @@
 													<td colspan="3" align="right"><b>TOTAL</b></td>
 													<td>
 														<?php 
-															for($i=0;$i<$c-1;$i++){
+															for($i=0;$i<$c;$i++){
+																$AE[$i+1] = $AE[$i]+$AE[$i+1];
+															}
+															$hasil_AE = $AE[$i-1]/$nilai_sim[$i-1];
+															echo round($AE[$i],2);
+															$AE[$i]=0; 
+														?>
+													</td>
+													<td>
+														<?php 
+															for($i=0;$i<$c;$i++){
 																$AO[$i+1] = $AO[$i]+$AO[$i+1];
 															}
-															$hasil_AO = $AO[$i]/$nilai_sim[$i];
+															$hasil_AO = $AO[$i-1]/$nilai_sim[$i-1];
 															echo round($AO[$i],2); 
+															$AO[$i]=0;
 														?>
 													</td>
 													<td>
 														<?php 
-															for($i=0;$i<$c-1;$i++){
+															for($i=0;$i<$c;$i++){
 																$AP[$i+1] = $AP[$i]+$AP[$i+1];
 															}
-															$hasil_AP = $AP[$i]/$nilai_sim[$i];
+															$hasil_AP = $AP[$i-1]/$nilai_sim[$i-1];
 															echo round($AP[$i],2); 
+															$AP[$i]=0;
 														?>
 													</td>
 													<td>
 														<?php 
-															for($i=0;$i<$c-1;$i++){
+															for($i=0;$i<$c;$i++){
 																$ATK[$i+1] = $ATK[$i]+$ATK[$i+1];
 															}
-															$hasil_ATK = $ATK[$i]/$nilai_sim[$i];
-															echo round($ATK[$i],2); 
+															$hasil_ATK = $ATK[$i-1]/$nilai_sim[$i-1];
+															echo round($ATK[$i],2);
+															$ATK[$i]=0; 
 														?>
 													</td>
 													<td>
 														<?php 
-															for($i=0;$i<$c-1;$i++){
+															for($i=0;$i<$c;$i++){
 																$BS[$i+1] = $BS[$i]+$BS[$i+1];
 															}
-															$hasil_BS = $BS[$i]/$nilai_sim[$i];
+															$hasil_BS = $BS[$i-1]/$nilai_sim[$i-1];
 															echo round($BS[$i],2); 
+															$BS[$i]=0;
 														?>
 													</td>
 													<td>
 														<?php 
-															for($i=0;$i<$c-1;$i++){
-																if ($i>=0) {
-																	$NOV[$i+1] = $NOV[$i]+$NOV[$i+1];
-																}else{
-																	$NOV[$i+1] = $NOV[$i]+$NOV[$i+2];
-																}
+															for($i=0;$i<$c;$i++){
+																$MA[$i+1] = $MA[$i]+$MA[$i+1];
 															}
-															$hasil_NOV = $NOV[$i]/$nilai_sim[$i];
+															$hasil_MA = $MA[$i-1]/$nilai_sim[$i-1];
+															echo round($MA[$i],2); 
+															$MA[$i]=0;
+														?>
+													</td>
+													<td>
+														<?php 
+															for($i=0;$i<$c;$i++){
+																$NOV[$i+1] = $NOV[$i]+$NOV[$i+1];
+															}
+															$hasil_NOV = $NOV[$i-1]/$nilai_sim[$i-1];
 															echo round($NOV[$i],2); 
+															$NOV[$i]=0;
 														?>
 													</td>
 												</tr>
 												<tr>
 													<td colspan="3" align="right"><b>TOTAL / JML SIM</b></td>
+													<td><?php echo round($hasil_AE,2); ?></td>
 													<td><?php echo round($hasil_AO,2); ?></td>
 													<td><?php echo round($hasil_AP,2); ?></td>
 													<td><?php echo round($hasil_ATK,2); ?></td>
 													<td><?php echo round($hasil_BS,2); ?></td>
+													<td><?php echo round($hasil_MA,2); ?></td>
 													<td><?php echo round($hasil_NOV,2); ?></td>
 												</tr>
 											</thead>
@@ -406,20 +503,25 @@
 										<div class="col-md-12">
 								            <fieldset>
 								            	<?php
-								            		if (($hasil_AO >= $hasil_AP)AND($hasil_AO >= $hasil_ATK)AND($hasil_AO >= $hasil_BS)AND($hasil_AO >= $hasil_NOV)) {
+								            		if (($hasil_AE >= $hasil_AO)AND($hasil_AE >= $hasil_AP)AND($hasil_AE >= $hasil_ATK)AND($hasil_AE >= $hasil_BS)AND($hasil_AE >= $hasil_MA)AND($hasil_AE >$hasil_NOV)) {
+								            			$hasil = "Alat Elektronik";
+								            		}
+								            		if (($hasil_AO >= $hasil_AE)AND($hasil_AO >= $hasil_AP)AND($hasil_AO >= $hasil_ATK)AND($hasil_AO >= $hasil_BS)AND($hasil_AO >= $hasil_MA)AND($hasil_AO >= $hasil_NOV)) {
 								            			$hasil = "Alat Olahraga";
-								            		}else if (($hasil_AP >= $hasil_AO)AND($hasil_AP >= $hasil_ATK)AND($hasil_AP >= $hasil_BS)AND($hasil_AP >= $hasil_NOV)) {
+								            		}else if (($hasil_AP >= $hasil_AE)AND($hasil_AP >= $hasil_AO)AND($hasil_AP >= $hasil_ATK)AND($hasil_AP >= $hasil_BS)AND($hasil_AP >= $hasil_MA)AND($hasil_AP >= $hasil_NOV)) {
 								            			$hasil = "Alat Peraga";
-								            		}else if (($hasil_ATK >= $hasil_AO)AND($hasil_ATK >= $hasil_AP)AND($hasil_ATK >= $hasil_BS)AND($hasil_ATK >= $hasil_NOV)) {
+								            		}else if (($hasil_ATK >= $hasil_AE)AND($hasil_ATK >= $hasil_AO)AND($hasil_ATK >= $hasil_AP)AND($hasil_ATK >= $hasil_BS)AND($hasil_ATK >= $hasil_MA)AND($hasil_ATK >= $hasil_NOV)) {
 								            			$hasil = "ATK";
-								            		}else if (($hasil_BS >= $hasil_AO)AND($hasil_BS >= $hasil_AP)AND($hasil_BS >= $hasil_ATK)AND($hasil_BS >= $hasil_NOV)) {
+								            		}else if (($hasil_BS >= $hasil_AE)AND($hasil_BS >= $hasil_AO)AND($hasil_BS >= $hasil_AP)AND($hasil_BS >= $hasil_ATK)AND($hasil_BS >= $hasil_MA)AND($hasil_BS >= $hasil_NOV)) {
 								            			$hasil = "Buku Sekolah";
-								            		}else if (($hasil_NOV >= $hasil_AO)AND($hasil_NOV >= $hasil_AP)AND($hasil_NOV >= $hasil_ATK)AND($hasil_NOV >= $hasil_BS)) {
+								            		}else if (($hasil_MA >= $hasil_AE)AND($hasil_MA >= $hasil_AO)AND($hasil_MA >= $hasil_AP)AND($hasil_MA >= $hasil_ATK)AND($hasil_MA >= $hasil_BS)AND($hasil_MA >= $hasil_NOV)) {
+								            			$hasil = "Majalah";
+								            		}else if (($hasil_NOV >= $hasil_AE)AND($hasil_NOV >= $hasil_AO)AND($hasil_NOV >= $hasil_AP)AND($hasil_NOV >= $hasil_ATK)AND($hasil_NOV >= $hasil_BS)AND($hasil_NOV >= $hasil_MA)) {
 								            			$hasil = "Novel";
 								            		}
 								            	?>
 								            	<legend><h2><font color="green">Hasil Analisa</font></h2></legend>
-								            	<p>Kategori Produk yang direkomendasi untuk <b><font color="green"><?php echo strtoupper($nama_rekomendasi); ?></font></b> adalah <b><?php echo strtoupper($hasil); ?></b></p><br><br><br>
+								            	<p>Kategori Produk yang direkomendasi untuk <b><font color="green"><?php echo strtoupper($nama_rekomendasi); ?></font></b> adalah <b><?php echo strtoupper($hasil); ?></b></p>
 								            </fieldset>
 							            </div>
 					            		<?php
@@ -457,7 +559,7 @@
 
 				            			$nama_rekomendasi = $_POST['pelanggan_rekomendasi'];
 
-				            			$sql_nama = "SELECT DISTINCT nama_garansi FROM transaksi WHERE nama_garansi!='$nama_rekomendasi'";
+				            			$sql_nama = "SELECT DISTINCT nama_garansi FROM transaksi WHERE nama_garansi!='$nama_rekomendasi' ORDER BY nama_garansi ASC";
 										$result_nama = mysqli_query($db, $sql_nama);
 										$i=0;
 										while ($row_nama = mysqli_fetch_array($result_nama, MYSQLI_ASSOC)) {
@@ -534,15 +636,51 @@
 																
 																$n=0;
 																while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-																	$nama_kate_pro[$c][$n] = $row['nama_kategori'];
+																	$nama_kate_pro1[$c][$n] = $row['nama_kategori'];
 																	$n++;
 																}
+
+																$sql = "SELECT DISTINCT kategori_produk.nama_kategori FROM kategori_produk, produk, detail_transaksi, transaksi WHERE produk.id_kategori=kategori_produk.id_kategori AND detail_transaksi.id_produk=produk.id_produk AND transaksi.id_transaksi=detail_transaksi.id_transaksi AND transaksi.nama_garansi='".$nama[$y]."' ORDER BY nama_kategori ASC";
+
+																$result = mysqli_query($db, $sql);
+																$p=0;
+																while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+																	$nama_kate_pro[$c][$p] = $row['nama_kategori'];
+																	$p++;
+																}
+
 																$f=0;
 																$g=0;
-																for($j=0;$j<$sim[$z];$j++){
+																for($j=0;$j<=$sim[$z];$j++){
 
 																	if ($f==0) {
 																		if ($nama_kate_pro[$c][$j]==$nama_kate[0]) {
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*1;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$AE[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$g++;
+																					?>
+																				</td>
+																			<?php
+																		}else{
+																			?>
+																				<td>
+																					<?php  
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*0;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$AE[$c] = $temp_sim[$c][$j];
+																						echo round($temp_sim[$c][$j], 2);$f++;$g++;
+																					?>
+																				</td>
+																			<?php
+																		}
+																	}
+
+																	if ($f==1) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[1]) {
 																			?>
 																				<td>
 																					<?php 
@@ -567,8 +705,8 @@
 																		}
 																	}
 																	
-																	if ($f==1) {
-																		if ($nama_kate_pro[$c][$j]==$nama_kate[1]) {
+																	if ($f==2) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[2]) {
 																			?>
 																				<td>
 																					<?php 
@@ -593,8 +731,8 @@
 																		}
 																	}
 
-																	if ($f==2) {
-																		if ($nama_kate_pro[$c][$j]==$nama_kate[2]) {
+																	if ($f==3) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[3]) {
 																			?>
 																				<td>
 																					<?php
@@ -619,8 +757,8 @@
 																		}
 																	}
 
-																	if ($f==3) {
-																		if ($nama_kate_pro[$c][$j]==$nama_kate[3]) {
+																	if ($f==4) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[4]) {
 																			?>
 																				<td>
 																					<?php
@@ -638,22 +776,48 @@
 																						$temp_sim[$c][$j] = $nilai_sim[$z]*0;
 																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
 																						$BS[$c] = $temp_sim[$c][$j]; 
-																						echo round($temp_sim[$c][$j], 2);$f++;$g++;$g++;$g++; 
+																						echo round($temp_sim[$c][$j], 2);$f++;$g++; 
 																					?>
 																				</td>
 																			<?php
 																		}
 																	}
 
-																	if ($f==4) {
-																		if ($nama_kate_pro[$c][$j]==$nama_kate[4]) {
+																	if ($f==5) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[5]) {
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*1;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$MA[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$g++; 
+																					?>
+																				</td>
+																			<?php
+																		}else{
+																			?>
+																				<td>
+																					<?php 
+																						$temp_sim[$c][$j] = $nilai_sim[$z]*0;
+																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																						$MA[$c] = $temp_sim[$c][$j]; 
+																						echo round($temp_sim[$c][$j], 2);$f++;$g++; 
+																					?>
+																				</td>
+																			<?php
+																		}
+																	}
+
+																	if ($f==6) {
+																		if ($nama_kate_pro[$c][$j]==$nama_kate[6]) {
 																			?>
 																				<td>
 																					<?php 
 																						$temp_sim[$c][$j] = $nilai_sim[$z]*1;
 																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
 																						$NOV[$c] = $temp_sim[$c][$j]; 
-																						echo round($temp_sim[$c][$j], 2);$g++;$g++; 
+																						echo round($temp_sim[$c][$j], 2);$g++; 
 																					?>
 																				</td>
 																			<?php
@@ -664,7 +828,7 @@
 																						$temp_sim[$c][$j] = $nilai_sim[$z]*0;
 																						$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
 																						$NOV[$c] = $temp_sim[$c][$j]; 
-																						echo round($temp_sim[$c][$j], 2);$f++;$g++; 
+																						echo round($temp_sim[$c][$j], 2);$g++; 
 																					?>
 																				</td>
 																			<?php
@@ -674,9 +838,22 @@
 																}
 
 																while ($g<$jml_kategori) {
+																	if ($nama_kate_pro[$c][$j]==$nama_kate[6]) {
+																		?>
+																			<td>
+																				<?php 
+																					$temp_sim[$c][$j] = $nilai_sim[$z]*1;
+																					$jml_sim[$c][$j] = $jml_sim[$c][$j]+$temp_sim[$c][$j];
+																					$NOV[$c] = $temp_sim[$c][$j]; 
+																					echo round($temp_sim[$c][$j], 2);$g++; 
+																				?>
+																			</td>
+																		<?php
+																	}else{
 																	?>
 																		<td><?php echo $nilai_sim[$z]*0;$g++; ?></td>
 																	<?php
+																	}
 																} ?>
 
 															</tr>	
@@ -703,6 +880,15 @@
 												</tr>
 												<tr>
 													<td colspan="3" align="right"><b>TOTAL</b></td>
+													<td>
+														<?php 
+															for($i=0;$i<$c;$i++){
+																$AE[$i+1] = $AE[$i]+$AE[$i+1];
+															}
+															$hasil_AE = $AE[$i-1]/$nilai_sim[$i-1];
+															echo round($AE[$i],2); 
+														?>
+													</td>
 													<td>
 														<?php 
 															for($i=0;$i<$c;$i++){
@@ -742,6 +928,15 @@
 													<td>
 														<?php 
 															for($i=0;$i<$c;$i++){
+																$MA[$i+1] = $MA[$i]+$MA[$i+1];
+															}
+															$hasil_MA = $MA[$i-1]/$nilai_sim[$i-1];
+															echo round($MA[$i],2); 
+														?>
+													</td>
+													<td>
+														<?php 
+															for($i=0;$i<$c;$i++){
 																$NOV[$i+1] = $NOV[$i]+$NOV[$i+1];
 															}
 															$hasil_NOV = $NOV[$i-1]/$nilai_sim[$i-1];
@@ -751,10 +946,12 @@
 												</tr>
 												<tr>
 													<td colspan="3" align="right"><b>TOTAL / JML SIM</b></td>
+													<td><?php echo round($hasil_AE,2); ?></td>
 													<td><?php echo round($hasil_AO,2); ?></td>
 													<td><?php echo round($hasil_AP,2); ?></td>
 													<td><?php echo round($hasil_ATK,2); ?></td>
 													<td><?php echo round($hasil_BS,2); ?></td>
+													<td><?php echo round($hasil_MA,2); ?></td>
 													<td><?php echo round($hasil_NOV,2); ?></td>
 												</tr>
 											</thead>
@@ -762,15 +959,20 @@
 										<div class="col-md-12">
 								            <fieldset>
 								            	<?php
-								            		if (($hasil_AO >= $hasil_AP)AND($hasil_AO >= $hasil_ATK)AND($hasil_AO >= $hasil_BS)AND($hasil_AO >= $hasil_NOV)) {
+								            		if (($hasil_AE >= $hasil_AO)AND($hasil_AE >= $hasil_AP)AND($hasil_AE >= $hasil_ATK)AND($hasil_AE >= $hasil_BS)AND($hasil_AE >= $hasil_MA)AND($hasil_AE >$hasil_NOV)) {
+								            			$hasil = "Alat Elektronik";
+								            		}
+								            		if (($hasil_AO >= $hasil_AE)AND($hasil_AO >= $hasil_AP)AND($hasil_AO >= $hasil_ATK)AND($hasil_AO >= $hasil_BS)AND($hasil_AO >= $hasil_MA)AND($hasil_AO >= $hasil_NOV)) {
 								            			$hasil = "Alat Olahraga";
-								            		}else if (($hasil_AP >= $hasil_AO)AND($hasil_AP >= $hasil_ATK)AND($hasil_AP >= $hasil_BS)AND($hasil_AP >= $hasil_NOV)) {
+								            		}else if (($hasil_AP >= $hasil_AE)AND($hasil_AP >= $hasil_AO)AND($hasil_AP >= $hasil_ATK)AND($hasil_AP >= $hasil_BS)AND($hasil_AP >= $hasil_MA)AND($hasil_AP >= $hasil_NOV)) {
 								            			$hasil = "Alat Peraga";
-								            		}else if (($hasil_ATK >= $hasil_AO)AND($hasil_ATK >= $hasil_AP)AND($hasil_ATK >= $hasil_BS)AND($hasil_ATK >= $hasil_NOV)) {
+								            		}else if (($hasil_ATK >= $hasil_AE)AND($hasil_ATK >= $hasil_AO)AND($hasil_ATK >= $hasil_AP)AND($hasil_ATK >= $hasil_BS)AND($hasil_ATK >= $hasil_MA)AND($hasil_ATK >= $hasil_NOV)) {
 								            			$hasil = "ATK";
-								            		}else if (($hasil_BS >= $hasil_AO)AND($hasil_BS >= $hasil_AP)AND($hasil_BS >= $hasil_ATK)AND($hasil_BS >= $hasil_NOV)) {
+								            		}else if (($hasil_BS >= $hasil_AE)AND($hasil_BS >= $hasil_AO)AND($hasil_BS >= $hasil_AP)AND($hasil_BS >= $hasil_ATK)AND($hasil_BS >= $hasil_MA)AND($hasil_BS >= $hasil_NOV)) {
 								            			$hasil = "Buku Sekolah";
-								            		}else if (($hasil_NOV >= $hasil_AO)AND($hasil_NOV >= $hasil_AP)AND($hasil_NOV >= $hasil_ATK)AND($hasil_NOV >= $hasil_BS)) {
+								            		}else if (($hasil_MA >= $hasil_AE)AND($hasil_MA >= $hasil_AO)AND($hasil_MA >= $hasil_AP)AND($hasil_MA >= $hasil_ATK)AND($hasil_MA >= $hasil_BS)AND($hasil_MA >= $hasil_NOV)) {
+								            			$hasil = "Majalah";
+								            		}else if (($hasil_NOV >= $hasil_AE)AND($hasil_NOV >= $hasil_AO)AND($hasil_NOV >= $hasil_AP)AND($hasil_NOV >= $hasil_ATK)AND($hasil_NOV >= $hasil_BS)AND($hasil_NOV >= $hasil_MA)) {
 								            			$hasil = "Novel";
 								            		}
 								            	?>

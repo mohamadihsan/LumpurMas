@@ -1,92 +1,92 @@
 <?php
-    error_reporting(E_ALL & ~E_NOTICE);
-    session_start();
-    include '../../koneksi/koneksi.php';
-    include '../navbar.php';
-    include '../../asset/login/check_login_pegawai.php';
-    include '../../asset/login/check_login_pelanggan.php';
+error_reporting(E_ALL & ~E_NOTICE);
+session_start();
+include '../../koneksi/koneksi.php';
+include '../navbar.php';
+include '../../asset/login/check_login_pegawai.php';
+include '../../asset/login/check_login_pelanggan.php';
 
-    if (isset($_POST['pesan'])) {
-        
-        //inisialisasi
-        $produk = $_POST['produk'];
-        $jumlah_beli = $_POST['jumlah_beli'];
-        $id_pelanggan = $_SESSION['id_pelanggan'];
+if (isset($_POST['pesan'])) {
 
-        //insert ke pemesanan
-        $sql = "INSERT INTO pemesanan (id_pelanggan) VALUES(?)";
-        $stmt = $db->prepare($sql);
-        $stmt->bind_param('i', $id_pelanggan);
-        if($stmt->execute()){
-            $stmt->insert_id;
-            
-        }else{
+	//inisialisasi
+	$produk = $_POST['produk'];
+	$jumlah_beli = $_POST['jumlah_beli'];
+	$id_pelanggan = $_SESSION['id_pelanggan'];
 
-        }
-        $stmt->close();
+	//insert ke pemesanan
+	$sql = "INSERT INTO pemesanan (id_pelanggan) VALUES(?)";
+	$stmt = $db->prepare($sql);
+	$stmt->bind_param('i', $id_pelanggan);
+	if ($stmt->execute()) {
+		$stmt->insert_id;
 
-        //select id pemesanan
-        $sql = "SELECT id_pemesanan FROM pemesanan ORDER BY id_pemesanan DESC LIMIT 1";
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-        $stmt->bind_result($id_pemesanan);
-        $stmt->fetch();
-        $stmt->close();
+	} else {
 
-        for($i=0;$i<count($produk);$i++){
-            //insert ke detail transaksi
-            $sql = "INSERT INTO detail_pemesanan (id_pemesanan, id_produk, jumlah_beli) VALUES(?, ?, ?)";
-            $stmt = $db->prepare($sql);
-            $stmt->bind_param('isi', $id_pemesanan, $produk[$i], $jumlah_beli[$i]);
-            if($stmt->execute()){
-                
-            }else{
-                
-            }
-            $stmt->close();
-        }
+	}
+	$stmt->close();
 
-        //select data produk
-        $sql = "SELECT detail_pemesanan.id_pemesanan, detail_pemesanan.id_produk, jumlah_beli, harga FROM detail_pemesanan, pemesanan, produk WHERE detail_pemesanan.id_pemesanan='$id_pemesanan' AND pemesanan.id_pemesanan=detail_pemesanan.id_pemesanan AND detail_pemesanan.id_produk=produk.id_produk";
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
+	//select id pemesanan
+	$sql = "SELECT id_pemesanan FROM pemesanan ORDER BY id_pemesanan DESC LIMIT 1";
+	$stmt = $db->prepare($sql);
+	$stmt->execute();
+	$stmt->bind_result($id_pemesanan);
+	$stmt->fetch();
+	$stmt->close();
 
-        $stmt->bind_result($id_pemesanan, $id_produk, $jumlah_beli, $harga);
+	for ($i = 0; $i < count($produk); $i++) {
+		//insert ke detail transaksi
+		$sql = "INSERT INTO detail_pemesanan (id_pemesanan, id_produk, jumlah_beli) VALUES(?, ?, ?)";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param('isi', $id_pemesanan, $produk[$i], $jumlah_beli[$i]);
+		if ($stmt->execute()) {
 
-        $total_bayar = 0;
+		} else {
 
-        while ($stmt->fetch()) {
-            $total_bayar = $total_bayar + ($harga*$jumlah_beli);
-        }
+		}
+		$stmt->close();
+	}
 
-        $_SESSION['total_bayar'] = $total_bayar;
-        $stmt->close(); 
+	//select data produk
+	$sql = "SELECT detail_pemesanan.id_pemesanan, detail_pemesanan.id_produk, jumlah_beli, harga FROM detail_pemesanan, pemesanan, produk WHERE detail_pemesanan.id_pemesanan='$id_pemesanan' AND pemesanan.id_pemesanan=detail_pemesanan.id_pemesanan AND detail_pemesanan.id_produk=produk.id_produk";
+	$stmt = $db->prepare($sql);
+	$stmt->execute();
 
-        if ($_SESSION['total_bayar']>=2000000) {
-            //Update Pemesanan
-            $sql = "UPDATE pemesanan SET total_bayar = ? WHERE id_pemesanan = ?";
-            $stmt = $db->prepare($sql);
-            $stmt->bind_param('ii', $total_bayar, $id_pemesanan);
-            if($stmt->execute()){
-                ?><body onload="BerhasilOrder()"></body><?php
-            }else{
-                ?><body onload="TerjadiKesalahan()"></body><?php
-            }
-            $stmt->close(); 
-        }else{
+	$stmt->bind_result($id_pemesanan, $id_produk, $jumlah_beli, $harga);
 
-            //hapus dari tabel user
-            $sql = "DELETE FROM pemesanan WHERE id_pemesanan = ?";
-            $stmt = $db->prepare($sql);
-            $stmt->bind_param('i', $id_pemesanan);
-            if($stmt->execute()){
-                ?><body onload="OrderDitolak()"></body><?php
-            }else{
-                
-            }
-            $stmt->close();
-        }
-    }    
+	$total_bayar = 0;
+
+	while ($stmt->fetch()) {
+		$total_bayar = $total_bayar + ($harga * $jumlah_beli);
+	}
+
+	$_SESSION['total_bayar'] = $total_bayar;
+	$stmt->close();
+
+	if ($_SESSION['total_bayar'] >= 2000000) {
+		//Update Pemesanan
+		$sql = "UPDATE pemesanan SET total_bayar = ? WHERE id_pemesanan = ?";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param('ii', $total_bayar, $id_pemesanan);
+		if ($stmt->execute()) {
+			?><body onload="BerhasilOrder()"></body><?php
+} else {
+			?><body onload="TerjadiKesalahan()"></body><?php
+}
+		$stmt->close();
+	} else {
+
+		//hapus dari tabel user
+		$sql = "DELETE FROM pemesanan WHERE id_pemesanan = ?";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param('i', $id_pemesanan);
+		if ($stmt->execute()) {
+			?><body onload="OrderDitolak()"></body><?php
+} else {
+
+		}
+		$stmt->close();
+	}
+}
 ?>
 
 <!DOCTYPE html>
@@ -115,7 +115,7 @@
 
     <!-- Select2 -->
     <link rel="stylesheet" href="../../bootstrap/plugins/select2/select2.min.css">
-    
+
     <!-- SweetAlert -->
     <link rel="stylesheet" type="text/css" href="../../bootstrap/dist/sweet/sweetalert.css">
 
@@ -145,22 +145,22 @@
 
         function BerhasilOrder(){
             swal({
-                title: "Total Pemesanan anda : Rp.<?php echo $_SESSION['total_bayar']; ?>",      
-                text: "List Pemesanan berhasil dikirim. Silahkan tunggu konfirmasi dari kami!", 
+                title: "Total Pemesanan anda : Rp.<?php echo $_SESSION['total_bayar']; ?>",
+                text: "List Pemesanan berhasil dikirim. Silahkan tunggu konfirmasi dari kami!",
                 showConfirmButton: true });
         }
 
         function OrderDitolak(){
             swal({
-                title: "Maaf",      
-                text: "Total Pemesanan anda : Rp.<?php echo $_SESSION['total_bayar']; ?> dan masih kurang dari 2 juta",   
+                title: "Maaf",
+                text: "Total Pemesanan anda : Rp.<?php echo $_SESSION['total_bayar']; ?> dan masih kurang dari 2 juta",
                 showConfirmButton: true });
         }
 
         function TerjadiKesalahan(){
             swal({
-                title: "Ooops",      
-                text: "Terjadi kesalahan dalam proses pemesanan",   
+                title: "Ooops",
+                text: "Terjadi kesalahan dalam proses pemesanan",
                 showConfirmButton: true });
         }
     </script>
@@ -169,14 +169,14 @@
 <body>
 
     <!-- include navbar-->
-    <?php Navbar(); ?>
+    <?php Navbar();?>
 
     <!-- Page Content -->
     <div class="container">
 
         <?php
-        if (!empty($_SESSION['username']) OR !empty($_SESSION['id_pelanggan'])) {
-            ?>
+if (!empty($_SESSION['username']) OR !empty($_SESSION['id_pelanggan'])) {
+	?>
             <!-- Page Heading/Breadcrumbs -->
             <div class="row">
                 <div class="col-lg-12">
@@ -204,23 +204,26 @@
                                     <div class="col-md-10">
                                         <div class="form-group">
                                             <?php
-                                                //select produk
-                                                $sql = "SELECT id_produk, nama_produk, harga, status_produk, url, id_kategori, kode_produk FROM produk ORDER BY nama_produk ASC";                           
-                                                $stmt = $db->prepare($sql);
-                                                $stmt->execute();
+//select produk
+	$sql = "SELECT id_produk, nama_produk, harga, status_produk, url, id_kategori, kode_produk FROM produk ORDER BY nama_produk ASC";
+	$stmt = $db->prepare($sql);
+	$stmt->execute();
 
-                                                $stmt->bind_result($id_produk, $nama_produk, $harga, $status_produk, $url, $id_kategori, $kode_produk);
-                                            ?>
+	$stmt->bind_result($id_produk, $nama_produk, $harga, $status_produk, $url, $id_kategori, $kode_produk);
+	?>
                                             <select class="form-control select" style="width: 100%;" name="produk[]" required>
                                                 <option selected="selected">Pilih Produk</option>
                                                 <?php
-                                                    while ($stmt->fetch()) {
-                                                        ?>
-                                                            <option value="<?php echo $id_produk;?>"><?php echo $nama_produk; if($status_produk == "DG" OR $status_produk == "G") echo "(Garansi)"; ?></option>
+while ($stmt->fetch()) {
+		?>
+                                                            <option value="<?php echo $id_produk; ?>"><?php echo $nama_produk;if ($status_produk == "DG" OR $status_produk == "G") {
+			echo "(Garansi)";
+		}
+		?></option>
                                                         <?php
-                                                    }
-                                                    $stmt->close();
-                                                ?>
+}
+	$stmt->close();
+	?>
                                             </select>
                                         </div>
                                         <!-- /.form-group -->
@@ -231,12 +234,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-12" align="right">
                                     <a href="javascript:TambahProduk()"><i class="fa fa-plus"></i> Tambah Produk</a>
                                 </div>
                             </div>
-                            <!-- /.col --> 
+                            <!-- /.col -->
                             <div class="col-md-6">
                                 <div class="col-md-2"></div>
                                 <div class="col-md-6">
@@ -250,94 +253,21 @@
                                     <p>Pemesanan hanya dapat dilakukan untuk total pembelian lebih dari Rp.2.000.000,- (dua juta rupiah)</p>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-12">
                                 <div class="col-md-12">
                                     <button class="btn btn-primary" name="pesan">Pesan</button>
-                                </div>    
-                            </div>  
+                                </div>
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </form>
                 </div>
             </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">
-                        <small>History Pemesanan</small>
-                    </h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="box-body">
-                    <?php
 
-                        function Tanggal($tanggal){
-                            $BulanIndo = array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-                            $tahun = substr($tanggal, 0, 4);
-                            $bulan = substr($tanggal, 5, 2);
-                            $tgl = substr($tanggal, 8, 2);
-
-                            $hasil = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
-                            return($hasil);
-                        }
-
-                        //Tampilkan Data Transaksi 
-                        $sql = "SELECT id_pemesanan, tgl_pemesanan, status_pemesanan, total_bayar, tgl_pengambilan FROM pemesanan WHERE id_pelanggan='".$_SESSION['id_pelanggan']."'";                            
-                        $stmt = $db->prepare($sql);
-                        $stmt->execute();
-
-                        $stmt->bind_result($id_pemesanan, $tgl_pemesanan, $status_pemesanan, $total_bayar, $tgl_pengambilan);
-                    ?>
-
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID Pemesanan</th>
-                                <th>Tanggal Pemesanan</th>
-                                <th>Status</th>
-                                <th>Total Bayar</th>
-                                <th>Tanggal Pengambilan</th>
-                            </tr>
-                        </thead>
-                        <tbody> 
-                            <?php
-                            while ($stmt->fetch()) {
-                            ?>
-                            <tr>
-                                <td><?php echo $id_pemesanan; ?></td>
-                                <td><?php echo Tanggal($tgl_pemesanan); ?></td>
-                                <td>
-                                    <?php if ($status_pemesanan=="BL") {
-                                        echo "Belum Dibayar";
-                                    }else{
-                                        echo "Sudah Dibayar";
-                                    } ?>
-                                </td>
-                                <td>
-                                    <?php 
-                                        //format rupiah
-                                        $jumlah_desimal ="2";
-                                        $pemisah_desimal =",";
-                                        $pemisah_ribuan =".";
-
-                                        echo "Rp." .number_format($total_bayar, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan); 
-                                    ?>
-                                </td>
-                               <td><?php echo Tanggal($tgl_pengambilan); ?></td>
-                            </tr>   
-                            <?php
-                            }   
-                            $stmt->close();            
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>    
             <?php
-        }else{
-            ?>
+} else {
+	?>
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
@@ -349,8 +279,8 @@
                     </div>
                 </div>
             <?php
-        }
-        ?>
+}
+?>
 
         <hr>
 
@@ -368,7 +298,7 @@
 
     <!-- jQuery 2.2.0 -->
     <script src="../../bootstrap/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-    
+
     <!-- jQuery -->
     <script src="../../bootstrap/bootstrap/js/jquery.js"></script>
 
@@ -423,17 +353,17 @@
 
         function BerhasilMengirimPesanan(){
             swal({
-            title: "Berhasil",      
-            text: "Proses pemesanan berhasil dikirim.",   
-            timer: 1000,  
+            title: "Berhasil",
+            text: "Proses pemesanan berhasil dikirim.",
+            timer: 1000,
             showConfirmButton: false });
         }
 
         function GagalMengirimPesanan(){
-            swal({      
+            swal({
             title: "Ooops",
-            text: "Proses pemesanan gagal dikirim.",   
-            timer: 1000,  
+            text: "Proses pemesanan gagal dikirim.",
+            timer: 1000,
             showConfirmButton: false });
         }
     </script>

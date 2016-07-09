@@ -1,29 +1,19 @@
 <?php
-	session_start();
-	include '../../koneksi/koneksi.php';
-	include '../../fungsi/register/index.php';
-	include '../../fungsi/sidebar/index.php';
+error_reporting(E_ALL & ~E_NOTICE);
+session_start();
+include '../../koneksi/koneksi.php';
+include '../../fungsi/register/index.php';
+include '../../fungsi/sidebar/index.php';
 
-	Sidebar();
-	?>
-	<section class="content-header">
-      	<h1>
-        	Buat Akun Pegawai Baru
-        	<small></small>
-      	</h1>
-      	<ol class="breadcrumb">
-        	<li><a href="../pegawai/"><i class="fa fa-user"></i> Pegawai</a></li>
-        	<li class="active">Buat Akun Baru</li>
-      	</ol>
-	</section>
-	<?php
+FormRegisterPengunjung();
 
-	if (!empty($_SESSION['username']) AND !empty($_SESSION['jabatan'])) {
-		FormRegister();
-	}else{
-		FormRegisterPengunjung();
-	}
-
-	CloseSidebar();
-
+if (isset($_POST['buat_akun'])) {
+	//jika tombol submit ditekan maka excute fungsi ini
+	TambahMember();
+	if ($_SESSION['status_operasi_tm'] == "berhasil_menyimpan") {
+		?> <body onload="BerhasilMenyimpan()"></body><meta http-equiv="refresh" content="1;url=../login/"><?php
+} else if ($_SESSION['status_operasi_tm'] == "gagal_menyimpan") {
+		?> <body onload="GagalMenyimpan()"></body><?php
+}
+}
 ?>

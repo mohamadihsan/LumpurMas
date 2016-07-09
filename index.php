@@ -1,8 +1,8 @@
 <?php
-	error_reporting(E_ALL & ~E_NOTICE);
-    session_start();
-    include 'koneksi/koneksi.php';
-	include 'asset/login/check_login_pelanggan.php';
+error_reporting(E_ALL & ~E_NOTICE);
+session_start();
+include 'koneksi/koneksi.php';
+include 'asset/login/check_login_pelanggan.php';
 ?>
 
 <!DOCTYPE html>
@@ -60,15 +60,30 @@
                     </li>
                     <!-- LOGIN -->
                     <?php
-                        if (!empty($user_check) AND !empty($id_pelanggan)) {
-                            ?>
+if (!empty($user_check) AND !empty($id_pelanggan)) {
+	?>
+                            <!-- MENU KOTAK INFORMASI -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <?php $_SESSION['nama_pelanggan']; ?>
-                                    <?php  echo "Selamat datang," .$nama_pelanggan; ?> 
+                                    Kotak Informasi
                                     <b class="caret"></b>
                                 </a>
-                                <ul class="dropdown-menu">                                 
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="halaman/info_pemesanan/">Info Pemesanan</a>
+                                    </li>
+                                    <li>
+                                        <a href="halaman/info_keluhan/">Info Keluhan</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <?php $_SESSION['nama_pelanggan'];?>
+                                    <?php echo "Selamat datang," . $nama_pelanggan; ?>
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
                                     <li>
                                         <a href="asset/lupa_password/">Lupa Password</a>
                                     </li>
@@ -76,16 +91,16 @@
                                     <li>
                                         <a href="asset/logout/">Logout</a>
                                     </li>
-                                </ul>        
+                                </ul>
                             <?php
-                        }else{
-                            ?>
+} else {
+	?>
                             <li>
                                 <a href="asset/login/">Login</a>
                             </li>
                             <?php
-                        }
-                    ?>
+}
+?>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

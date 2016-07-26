@@ -8,7 +8,7 @@
 	if (empty($_SESSION['username']) OR empty($_SESSION['id_pelanggan'])) {
 		header('location:../login/');
 	}
-	
+
 		//jika manager yang masuk
 		if (!empty($_SESSION['username']) OR !empty($_SESSION['id_pelanggan'])) {
 
@@ -167,8 +167,9 @@
 					  			<legend>Informasi User</legend>
 					  		</fieldset>
 					  		<?php
-					  		//Get Data Pelanggan 
-							$sql = "SELECT pelanggan.id_pelanggan, pelanggan.nama, pelanggan.alamat, pelanggan.no_telp, pelanggan.email, user.id_user, user.username FROM pelanggan, user WHERE user.id_user=pelanggan.id_user";							
+					  		//Get Data Pelanggan
+					  		$user_log = $_SESSION['username'];
+							$sql = "SELECT pelanggan.id_pelanggan, pelanggan.nama, pelanggan.alamat, pelanggan.no_telp, pelanggan.email, user.id_user, user.username FROM pelanggan, user WHERE user.id_user=pelanggan.id_user AND user.username='$user_log'";
 							$stmt = $db->prepare($sql);
 							$stmt->execute();
 

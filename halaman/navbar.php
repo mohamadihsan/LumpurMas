@@ -59,7 +59,7 @@ function Navbar() {
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                <a href="../../asset/profil_pelanggan/">Profil</a>
+                                                <a href="../../asset/profil_pelanggan/">Pengaturan Akun</a>
                                             </li>
                                             <li>
                                                 <a href="../../asset/logout/">Logout</a>

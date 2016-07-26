@@ -85,7 +85,7 @@ include 'asset/login/check_login_pelanggan.php';
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="asset/profil_pelanggan/">Profil</a>
+                                    <a href="asset/profil_pelanggan/">Pengaturan Akun</a>
                                 </li>
 
                                 <li>

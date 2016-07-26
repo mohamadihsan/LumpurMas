@@ -113,7 +113,7 @@ function Sidebar() {
 				              				<!-- Menu Footer-->
 							              	<li class="user-footer">
 							                	<div class="pull-left">
-							                  		<a href="../profil_pegawai/" class="btn btn-default btn-flat">Profil</a>
+							                  		<a href="../profil_pegawai/" class="btn btn-default btn-flat">Pengaturan Akun</a>
 							                	</div>
 							                	<div class="pull-right">
 							                  		<a href="../logout/" class="btn btn-default btn-flat">Keluar</a>

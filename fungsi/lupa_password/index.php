@@ -30,6 +30,11 @@ function FormLupaPassword() {
 			  	</div>
 			  	<div class="login-box-body">
 			    	<form action="" method="post">
+			    		<div class="form-group has-feedback">
+				      		<label>Username</label>
+				        	<input type="text" name="username" class="form-control" placeholder="Masukkan Username Anda-" required autofocus>
+				        	<span class="glyphicon glyphicon-user form-control-feedback"></span>
+				      	</div>
 				      	<div class="form-group has-feedback">
 				      		<label>Masukkan No Telepon Anda</label>
 				        	<input type="phone" name="no_telp" class="form-control" placeholder="08xxxxxxxxxx-" required autofocus>
@@ -99,10 +104,28 @@ function KirimPassword() {
 	$no_telp = $_POST['no_telp'];
 	$pesan = "[LUMPUR MAS] - Silahkan login dengan menggunakan password : ";
 	$password = randomPass();
+	$save_password = md5($password);
 
 	//Kirim sms dengan smsgateway
 	if (exec('cd ../../gammu/bin && gammu -c smsdrc sendsms TEXT ' . $no_telp . ' -text "' . $pesan . $password . '"')) {
 		$_SESSION['kirim_password'] = "berhasil_dikirim";
+
+		//update password
+		include '../../koneksi/koneksi.php';
+
+		//inisialisasi
+		$username = $_POST['username'];
+
+		//update ke tabel pegawai
+		$sql = "UPDATE user SET password = ? WHERE username = ?";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param('ss', $save_password, $username);
+		if($stmt->execute()){
+			$_SESSION['status_operasi_tr'] = "berhasil_dikirim";
+		}else{
+			$_SESSION['status_operasi_tr'] = "gagal_dikirim";
+		}
+		$stmt->close();
 	} else {
 		$_SESSION['kirim_password'] = "gagal_dikirim";
 	}

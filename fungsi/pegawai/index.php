@@ -68,6 +68,28 @@
 		$stmt->close();
 	}
 
+	function EditProfilPegawai()
+	{
+		include '../../koneksi/koneksi.php';
+
+		//inisialisasi
+		$id_user = $_POST['id_user'];
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$password = md5($password);
+
+		//update ke tabel pegawai
+		$sql = "UPDATE user SET username = ?, password = ? WHERE id_user = ?";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param('ssi', $username, $password, $id_user);
+		if($stmt->execute()){
+			$_SESSION['status_operasi_pg'] = "berhasil_mengupdate";
+		}else{
+			$_SESSION['status_operasi_pg'] = "gagal_mengupdate";
+		}
+		$stmt->close();
+	}
+
 	/*========================= HAPUS DATA PEGAWAI ========================*/
 	function HapusDataPegawai()
 	{

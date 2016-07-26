@@ -19,18 +19,25 @@ if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur" OR $
 		HapusDataRekomendasiBelumDikirim();
 		if ($_SESSION['status_operasi_rek'] == "berhasil_menghapus") {
 			?> <body onload="BerhasilMenghapus()"></body><?php
-} else if ($_SESSION['status_operasi_rek'] == "gagal_menghapus") {
-			?> <body onload="GagalMenghapus()"></body><?php
-}
+		} else if ($_SESSION['status_operasi_rek'] == "gagal_menghapus") {
+					?> <body onload="GagalMenghapus()"></body><?php
+		}
 	}
 
-	if (isset($_POST['kirim_rekomendasi'])) {
+	//KIRIM SMS
+	if (isset($_POST['kirim_rekomendasi'])OR isset($_POST['kirim_sms'])) {
 		//matikan service gammu
 		exec('cd ../../gammu/bin && gammu-smsd -c smsdrc -u');
 		//nyalakan service gammu
 		exec('cd ../../gammu/bin && gammu-smsd -c smsdrc -i');
 
-		$sql = "SELECT id, nama, no_telp, kategori_produk FROM rekomendasi WHERE status_kirim='BD'";
+		if (isset($_POST['kirim_rekomendasi'])) {
+			$sql = "SELECT id, nama, no_telp, kategori_produk FROM rekomendasi WHERE status_kirim='BD'";
+		}else if (isset($_POST['kirim_sms'])) {
+			$id_rekomendasi = $_POST['id_rekomendasi'];
+			$sql = "SELECT id, nama, no_telp, kategori_produk FROM rekomendasi WHERE id=$id_rekomendasi AND status_kirim='BD'";
+		}
+		
 		$result = mysqli_query($db, $sql);
 		$i = 0;
 		while ($rows = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -97,9 +104,9 @@ if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur" OR $
 
 		if ($_SESSION['status_operasi_kirim_rek'] == "berhasil_mengirim") {
 			?> <body onload="BerhasilMengirimRekomendasi()"></body><?php
-} else if ($_SESSION['status_operasi_kirim_rek'] == "gagal_mengirim") {
-			?> <body onload="GagalMengirimRekomendasi()"></body><?php
-}
+		} else if ($_SESSION['status_operasi_kirim_rek'] == "gagal_mengirim") {
+					?> <body onload="GagalMengirimRekomendasi()"></body><?php
+		}
 	}
 	?>
 
@@ -122,15 +129,15 @@ if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur" OR $
 	        	<div class="col-xs-12">
 
 					<?php
-//Tampilkan Data Pelanggan Rekomendasi
-	$sql = "SELECT nama, no_telp, kategori_produk, status_kirim FROM rekomendasi WHERE status_kirim='BD'";
-	$stmt = $db->prepare($sql);
-	$stmt->execute();
-	$stmt->store_result();
-	$rows = $stmt->num_rows;
-	$stmt->bind_result($nama, $no_telp, $kategori_produk, $status_kirim);
+						//Tampilkan Data Pelanggan Rekomendasi
+						$sql = "SELECT id, nama, no_telp, kategori_produk, status_kirim FROM rekomendasi WHERE status_kirim='BD'";
+						$stmt = $db->prepare($sql);
+						$stmt->execute();
+						$stmt->store_result();
+						$rows = $stmt->num_rows;
+						$stmt->bind_result($id, $nama, $no_telp, $kategori_produk, $status_kirim);
 
-	?>
+					?>
 					<div class="box">
 	            		<div class="box-header with-border">
 	              			<h3 class="box-title">Rekomendasi Kategori Produk untuk Pelanggan</h3>
@@ -148,41 +155,48 @@ if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur" OR $
 										<th>Telp</th>
 										<th>Kategori Produk</th>
 										<th>Status</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
 									<?php
-while ($stmt->fetch()) {
-		?>
+									while ($stmt->fetch()) {
+									?>
 									<tr>
 										<td><?php echo $nama; ?></td>
 										<td><?php echo $no_telp; ?></td>
 										<td><?php echo $kategori_produk; ?></td>
 										<td>
 											<?php
-if ($status_kirim == "BD") {
-			echo "Belum Dikirim";
-		} else {
-			echo "Sudah Dikirim";
-		}
-		?>
+											if ($status_kirim == "BD") {
+												echo "Belum Dikirim";
+											} else {
+												echo "Sudah Dikirim";
+											}
+											?>
+										</td>
+										<td>
+											<center>
+												<form method="post" action="">
+													<input type="text" name="id_rekomendasi" value="<?php echo $id; ?>" hidden>
+													<input type="submit" class="btn btn-primary" name="kirim_sms" value="Kirim SMS">
+												</form>
+											</center>	
 										</td>
 									</tr>
 									<?php
-}
-	$stmt->close();
-	?>
+									} $stmt->close();?>
 								</tbody>
 							</table>
 							<?php
-if (($jabatan == "pemasaran") AND !empty($status_kirim)) {
-		$sql = "SELECT COUNT(*) FROM rekomendasi WHERE status_kirim='BD'";
-		$stmt = $db->prepare($sql);
-		$stmt->execute();
-		$stmt->bind_result($jml_pelanggan);
-		$stmt->fetch();
-		$stmt->close();
-		?>
+								if (($jabatan == "pemasaran") AND !empty($status_kirim)) {
+										$sql = "SELECT COUNT(*) FROM rekomendasi WHERE status_kirim='BD'";
+										$stmt = $db->prepare($sql);
+										$stmt->execute();
+										$stmt->bind_result($jml_pelanggan);
+										$stmt->fetch();
+										$stmt->close();
+										?>
 
 									<!-- tampilkan kotak pengiriman pesan -->
 									<table>
@@ -207,20 +221,19 @@ if (($jabatan == "pemasaran") AND !empty($status_kirim)) {
 												</div>
 											</th>
 											<?php
-if ($jml_pelanggan > 0) {
-			?>
-													<th>
-														<form method="post" action="">
-															<input class="btn btn-danger" type="submit" value="Hapus" title="Hapus Rekomendasi yang belum di kirim" name="hapus">
-														</form>
-													</th>
-												<?php
-}?>
+											if ($jml_pelanggan > 0) {
+														?>
+												<th>
+													<form method="post" action="">
+														<input class="btn btn-danger" type="submit" value="Hapus" title="Hapus Rekomendasi yang belum di kirim" name="hapus">
+													</form>
+												</th>
+											<?php
+											}?>
 										</tr>
 									</table>
 									<?php
-}
-	?>
+								} ?>
 						</div>
 						<!-- /.box-body -->
 					</div>

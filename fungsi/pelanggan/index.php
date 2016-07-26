@@ -27,13 +27,30 @@
 		include '../../koneksi/koneksi.php';
 
 		//inisialisasi
-		$nama_kategori = $_POST['nama_kategori'];
-		$id_kategori_produk = $_POST['id_kategori'];
+		$nama = $_POST['nama'];
+		$no_telp = $_POST['no_telp'];
+		$email = $_POST['email'];
+		$alamat = $_POST['alamat'];
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$id_pelanggan = $_POST['id_pelanggan'];
+		$id_user = $_POST['id_user'];
 
-		//update ke tabel pegawai
-		$sql = "UPDATE kategori_produk SET nama_kategori = ? WHERE id_kategori = ?";
+		//update ke tabel pelanggan
+		$sql = "UPDATE pelanggan SET nama = ?, alamat = ?, no_telp = ?, email = ? WHERE id_pelanggan = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('si', $nama_kategori, $id_kategori_produk);
+		$stmt->bind_param('ssssi', $nama, $alamat, $no_telp, $email, $id_pelanggan);
+		if($stmt->execute()){
+			$_SESSION['status_operasi_kp'] = "berhasil_memperbaharui";
+		}else{
+			$_SESSION['status_operasi_kp'] = "gagal_memperbaharui";
+		}
+		$stmt->close();
+
+		//update ke tabel user
+		$sql = "UPDATE user SET username = ?, password = ? WHERE id_user = ?";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param('ssi', $username, $password, $id_user);
 		if($stmt->execute()){
 			$_SESSION['status_operasi_kp'] = "berhasil_memperbaharui";
 		}else{

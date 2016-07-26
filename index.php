@@ -60,47 +60,47 @@ include 'asset/login/check_login_pelanggan.php';
                     </li>
                     <!-- LOGIN -->
                     <?php
-if (!empty($user_check) AND !empty($id_pelanggan)) {
-	?>
-                            <!-- MENU KOTAK INFORMASI -->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    Kotak Informasi
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="halaman/info_pemesanan/">Info Pemesanan</a>
-                                    </li>
-                                    <li>
-                                        <a href="halaman/info_keluhan/">Info Keluhan</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <?php $_SESSION['nama_pelanggan'];?>
-                                    <?php echo "Selamat datang," . $nama_pelanggan; ?>
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="asset/lupa_password/">Lupa Password</a>
-                                    </li>
+                    if (!empty($user_check) AND !empty($id_pelanggan)) {
+                       ?>
+                        <!-- MENU KOTAK INFORMASI -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Kotak Informasi
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="halaman/info_pemesanan/">Info Pemesanan</a>
+                                </li>
+                                <li>
+                                    <a href="halaman/info_keluhan/">Info Keluhan</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <?php $_SESSION['nama_pelanggan'];?>
+                                <?php echo "Selamat datang," . $nama_pelanggan; ?>
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="asset/profil_pelanggan/">Profil</a>
+                                </li>
 
-                                    <li>
-                                        <a href="asset/logout/">Logout</a>
-                                    </li>
-                                </ul>
-                            <?php
-} else {
-	?>
-                            <li>
-                                <a href="asset/login/">Login</a>
-                            </li>
-                            <?php
-}
-?>
+                                <li>
+                                    <a href="asset/logout/">Logout</a>
+                                </li>
+                            </ul>
+                        <?php
+                    } else {
+                    	?>
+                        <li>
+                            <a href="asset/login/">Login</a>
+                        </li>
+                        <?php
+                    }
+                    ?>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

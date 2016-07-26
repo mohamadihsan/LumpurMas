@@ -74,18 +74,17 @@
 					                  	<th>Nama</th>
 										<th>No Telp</th>
 										<th>Email</th>
-										<th>Poin</th>
 										<th>Alamat</th>
 					                </tr>
 					                </thead>
 					                <tbody>
 					                <?php
 					                	//Tampilkan Data Pelanggan 
-										$sql = "SELECT nama, alamat, no_telp, email, poin, id_user FROM pelanggan";							
+										$sql = "SELECT nama, alamat, no_telp, email, id_user FROM pelanggan";							
 										$stmt = $db->prepare($sql);
 										$stmt->execute();
 
-										$stmt->bind_result($nama, $alamat, $no_telp, $email, $poin, $id_user);
+										$stmt->bind_result($nama, $alamat, $no_telp, $email, $id_user);
 
 										while ($stmt->fetch()) {
 										?>
@@ -93,7 +92,6 @@
 												<td><?php echo $nama; ?></td>
 												<td><?php echo $no_telp; ?></td>
 												<td><?php echo $email; ?></td>
-												<td><?php echo $poin; ?></td>
 												<td><?php echo $alamat; ?></td>
 											</tr>
 											<?php

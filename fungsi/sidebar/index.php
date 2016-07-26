@@ -113,7 +113,7 @@ function Sidebar() {
 				              				<!-- Menu Footer-->
 							              	<li class="user-footer">
 							                	<div class="pull-left">
-							                  		<a href="../lupa_password/" class="btn btn-default btn-flat">Lupa Password</a>
+							                  		<a href="../profil_pegawai/" class="btn btn-default btn-flat">Profil</a>
 							                	</div>
 							                	<div class="pull-right">
 							                  		<a href="../logout/" class="btn btn-default btn-flat">Keluar</a>
@@ -145,18 +145,18 @@ function Sidebar() {
 					        	<!-- MENU HALAMAN UTAMA -->
 					        	<li class="treeview">
 					        		<?php
-if ($_SESSION['jabatan'] == "manager") {
-		$url = "../manager/";
-	} else if ($_SESSION['jabatan'] == "direktur") {
-		$url = "../direktur/";
-	} else if ($_SESSION['jabatan'] == "pemasaran") {
-		$url = "../pemasaran/";
-	} else if ($_SESSION['jabatan'] == "administrasi") {
-		$url = "../administrasi/";
-	} else if ($_SESSION['jabatan'] == "inventori") {
-		$url = "../inventori/";
-	}
-	?>
+									if ($_SESSION['jabatan'] == "manager") {
+										$url = "../manager/";
+									} else if ($_SESSION['jabatan'] == "direktur") {
+										$url = "../direktur/";
+									} else if ($_SESSION['jabatan'] == "pemasaran") {
+										$url = "../pemasaran/";
+									} else if ($_SESSION['jabatan'] == "administrasi") {
+										$url = "../administrasi/";
+									} else if ($_SESSION['jabatan'] == "inventori") {
+										$url = "../inventori/";
+									}
+									?>
 							        <a href="<?php echo $url; ?>">
 							            <i class="fa fa-dashboard"></i>
 							            <span>Halaman Utama</span>
@@ -165,157 +165,157 @@ if ($_SESSION['jabatan'] == "manager") {
 
 							    <!-- MENU PEGAWAI -->
 							     <?php
-if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur") {
-		?>
-							    			<li class="treeview">
-										        <a href="../pegawai/">
-										            <i class="fa fa-users"></i>
-										            <span>Pegawai</span>
-										        </a>
-							    			</li>
-							    		<?php
-}
-	?>
+								if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur") {
+								?>
+					    			<li class="treeview">
+								        <a href="../pegawai/">
+								            <i class="fa fa-users"></i>
+								            <span>Pegawai</span>
+								        </a>
+					    			</li>
+					    		<?php
+								}
+								?>
 
 							    <!-- MENU KATEGORI PRODUK -->
 							    <?php
-if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "inventori") {
-		?>
-							    			<li class="treeview">
-										        <a href="../kategori_produk/">
-										            <i class="fa fa-list-alt"></i>
-										            <span>Kategori Produk</span>
-										        </a>
-							    			</li>
-							    		<?php
-}
-	?>
+								if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "inventori") {
+									?>
+						    			<li class="treeview">
+									        <a href="../kategori_produk/">
+									            <i class="fa fa-list-alt"></i>
+									            <span>Kategori Produk</span>
+									        </a>
+						    			</li>
+						    		<?php
+								}
+								?>
 
 							    <!-- MENU PRODUK -->
 							    <?php
-if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "inventori" OR $_SESSION['jabatan'] == "administrasi") {
-		?>
-							    			<li class="treeview">
-										        <a href="../produk/">
-										            <i class="fa fa-tasks"></i>
-										            <span>Produk</span>
-										        </a>
-							    			</li>
-							    		<?php
-}
-	?>
+								if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "inventori" OR $_SESSION['jabatan'] == "administrasi") {
+								?>
+					    			<li class="treeview">
+								        <a href="../produk/">
+								            <i class="fa fa-tasks"></i>
+								            <span>Produk</span>
+								        </a>
+					    			</li>
+					    			<?php
+								}
+								?>
 
 							    <!-- MENU TRANSAKSI -->
 							    <?php
-if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
-		?>
-							    			<li class="treeview">
-										        <a href="../transaksi/">
-										            <i class="fa fa-money"></i>
-										            <span>Transaksi</span>
-										        </a>
-							    			</li>
-							    		<?php
-}
-	?>
+								if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
+									?>
+						    			<li class="treeview">
+									        <a href="../transaksi/">
+									            <i class="fa fa-money"></i>
+									            <span>Transaksi</span>
+									        </a>
+						    			</li>
+						    		<?php
+								}
+								?>
 
 							    <!-- MENU REKOMENDASI -->
 							    <?php
-if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "pemasaran") {
-		?>
-							    			<li class="treeview">
-										        <a href="../rekomendasi/">
-										            <i class="fa fa-trophy"></i>
-										            <span>Rekomendasi</span>
-										        </a>
-							    			</li>
-							    		<?php
-}
-	?>
+								if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "pemasaran") {
+									?>
+					    			<li class="treeview">
+								        <a href="../rekomendasi/">
+								            <i class="fa fa-trophy"></i>
+								            <span>Rekomendasi</span>
+								        </a>
+					    			</li>
+							    	<?php
+								}
+								?>
 
 							    <!-- MENU PEMESANAN -->
 							    <?php
-if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
-		?>
-							    			<li class="treeview">
-										        <a href="../pemesanan/">
-										            <i class="fa fa-money"></i>
-										            <span>Data Pemesanan</span>
-										        </a>
-							    			</li>
-							    		<?php
-}
-	?>
+								if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
+									?>
+						    			<li class="treeview">
+									        <a href="../pemesanan/">
+									            <i class="fa fa-money"></i>
+									            <span>Data Pemesanan</span>
+									        </a>
+						    			</li>
+						    		<?php
+								}
+								?>
 
 							    <!-- MENU KELUHAN & SARAN -->
 							    <?php
-if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
-		?>
-							    			<li class="treeview">
-										        <a href="../keluhan/">
-										            <i class="fa fa-comments"></i>
-										            <span>Keluhan & Saran</span>
-										        </a>
-							    			</li>
-							    		<?php
-}
-	?>
+								if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
+									?>
+						    			<li class="treeview">
+									        <a href="../keluhan/">
+									            <i class="fa fa-comments"></i>
+									            <span>Keluhan & Saran</span>
+									        </a>
+						    			</li>
+						    		<?php
+								}
+								?>
 
 							    <!-- MENU PROMOSI -->
 							    <?php
-if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "pemasaran") {
-		?>
-							    			<li class="treeview">
-										        <a href="../promosi/">
-										            <i class="fa fa-star"></i>
-										            <span>Promosi</span>
-										        </a>
-							   	 			</li>
-							    		<?php
-}
-	?>
+								if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "pemasaran") {
+									?>
+						    			<li class="treeview">
+									        <a href="../promosi/">
+									            <i class="fa fa-star"></i>
+									            <span>Promosi</span>
+									        </a>
+						   	 			</li>
+						    		<?php
+								}
+								?>
 
 							    <!-- MENU PELANGGAN -->
 							    <?php
-if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
-		?>
-							    			<li class="treeview">
-										        <a href="../pelanggan/">
-										            <i class="fa fa-user"></i>
-										            <span>Pelanggan</span>
-										        </a>
-							   	 			</li>
-							    		<?php
-}
-	?>
+								if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
+									?>
+						    			<li class="treeview">
+									        <a href="../pelanggan/">
+									            <i class="fa fa-user"></i>
+									            <span>Pelanggan</span>
+									        </a>
+						   	 			</li>
+						    		<?php
+								}
+								?>
 
 							    <!-- MENU TUKAR POIN -->
 							    <?php
-if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
-		?>
-							    			<li class="treeview">
-										        <a href="../tukar_poin/">
-										            <i class="fa fa-money"></i>
-										            <span>Tukar Poin</span>
-										        </a>
-							    			</li>
-							    		<?php
-}
-	?>
+								/*if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "administrasi") {
+									?>
+						    			<li class="treeview">
+									        <a href="../tukar_poin/">
+									            <i class="fa fa-money"></i>
+									            <span>Tukar Poin</span>
+									        </a>
+						    			</li>
+						    		<?php
+								}*/
+								?>
 
 							    <!-- MENU TEMPLATE PESAN -->
 							    <?php
-if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "pemasaran") {
-		?>
-							    			<li class="treeview">
-										        <a href="../template_pesan/">
-										            <i class="fa fa-comments"></i>
-										            <span>Template Pesan</span>
-										        </a>
-							    			</li>
-							    		<?php
-}
-	?>
+								if ($_SESSION['jabatan'] == "manager" OR $_SESSION['jabatan'] == "direktur" OR $_SESSION['jabatan'] == "pemasaran") {
+									?>
+						    			<li class="treeview">
+									        <a href="../template_pesan/">
+									            <i class="fa fa-comments"></i>
+									            <span>Template Pesan</span>
+									        </a>
+						    			</li>
+						    		<?php
+								}
+								?>
 					   	 	</ul>
 				    	</section>
 				    	<!-- /.sidebar -->

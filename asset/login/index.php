@@ -63,7 +63,7 @@
 				}
 			}
 		}else{
-			
+			FormLogin();
 			?> <body onload="GagalLogin()"></body> <?php
 		}
 	}else

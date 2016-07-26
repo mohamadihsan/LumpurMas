@@ -4,7 +4,7 @@
 # Gammu configuration, this section is like section "gammu" in "gammurc" file,
 # see gammurc(5) for documentation.
 [gammu]
-device = com13:
+device = com17:
 #model = 6110
 connection = at115200
 #synchronizetime = yes

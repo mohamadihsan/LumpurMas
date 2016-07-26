@@ -8,10 +8,10 @@ if (isset($_POST['kirim'])) {
 	if ($_SESSION['kirim_password'] == "berhasil_dikirim") {
 		?>
 		<body onload="BerhasilMengirimPassword()"></body><?php
-} else {
-		?>
-		<body onload="GagalMengirimPassword()"></body>
-		<?php
-}
+	} else {
+			?>
+			<body onload="GagalMengirimPassword()"></body>
+			<?php
+	}
 }
 ?>

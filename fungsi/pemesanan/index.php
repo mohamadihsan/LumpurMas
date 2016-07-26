@@ -148,6 +148,26 @@
 		$stmt->close();
 	}
 
+	function EditTanggalPengambilan()
+	{
+		include '../../koneksi/koneksi.php';
+
+		//inisialisasi
+		$tanggal_pengambilan = $_POST['tanggal_pengambilan'];
+		$id_pemesanan = $_POST['id_pemesanan'];
+
+		//update ke tabel pemesanan
+		$sql = "UPDATE pemesanan SET tgl_pengambilan = ? WHERE id_pemesanan = ?";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param('si', $tanggal_pengambilan, $id_pemesanan);
+		if($stmt->execute()){
+			$_SESSION['status_operasi_tr'] = "berhasil_memperbaharui";
+		}else{
+			$_SESSION['status_operasi_tr'] = "gagal_memperbaharui";
+		}
+		$stmt->close();
+	}
+
 	/*========================= HAPUS DATA PEMESANAN ========================*/
 	function HapusDataPemesanan()
 	{

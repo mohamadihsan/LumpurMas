@@ -110,7 +110,7 @@
 		$stmt->close(); 
 
 		//update poin pelanggan
-		if ($member=="M") {
+		/*if ($member=="M") {
 
 			$sql = "SELECT id_pelanggan, poin FROM pelanggan WHERE nama='$username'";
 			$stmt = $db->prepare($sql);
@@ -128,7 +128,7 @@
 			$stmt->bind_param('ii', $poin, $id_pelanggan);
 			$stmt->execute();
 			$stmt->close();
-		}
+		}*/
 	}
 
 	/*========================= EDIT DATA PRODUK ========================*/
@@ -161,7 +161,7 @@
 		$id_transaksi = $_GET['id_transaksi'];
 
 		//get total bayar pada transaksi ini
-		$sql = "SELECT total_bayar, id_pelanggan FROM transaksi WHERE id_transaksi = $id_transaksi";
+		/*$sql = "SELECT total_bayar, id_pelanggan FROM transaksi WHERE id_transaksi = $id_transaksi";
 		$stmt = $db->prepare($sql);
 		$stmt->execute();
 		$stmt->bind_result($total_bayar, $id_pelanggan);
@@ -186,9 +186,9 @@
 			$stmt->bind_param('ii', $minus_poin, $id_pelanggan);
 			$stmt->execute();
 			$stmt->close();
-		}
+		}*/
 
-		//hapus dari tabel user
+		//hapus dari tabel transaksi
 		$sql = "DELETE FROM transaksi WHERE id_transaksi = ?";
 		$stmt = $db->prepare($sql);
 		$stmt->bind_param('i', $id_transaksi);

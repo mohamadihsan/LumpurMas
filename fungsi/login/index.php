@@ -20,6 +20,8 @@ function FormLogin() {
 			  	<link rel="stylesheet" href="../../bootstrap/dist/css/AdminLTE.min.css">
 			  	<!-- iCheck -->
 			  	<link rel="stylesheet" href="../../bootstrap/plugins/iCheck/square/blue.css">
+			  	<!-- SweetAlert -->
+			  	<link rel="stylesheet" type="text/css" href="../../bootstrap/dist/sweet/sweetalert.css">
 			</head>
 			<body class="hold-transition login-page">
 			<div class="login-box">
@@ -49,9 +51,13 @@ function FormLogin() {
 				    		</div>
 				    	</div>
 					</form>
-			    <div class="social-auth-links text-left">
-			    	<a href="../register/" class="text-center">Daftar Akun</a>
-				</div>
+				    <div class="social-auth-links text-left">
+				    	Belum punya alun ? <a href="../register/" class="text-center">DAFTAR</a>
+					</div>
+					<div class="social-auth-links text-left">
+				    	<a href="../lupa_password/" class="text-center">Lupa Password</a>
+					</div>
+				</div>	
 			</div>
 
 			<!-- jQuery 2.2.0 -->
@@ -60,6 +66,18 @@ function FormLogin() {
 			<script src="../../bootstrap/bootstrap/js/bootstrap.min.js"></script>
 			<!-- iCheck -->
 			<script src="../../bootstrap/plugins/iCheck/icheck.min.js"></script>
+			<!-- SweetAlert -->
+			<script src="../../bootstrap/dist/sweet/sweetalert.min.js"></script>
+		  	<script>
+			function GagalLogin(){
+				swal({
+					title: "",
+					text: "Username dan Password Anda Salah.",
+					timer: 2000,
+					type: "error",
+					showConfirmButton: false });
+			}
+			</script>
 		</body>
 		</html>
 		<?php

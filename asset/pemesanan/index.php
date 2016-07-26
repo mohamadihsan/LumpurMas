@@ -16,33 +16,42 @@
 	if (!empty($user_check) AND $jabatan == "manager" OR $jabatan=="direktur" OR $jabatan=="administrasi") {
 
 			if (isset($_POST['simpan'])) {
-					//jika tombol submit ditekan maka excute fungsi ini
-					TambahDataPemesanan();
-					if ($_SESSION['status_operasi_pemesanan']=="berhasil_update_total_bayar") {
-						?> <body onload="Berhasil_Update_Total_Bayar()"></body><?php
-					}else if ($_SESSION['status_operasi_tr']=="gagal_update_total_bayar") {
-						?> <body onload="Gagal_Update_Total_Bayar()"></body><?php
-					}
+				//jika tombol submit ditekan maka excute fungsi ini
+				TambahDataPemesanan();
+				if ($_SESSION['status_operasi_pemesanan']=="berhasil_update_total_bayar") {
+					?> <body onload="Berhasil_Update_Total_Bayar()"></body><?php
+				}else if ($_SESSION['status_operasi_tr']=="gagal_update_total_bayar") {
+					?> <body onload="Gagal_Update_Total_Bayar()"></body><?php
 				}
+			}
 
-				if (isset($_POST['perbaharui'])) {
-					//jika tombol submit ditekan maka excute fungsi ini
-					EditDataPemesanan();
-					if ($_SESSION['status_operasi_pemesanan']=="berhasil_memperbaharui") {
-						?> <body onload="BerhasilMemperbaharui()"></body><?php
-					}else if ($_SESSION['status_operasi_tr']=="gagal_memperbaharui") {
-						?> <body onload="GagalMemperbaharui()"></body><?php
-					}
+			if (isset($_POST['perbaharui'])) {
+				//jika tombol submit ditekan maka excute fungsi ini
+				EditDataPemesanan();
+				if ($_SESSION['status_operasi_pemesanan']=="berhasil_memperbaharui") {
+					?> <body onload="BerhasilMemperbaharui()"></body><?php
+				}else if ($_SESSION['status_operasi_tr']=="gagal_memperbaharui") {
+					?> <body onload="GagalMemperbaharui()"></body><?php
 				}
+			}
 
-				if (!empty($_GET['id_pemesanan'])) {
-					HapusDataPemesanan();
-					if ($_SESSION['status_operasi_pemesanan']=="berhasil_menghapus") {
-						?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../pemesanan/"><?php
-					}else if ($_SESSION['status_operasi_tr']=="gagal_menghapus") {
-						?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../pemesanan/"><?php
-					}
+			if (!empty($_GET['id_pemesanan'])) {
+				HapusDataPemesanan();
+				if ($_SESSION['status_operasi_pemesanan']=="berhasil_menghapus") {
+					?> <body onload="BerhasilMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../pemesanan/"><?php
+				}else if ($_SESSION['status_operasi_tr']=="gagal_menghapus") {
+					?> <body onload="GagalMenghapus()"></body><meta http-equiv="refresh" content="1.5;url=../pemesanan/"><?php
 				}
+			}
+
+			if (isset($_POST['balas'])) {
+				EditTanggalPengambilan();
+				if ($_SESSION['status_operasi_tr']=="berhasil_memperbaharui") {
+					?> <body onload="BerhasilMemperbaharui()"></body><?php
+				}else if ($_SESSION['status_operasi_tr']=="berhasil_memperbaharui") {
+					?> <body onload="GagalMemperbaharui()"></body><?php
+				}
+			}
 		?>
 		
 		<title>Pemesanan</title>
@@ -131,7 +140,7 @@
 											if ($jabatan=="administrasi") {
 												?>
 													<td><a href="detail.php?id_pemesanan=<?php echo $id_pemesanan;?>"><i class="fa fa-info"></i> Detail</a></td>
-													<td><a href="edit.php?id_pemesanan=<?php echo $id_pemesanan;?>"><i class="fa fa-pencil"></i> Edit</a></td>
+													<td><a data-toggle="modal" data-target="#balas<?php echo $id_pemesanan;?>"><i class="fa fa-pencil"></i> Balas</a></td>
 													<td><a href="index.php?id_pemesanan=<?php echo $id_pemesanan;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
 												<?php
 											}else if(($jabatan=="manager")OR($jabatan=="direktur")){
@@ -140,11 +149,35 @@
 												<?php
 											}
 										?>
+
+										<!-- Modal -->
+										<div class="modal fade" id="balas<?php echo $id_pemesanan;?>" role="dialog">
+										    <div class="modal-dialog modal-sm">
+										      	<div class="modal-content">
+										      		<form method="post" action="">
+											        	<div class="modal-header">
+											          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+											          		<h4 class="modal-title">Tanggal Pengambilan</h4>
+											        	</div>
+											        	<div class="modal-body">
+											        		<p>Transaksi atas nama <b> <?php echo $nama_pelanggan; ?></b> dapat diambil pada tanggal :</p>
+											          		<p>
+											          			<input type="text" name="id_pemesanan" value="<?php echo $id_pemesanan;?>" hidden>
+											          			<input type="date" name="tanggal_pengambilan" class="form-control">
+											          		</p>
+											          		<input type="submit" class="btn btn-primary" name="balas" value="Simpan">
+											        	</div>
+											        	<div class="modal-footer">
+											        	</div>
+											        </form>	
+										      	</div>
+										    </div>
+										</div> 
 									</tr>	
 									<?php
 									}				
 									?>
-								</tbody>
+								</tbody>   
 							</table>
 						</div>	
 						<!-- /.box-body -->

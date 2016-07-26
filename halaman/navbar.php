@@ -35,8 +35,8 @@ function Navbar() {
                             </li>
                             <!-- LOGIN -->
                             <?php
-if (!empty($_SESSION['username']) AND !empty($_SESSION['id_user'])) {
-		?>
+                                if (!empty($_SESSION['username']) AND !empty($_SESSION['id_user'])) {
+		                          ?>
                                     <!-- MENU KOTAK INFORMASI -->
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -59,7 +59,7 @@ if (!empty($_SESSION['username']) AND !empty($_SESSION['id_user'])) {
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                <a href="../../asset/lupa_password/">Lupa Password</a>
+                                                <a href="../../asset/profil_pelanggan/">Profil</a>
                                             </li>
                                             <li>
                                                 <a href="../../asset/logout/">Logout</a>
@@ -67,14 +67,14 @@ if (!empty($_SESSION['username']) AND !empty($_SESSION['id_user'])) {
                                         </ul>
                                     </li>
                                     <?php
-} else {
-		?>
+                                    } else {
+                                    		?>
                                     <li>
                                         <a href="../../asset/login/">Login</a>
                                     </li>
                                     <?php
-}
-	?>
+                                }
+	                        ?>
                         </ul>
                     </div>
                     <!-- /.navbar-collapse -->

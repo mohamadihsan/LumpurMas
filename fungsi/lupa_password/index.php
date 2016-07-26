@@ -105,29 +105,53 @@ function KirimPassword() {
 	$pesan = "[LUMPUR MAS] - Silahkan login dengan menggunakan password : ";
 	$password = randomPass();
 	$save_password = md5($password);
+	$pesan_kirim = $pesan.$password;
 
 	//Kirim sms dengan smsgateway
-	if (exec('cd ../../gammu/bin && gammu -c smsdrc sendsms TEXT ' . $no_telp . ' -text "' . $pesan . $password . '"')) {
-		$_SESSION['kirim_password'] = "berhasil_dikirim";
 
-		//update password
-		include '../../koneksi/koneksi.php';
+	$userkey="hyb10z"; // userkey lihat di zenziva
 
-		//inisialisasi
-		$username = $_POST['username'];
+    $passkey="0000"; // set passkey di zenziva
 
-		//update ke tabel pegawai
-		$sql = "UPDATE user SET password = ? WHERE username = ?";
-		$stmt = $db->prepare($sql);
-		$stmt->bind_param('ss', $save_password, $username);
-		if($stmt->execute()){
-			$_SESSION['status_operasi_tr'] = "berhasil_dikirim";
-		}else{
-			$_SESSION['status_operasi_tr'] = "gagal_dikirim";
-		}
-		$stmt->close();
-	} else {
-		$_SESSION['kirim_password'] = "gagal_dikirim";
+    $url = "https://reguler.zenziva.net/apps/smsapi.php";$curlHandle = curl_init();
+
+    curl_setopt($curlHandle, CURLOPT_URL, $url);
+
+    curl_setopt($curlHandle, CURLOPT_POSTFIELDS, 'userkey='.$userkey.'&passkey='.$passkey.'&nohp='.$no_telp.'&pesan='.urlencode($pesan_kirim));
+
+    curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+
+    curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+
+    curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+
+    curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+
+    curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
+
+    curl_setopt($curlHandle, CURLOPT_POST, 1);
+
+    $results = curl_exec($curlHandle);
+
+    curl_close($curlHandle);
+
+	$_SESSION['kirim_password'] = "berhasil_dikirim";
+
+	//update password
+	include '../../koneksi/koneksi.php';
+
+	//inisialisasi
+	$username = $_POST['username'];
+
+	//update ke tabel pegawai
+	$sql = "UPDATE user SET password = ? WHERE username = ?";
+	$stmt = $db->prepare($sql);
+	$stmt->bind_param('ss', $save_password, $username);
+	if($stmt->execute()){
+		$_SESSION['status_operasi_tr'] = "berhasil_dikirim";
+	}else{
+		$_SESSION['status_operasi_tr'] = "gagal_dikirim";
 	}
+	$stmt->close();
 }
 ?>

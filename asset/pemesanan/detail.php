@@ -8,23 +8,23 @@
 	$id_pemesanan = $_GET['id_pemesanan'];
 
 	//select data pemesan
-	$sql = "SELECT id_pemesanan, tgl_pemesanan, status_pemesanan, total_bayar, tgl_pengambilan, pelanggan.nama FROM pemesanan, pelanggan WHERE pemesanan.id_pelanggan=pelanggan.id_pelanggan";
+	$sql = "SELECT id_pemesanan, tgl_pemesanan, status_pemesanan, total_bayar, tgl_pengambilan, pelanggan.nama FROM pemesanan, pelanggan WHERE pemesanan.id_pelanggan=pelanggan.id_pelanggan AND pemesanan.id_pemesanan=$id_pemesanan";
 	$stmt = $db->prepare($sql);
 	$stmt->execute();
 
 	$stmt->bind_result($id_pemesanan, $tgl_pemesanan, $status_pemesanan, $total_bayar, $tgl_pengambilan, $nama);
 	$stmt->fetch();
 	$stmt->close();
-	
+
 	Sidebar();
-	
+
 	?>
 
 	<title>Detail Pemesanan</title>
 
 	<section class="content-header">
 	  	<h1>
-	    	
+
 	    	<small></small>
 	  	</h1>
 	  	<ol class="breadcrumb">
@@ -85,18 +85,18 @@
 			        				<h3><label>Total Bayar</label></h3>
 			        			</div>
 			        			<div class="col-md-7">
-			        				<?php 
+			        				<?php
 										//format rupiah
 										$jumlah_desimal ="2";
 										$pemisah_desimal =",";
 										$pemisah_ribuan =".";
 
-										echo "<h3>: Rp." .number_format($total_bayar, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan)."</h3>"; 
+										echo "<h3>: Rp." .number_format($total_bayar, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan)."</h3>";
 									?>
 			        			</div>
 			        		</fieldset>
 			        	</div>
-			        	<div class="col-md-12"></div>	
+			        	<div class="col-md-12"></div>
 				        <table id="example1" class="table table-bordered table-striped">
 							<thead>
 								<tr>
@@ -114,7 +114,7 @@
 									?>
 								</tr>
 							</thead>
-							<tbody>	
+							<tbody>
 								<?php
 
 								//select data produk
@@ -129,13 +129,13 @@
 									<td><?php echo strtoupper($kode_produk); ?></td>
 									<td><?php echo strtoupper($nama_produk); ?></td>
 									<td>
-										<?php 
+										<?php
 											//format rupiah
 											$jumlah_desimal ="2";
 											$pemisah_desimal =",";
 											$pemisah_ribuan =".";
 
-											echo "Rp." .number_format($harga, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan); 
+											echo "Rp." .number_format($harga, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan);
 										?>
 									</td>
 									<td><?php echo $jumlah_beli; ?></td>
@@ -147,22 +147,22 @@
 											<?php
 										}
 									?>
-								</tr>	
+								</tr>
 								<?php
 								}
-								$stmt->close();				
+								$stmt->close();
 								?>
 							</tbody>
 						</table>
-				    </div>    
+				    </div>
 				</div>
-				<!-- /.box -->  	
+				<!-- /.box -->
 			</div>
 			<!-- .col -->
 		</div>
 		<!-- .row -->
-	</section>		
+	</section>
 	<?php
 
-	CloseSidebar();				
+	CloseSidebar();
 ?>

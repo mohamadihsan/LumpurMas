@@ -26,10 +26,6 @@ if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur" OR $
 
 	//KIRIM SMS
 	if (isset($_POST['kirim_rekomendasi'])OR isset($_POST['kirim_sms'])) {
-		//matikan service gammu
-		exec('cd ../../gammu/bin && gammu-smsd -c smsdrc -u');
-		//nyalakan service gammu
-		exec('cd ../../gammu/bin && gammu-smsd -c smsdrc -i');
 
 		if (isset($_POST['kirim_rekomendasi'])) {
 			$sql = "SELECT id, nama, no_telp, kategori_produk FROM rekomendasi WHERE status_kirim='BD'";
@@ -37,7 +33,7 @@ if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur" OR $
 			$id_rekomendasi = $_POST['id_rekomendasi'];
 			$sql = "SELECT id, nama, no_telp, kategori_produk FROM rekomendasi WHERE id=$id_rekomendasi AND status_kirim='BD'";
 		}
-		
+
 		$result = mysqli_query($db, $sql);
 		$i = 0;
 		while ($rows = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -93,11 +89,39 @@ if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur" OR $
 			$stmt->close();
 
 			//Kirim sms dengan smsgateway
-			if (exec('cd ../../gammu/bin && gammu -c smsdrc sendsms TEXT ' . $no_telp[$i] . ' -text "' . $pesan . $kategori_produk[$i] . '"')) {
+			/*if (exec('cd ../../gammu/bin && gammu -c smsdrc sendsms TEXT ' . $no_telp[$i] . ' -text "' . $pesan . $kategori_produk[$i] . '"')) {
 				$_SESSION['kirim_password'] = "berhasil_dikirim";
 			} else {
 				$_SESSION['kirim_password'] = "gagal_dikirim";
-			}
+			}*/
+
+			$userkey="hyb10z"; // userkey lihat di zenziva
+
+		    $passkey="0000"; // set passkey di zenziva
+
+		    $url = "https://reguler.zenziva.net/apps/smsapi.php";$curlHandle = curl_init();
+
+		    curl_setopt($curlHandle, CURLOPT_URL, $url);
+
+		    curl_setopt($curlHandle, CURLOPT_POSTFIELDS, 'userkey='.$userkey.'&passkey='.$passkey.'&nohp='.$no_telp[$i].'&pesan='.urlencode($pesan));
+
+		    curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+
+		    curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+
+		    curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+
+		    curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+
+		    curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
+
+		    curl_setopt($curlHandle, CURLOPT_POST, 1);
+
+		    $results = curl_exec($curlHandle);
+
+		    curl_close($curlHandle);
+
+		    $_SESSION['kirim_password'] = "berhasil_dikirim";
 
 			$i++;
 		}
@@ -181,7 +205,7 @@ if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur" OR $
 													<input type="text" name="id_rekomendasi" value="<?php echo $id; ?>" hidden>
 													<input type="submit" class="btn btn-primary" name="kirim_sms" value="Kirim SMS">
 												</form>
-											</center>	
+											</center>
 										</td>
 									</tr>
 									<?php

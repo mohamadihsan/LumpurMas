@@ -32,7 +32,8 @@
 		$email = $_POST['email'];
 		$alamat = $_POST['alamat'];
 		$username = $_POST['username'];
-		$password = $_POST['password'];
+		$pass = $_POST['password'];
+		$password = md5($pass);
 		$id_pelanggan = $_POST['id_pelanggan'];
 		$id_user = $_POST['id_user'];
 

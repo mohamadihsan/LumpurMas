@@ -125,7 +125,6 @@
 											if ($jabatan=="pemasaran") {
 												?>
 													<th></th>
-													<th></th>
 												<?php
 											}
 										?>
@@ -153,8 +152,19 @@
 											}
 											if ($jabatan=="pemasaran") {
 												?>
-													<td><a href="edit.php?id_promosi=<?php echo $id_promosi;?>"><i class="fa fa-pencil"></i> Edit</a></td>
-													<td><a href="index.php?id_promosi=<?php echo $id_promosi;?>"><i class="fa fa-trash-o"></i> Hapus</a></td>
+													<td>
+														<div class="dropdown">
+														<button type="button" class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">Action <span class="caret"></span></button>
+														<ul class="dropdown-menu" role="menu">
+															<li>
+																<a href="edit.php?id_promosi=<?php echo $id_promosi;?>"><i class="fa fa-pencil"></i> Edit</a>
+															</li>
+															<li>	
+																<a href="index.php?id_promosi=<?php echo $id_promosi;?>"><i class="fa fa-trash-o"></i> Hapus</a>
+															</li>
+														</ul>
+														</div>	
+													</td>
 												<?php
 											}
 										?>

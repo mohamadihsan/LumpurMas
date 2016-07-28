@@ -7,31 +7,31 @@ function FormRegister() {
 	      		<div class="row">
 					<div class="col-md-6">
 			      		<div class="form-group has-feedback">
-			        		<input type="text" name="id_pegawai" class="form-control" placeholder="ID Pegawai">
+			        		<input type="text" name="id_pegawai" class="form-control" placeholder="ID Pegawai" required>
 			        		<span class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
 			      		</div>
 			      	</div>
 					<div class="col-md-6">
 			      		<div class="form-group has-feedback">
-			        		<input type="text" name="username" class="form-control" placeholder="Username">
+			        		<input type="text" name="username" class="form-control" placeholder="Username" required>
 			        		<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			      		</div>
 			      	</div>
 					<div class="col-md-6">
 			      		<div class="form-group has-feedback">
-			        		<input type="text" name="nama" class="form-control" placeholder="Nama Pegawai">
+			        		<input type="text" name="nama" class="form-control" placeholder="Nama Pegawai" required>
 			        		<span class="glyphicon glyphicon-user form-control-feedback"></span>
 			      		</div>
 			      	</div>
 					<div class="col-md-6">
 			      		<div class="form-group has-feedback">
-			        		<input type="password" name="password" class="form-control" placeholder="Password">
+			        		<input type="password" name="password" class="form-control" placeholder="Password" required>
 			        		<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 			      		</div>
 			      	</div>
 					<div class="col-md-6">
   						<div class="form-group">
-    						<select name="jabatan" class="form-control select2" style="width: 100%;">
+    						<select name="jabatan" class="form-control select2" style="width: 100%;" required>
       							<option value="direktur" selected="selected">Direktur</option>
 			                  	<option value="pemasaran">Pemasaran</option>
 			                  	<option value="inventori">Inventori</option>
@@ -115,7 +115,7 @@ function FormRegisterPengunjung() {
 					      	<div class="col-md-12">
 								<label>No Telepon</label>
 					      		<div class="form-group has-feedback">
-					        		<input type="phone" name="no_telp" class="form-control" placeholder="No Telp" required="">
+					        		<input type="number" name="no_telp" class="form-control" placeholder="No Telp : 08xxxxxxxx" required="">
 					        		<span class="glyphicon glyphicon-phone form-control-feedback"></span>
 					      		</div>
 					      	</div>
@@ -186,9 +186,10 @@ function TambahMember() {
 	$no_telp = $_POST['no_telp'];
 	$email = $_POST['email'];
 	$username = $_POST['username'];
-	$password = $_POST['password'];
-	$password = md5($password);
+	$pass = $_POST['password'];
+	$password = md5($pass);
 
+	if (strlen($pass)>=5) {
 	//insert ke tabel pelanggan
 	$sql = "INSERT INTO pelanggan (nama, alamat, no_telp, email) VALUES(?, ?, ?, ?)";
 	$stmt = $db->prepare($sql);
@@ -245,5 +246,8 @@ function TambahMember() {
 		$_SESSION['status_operasi_tm'] = "gagal_menyimpan";
 	}
 	$stmt->close();
+	}else{
+			$_SESSION['status_operasi_tm'] = "pesan_error_pelanggan";
+	}
 }
 ?>

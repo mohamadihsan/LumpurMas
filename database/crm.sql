@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2016 at 06:22 PM
+-- Generation Time: Jul 27, 2016 at 12:56 AM
 -- Server version: 5.7.9
 -- PHP Version: 5.6.16
 
@@ -42,7 +42,9 @@ CREATE TABLE IF NOT EXISTS `detail_pemesanan` (
 INSERT INTO `detail_pemesanan` (`id_pemesanan`, `id_produk`, `jumlah_beli`) VALUES
 (20, 49, 20),
 (20, 44, 20),
-(20, 48, 20);
+(20, 48, 20),
+(22, 5, 10),
+(22, 45, 5);
 
 -- --------------------------------------------------------
 
@@ -64,16 +66,16 @@ CREATE TABLE IF NOT EXISTS `detail_transaksi` (
 --
 
 INSERT INTO `detail_transaksi` (`id_transaksi`, `id_produk`, `jumlah_beli`) VALUES
-(45, 48, 1),
-(45, 49, 1),
-(46, 45, 1),
-(46, 47, 1),
-(46, 46, 1),
-(84, 40, 1),
-(84, 43, 1),
-(84, 42, 1),
-(84, 44, 1),
-(84, 41, 1);
+(86, 40, 1),
+(86, 43, 1),
+(86, 42, 1),
+(86, 44, 1),
+(86, 41, 1),
+(87, 48, 1),
+(87, 49, 1),
+(88, 45, 1),
+(88, 47, 1),
+(88, 46, 1);
 
 -- --------------------------------------------------------
 
@@ -196,22 +198,23 @@ CREATE TABLE IF NOT EXISTS `pelanggan` (
   `alamat` varchar(50) DEFAULT NULL,
   `no_telp` varchar(12) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `poin` int(4) DEFAULT '0',
   `id_user` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_pelanggan`),
   KEY `constratint_id_user_pelanggan` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `pelanggan`
 --
 
-INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `alamat`, `no_telp`, `email`, `poin`, `id_user`) VALUES
-(1, 'Hardo Pratama', 'Jalan Dipati Ukur No 10 Bandung', '085720054204', 'hardopratama@gmail.com', 0, 6),
-(2, 'Annisa Amelia', 'Jalan Proklamasi No 2 Banjar ', '087720054255', 'annisaamelia@gmail.com', 0, 8),
-(3, 'Ria', 'Jalan Iskandardinata no 10 Banjar', '085730045394', 'ria@gmail.com', -1, 18),
-(4, 'Asri Nurmala', 'Jalan Guntur no 38 Banjar', '081323045394', 'asrinurmala@gmail.com', 3, 19),
-(5, 'Eva Safitri', 'Jalan Pembangunan no 51 Banjar', '085830075395', 'evasafitri@gmail.com', 0, 20);
+INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `alamat`, `no_telp`, `email`, `id_user`) VALUES
+(1, 'Hardo Pratama', 'Jalan Dago No 10 Bandung', '085270050747', 'hardopratama@gmail.com', 6),
+(2, 'Annisa Amelia', 'Jalan Proklamasi No 2 Banjar ', '085786834372', 'annisaamelia@gmail.com', 8),
+(3, 'Ria', 'Jalan Iskandardinata no 10 Banjar', '081214478990', 'ria@gmail.com', 18),
+(4, 'Asri Nurmala', 'Jalan Guntur no 38 Banjar', '085727604692', 'asrinurmala@gmail.com', 19),
+(5, 'Eva Safitri', 'Jalan Pembangunan no 51 Banjar', '085720054204', 'evasafitri@gmail.com', 20),
+(20, 'Ika Widya', 'Jalan Pembangunan, Banjar', '085721740036', 'ikawidya@gmail.com', 35),
+(21, 'Iqbal Aditya Pangestu', 'Bandung', '081214478990', 'iqbaladityap@gmail.com', 36);
 
 -- --------------------------------------------------------
 
@@ -229,14 +232,15 @@ CREATE TABLE IF NOT EXISTS `pemesanan` (
   `tgl_pengambilan` datetime DEFAULT NULL,
   `id_pelanggan` int(11) NOT NULL,
   PRIMARY KEY (`id_pemesanan`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pemesanan`
 --
 
 INSERT INTO `pemesanan` (`id_pemesanan`, `tgl_pemesanan`, `status_pemesanan`, `total_bayar`, `bukti_transfer`, `tgl_pengambilan`, `id_pelanggan`) VALUES
-(20, '2016-06-13 05:47:44', 'BL', 3940000, NULL, NULL, 1);
+(20, '2016-06-13 05:47:44', 'BL', 3940000, NULL, '2016-07-29 00:00:00', 1),
+(22, '2016-07-26 05:59:50', 'BL', 4750000, NULL, '2016-08-25 00:00:00', 2);
 
 -- --------------------------------------------------------
 
@@ -259,8 +263,8 @@ CREATE TABLE IF NOT EXISTS `pesan` (
 
 INSERT INTO `pesan` (`id`, `jenis`, `isi`, `status_hapus`) VALUES
 (1, 'RD', 'CV. Lumpur Mas\r\nTerima kasih telah berbelanja di toko kami.\r\nKunjungi website kami di www.lumpurmas.com\r\nKategori produk rekomendasi hari ini untuk anda adalah', '0'),
-(2, 'R', 'CV. Lumpur Mas\r\nTerima kasih telah berbelanja di toko kami.\r\nKunjungi website kami di www.lumpurmas.com\r\nKategori produk rekomendasi hari ini untuk anda adalah ', '1'),
-(3, 'RD', 'CV. Lumpur Mas \r\nTerima kasih telah berbelanja di toko kami. \r\nKunjungi website kami di www.lumpurmas.com \r\nSelamat anda mendapatkan potongan harga untuk pembelian kategori produk :  ', '1');
+(2, 'R', 'CV. Lumpur Mas - Terima kasih telah berbelanja di toko kami.[ www.lumpurmas.com ]. Kategori produk rekomendasi hari ini untuk anda adalah ', '1'),
+(3, 'RD', 'CV. Lumpur Mas - Terima kasih telah berbelanja di toko kami.[ www.lumpurmas.com ]. Selamat anda mendapatkan diskon untuk pembelian kategori produk :  ', '1');
 
 -- --------------------------------------------------------
 
@@ -356,7 +360,25 @@ CREATE TABLE IF NOT EXISTS `rekomendasi` (
   PRIMARY KEY (`id`),
   KEY `id_transaksi` (`id_transaksi`),
   KEY `id_pesan` (`id_pesan`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rekomendasi`
+--
+
+INSERT INTO `rekomendasi` (`id`, `nama`, `no_telp`, `pesan`, `kategori_produk`, `status_kirim`, `id_transaksi`, `id_pesan`) VALUES
+(30, 'Eva Safitri', '085720054204', NULL, 'Buku Sekolah', 'SD', NULL, 2),
+(31, 'Ria', '081214478990', NULL, 'Buku Sekolah', 'SD', NULL, 3),
+(32, 'Asri Nurmala', '085727604692', NULL, 'Buku Sekolah', 'SD', NULL, 3),
+(33, 'Eva Safitri', '085720054204', NULL, 'Novel', 'SD', NULL, 2),
+(34, 'Ria', '081214478990', NULL, 'Buku Sekolah', 'SD', NULL, 3),
+(35, 'Asri Nurmala', '085727604692', NULL, 'Buku Sekolah', 'SD', NULL, 3),
+(36, 'Eva Safitri', '085720054204', NULL, 'Novel', 'SD', NULL, 2),
+(37, 'Ria', '081214478990', NULL, 'Buku Sekolah', 'SD', NULL, 3),
+(38, 'Asri Nurmala', '085727604692', NULL, 'Buku Sekolah', 'SD', NULL, 3),
+(39, 'Eva Safitri', '085720054204', NULL, 'Novel', 'SD', NULL, 2),
+(40, 'Ria', '081214478990', NULL, 'Buku Sekolah', 'SD', NULL, 3),
+(43, 'Ria', '081214478990', NULL, 'Buku Sekolah', 'SD', NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -375,16 +397,16 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
   `id_pelanggan` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_transaksi`),
   KEY `constraint_id_pelanggan_trans` (`id_pelanggan`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `transaksi`
 --
 
 INSERT INTO `transaksi` (`id_transaksi`, `tgl_transaksi`, `status_transaksi`, `nama_garansi`, `telp_garansi`, `total_bayar`, `id_pelanggan`) VALUES
-(45, '2016-06-12 22:13:44', 'L', 'Eva Safitri', '085830075395', 104000, NULL),
-(46, '2016-06-12 22:14:44', 'L', 'Asri Nurmala', '081323045394', 347000, NULL),
-(84, '2016-06-12 00:00:00', 'L', 'Ria', '085730045394', 283000, 3);
+(86, '2016-07-04 00:00:00', 'L', 'Ria', '081214478990', 283000, 3),
+(87, '2016-07-04 00:00:00', 'L', 'Eva Safitri', '085720054204', 104000, 5),
+(88, '2016-07-04 00:00:00', 'L', 'Asri Nurmala', '085727604692', 347000, 4);
 
 -- --------------------------------------------------------
 
@@ -400,7 +422,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `status_hapus` char(1) DEFAULT '1',
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
@@ -410,14 +432,16 @@ INSERT INTO `user` (`id_user`, `username`, `password`, `status_hapus`) VALUES
 (2, 'direktur', '4fbfd324f5ffcdff5dbf6f019b02eca8', '1'),
 (4, 'administrasi', '15ff3c0a0310a2e3de3e95c8aeb328d0', '1'),
 (5, 'pemasaran', '229eaac0894a3379d759a720e0e3410c', '1'),
-(6, 'pengunjung', '3fbe7200a4b9a894e16c9d998314dc80', '1'),
+(6, 'pelanggan', 'pelanggan', '1'),
 (8, 'pengunjung2', 'e55093db9c1fcfc25152e7ca2c6d3cab', '1'),
 (9, 'inventori', '4e943c28c3b011e0540ff9a19334953b', '1'),
 (14, 'manager', '1d0258c2440a8d19e716292b231e3190', '1'),
 (17, '17', '965dabeb1ed76937028796eec8daa5d4', '0'),
-(18, 'ria', 'd42a9ad09e9778b177d409f5716ac621', '1'),
+(18, 'ria', '552ef513f00c07030d1e21e94ce17854', '1'),
 (19, 'asrinurmala', '48feb56abc3e86dd649d46ee0fb670fb', '1'),
-(20, 'evasafitri', '7a33e86c33a4061c5d2e11d2b50d7308', '1');
+(20, 'evasafitri', '7a33e86c33a4061c5d2e11d2b50d7308', '1'),
+(35, 'ika', '7965c82127bd8517d2495e8efb12702c', '1'),
+(36, 'iqbaaladitya', '290c5e549acedf53f19acde5cadaf789', '1');
 
 -- --------------------------------------------------------
 
@@ -436,7 +460,7 @@ CREATE TABLE IF NOT EXISTS `v_produk_dibeli` (
 --
 DROP TABLE IF EXISTS `v_produk_dibeli`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_produk_dibeli`  AS  select distinct `kategori_produk`.`nama_kategori` AS `nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where (((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Ria')) or ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Eva Safitri') and (not(`kategori_produk`.`nama_kategori` in (select `kategori_produk`.`nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Ria') and (not(`kategori_produk`.`nama_kategori` in (select `kategori_produk`.`nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Eva Safitri'))))))))))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_produk_dibeli`  AS  select distinct `kategori_produk`.`nama_kategori` AS `nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where (((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Ria')) or ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Asri Nurmala') and (not(`kategori_produk`.`nama_kategori` in (select `kategori_produk`.`nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Ria') and (not(`kategori_produk`.`nama_kategori` in (select `kategori_produk`.`nama_kategori` from (((`kategori_produk` join `produk`) join `detail_transaksi`) join `transaksi`) where ((`produk`.`id_kategori` = `kategori_produk`.`id_kategori`) and (`detail_transaksi`.`id_produk` = `produk`.`id_produk`) and (`transaksi`.`id_transaksi` = `detail_transaksi`.`id_transaksi`) and (`transaksi`.`nama_garansi` = 'Asri Nurmala'))))))))))) ;
 
 --
 -- Constraints for dumped tables

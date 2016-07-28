@@ -86,7 +86,7 @@
 								<tr>
 									<th width="15%">Pelanggan</th>
 									<th width="20%">Tanggal</th>
-									<th width="30%">Isi Keluhan</th>
+									<th width="30%">Kritik Saran</th>
 									<?php
 										if (($jabatan=="manager")OR($jabatan=="direktur")OR($jabatan=="administrasi")) {
 											?>

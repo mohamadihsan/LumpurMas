@@ -89,11 +89,12 @@
 				            		<div class="col-md-6">
 				              			<!-- /.form-group -->
 				              			<div class="form-group">
+				              				<label>Kode Produk</label>
 											<input class="form-control" id="kode_produk" type="text" name="kode_produk" placeholder="Kode Produk" required>							                		
 				              			</div>
 				              			<div class="form-group">
+				              				<label>Kategori Produk</label>
 						                	<select class="form-control select2" style="width: 100%;" name="kategori" required>
-						                		<option selected="selected">Kategori Produk</option>
 						                		<?php
 													while ($stmt->fetch()) {
 														?>
@@ -142,10 +143,12 @@
 				            		<!-- /.col -->
 						            <div class="col-md-6">
 						              	<div class="form-group">
+						              		<label>Nama Produk</label>
 						                	<input class="form-control" id="nama_produk" name="nama_produk" type="text" placeholder="Nama Produk" required>
 						              	</div>
 						              	<!-- /.form-group -->
 						              	<div class="form-group">
+						              		<label>Harga</label>
 						                	<input class="form-control" id="harga" type="text" name="harga" placeholder="Harga Rp.0,00" required>
 						              	</div>
 				              			<!-- /.form-group -->

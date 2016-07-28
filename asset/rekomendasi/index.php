@@ -165,12 +165,19 @@ if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur" OR $
 					<div class="box">
 	            		<div class="box-header with-border">
 	              			<h3 class="box-title">Rekomendasi Kategori Produk untuk Pelanggan</h3>
-	              			(<a href="../histori_rekomendasi/"><font color="red" size="2sp">Lihat Histori</font></a>)
 	            		</div>
 			            <!-- /.box-header -->
 			            <div class="box-body">
 			            	<div class="col-md-12" align="right">
-			            		<a href="../analisa_rekomendasi/"><font color="green" size="4sp"><u>Update & Analisa</u></font></a><br><br><br>
+			            		<div class="btn-group">
+			            			<a href="../analisa_rekomendasi/" class="btn btn-success">
+			            				Update & Analisa
+			            			</a>
+			            			<a href="../histori_rekomendasi/" class="btn btn-primary">
+			            				Lihat Histori
+			            			</a>
+			            		</div>
+			            		<br><br><br>
 			            	</div>
 							<table id="example1" class="table table-bordered table-striped">
 								<thead>
@@ -179,7 +186,7 @@ if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur" OR $
 										<th>Telp</th>
 										<th>Kategori Produk</th>
 										<th>Status</th>
-										<th></th>
+										<th width="10%"></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -203,7 +210,7 @@ if (!empty($user_check) AND $jabatan == "manager" OR $jabatan == "direktur" OR $
 											<center>
 												<form method="post" action="">
 													<input type="text" name="id_rekomendasi" value="<?php echo $id; ?>" hidden>
-													<input type="submit" class="btn btn-primary" name="kirim_sms" value="Kirim SMS">
+													<input type="submit" class="btn btn-primary btn-block" name="kirim_sms" value="Kirim SMS">
 												</form>
 											</center>
 										</td>

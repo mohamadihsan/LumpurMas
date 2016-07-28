@@ -23,6 +23,15 @@
 				?> <body onload="BerhasilMenyimpan()"></body><?php
 			}else if ($_SESSION['status_operasi_pg']=="gagal_menyimpan" OR $_SESSION['status_operasi_u']=="gagal_menyimpan") {
 				?> <body onload="GagalMenyimpan()"></body><?php
+			}else if ($_SESSION['status_operasi_pg'] = "pesan_error_pegawai") {
+				?>
+				<script>
+					window.onload = function() {
+						alert("Password harus minimal 5 karakter");
+						window.history.back();
+					};
+				</script>
+				<?php
 			}
 		}
 

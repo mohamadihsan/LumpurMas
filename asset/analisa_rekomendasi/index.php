@@ -64,21 +64,15 @@
 		                                        ?>
 		                                    </select>  
 		                                </div>  
-		                                <div class="col-md-2">
+		                                <div class="col-md-7">
 		                                	<input type="submit" name="lihat_rekomendasi" value="Lihat Rekomendasi" class="btn btn-primary">
+		                                	<input type="submit" name="analisa" value="Analisa Rekomendasi Seluruh Pelanggan" class="btn btn-success">
 		                                </div>    
 					            	</div>	
 					            </form>	
 					            <div class="col-md-1">
 					            	<p style="color: grey; vertical-align: middle;">atau</p>
                                 </div>
-					            <form method="post" action="">
-					            	<div class="col-md-4">
-						            	<div class="form-group">
-						            		<input type="submit" name="analisa" value="Analisa Rekomendasi Seluruh Pelanggan" class="btn btn-success">
-						            	</div>
-						            </div>	
-					            </form>
 					            <br><br><br><br><br><br>
 					            
 					            <?php  

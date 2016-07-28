@@ -123,7 +123,6 @@
 														$stmt->bind_result($id_produk, $nama_produk, $harga, $status_produk, $url, $id_kategori, $kode_produk);
 					              					?>
 								                	<select class="form-control select" style="width: 100%;" name="produk[]" required>
-								                		<option selected="selected">Pilih Produk</option>
 								                		<?php
 															while ($stmt->fetch()) {
 																?>
@@ -199,7 +198,7 @@
 					              			</div>
 					              			<div class="form-group">
 					              				<label>No. Telp</label>
-												<input class="form-control" id="telp_garansi" type="telp" name="telp_garansi" placeholder="Masukkan No. Telp Pelanggan">							                		
+												<input class="form-control" id="telp_garansi" type="number" name="telp_garansi" placeholder="Masukkan No. Telp Pelanggan : 08xxxxx">							                		
 					              			</div>
 					              		</div>
 				            		</div> 

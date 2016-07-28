@@ -551,6 +551,14 @@ function CloseSidebar() {
 						showConfirmButton: false });
 				}
 
+				function PesanError(){
+					swal({
+						title: "",
+						text: "Password harus minimal 5 karakter.",
+						type: "warning",
+						showConfirmButton: true });
+				}
+
 				function Berhasil_Update_Total_Bayar(){
 					swal({
 						title: "Total Transaksi :",

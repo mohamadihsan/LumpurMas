@@ -10,40 +10,44 @@
 		$nama = $_POST['nama'];
 		$jabatan = $_POST['jabatan'];
 		$username = $_POST['username'];
-		$password = $_POST['password'];
-		$password = md5($password);
+		$pass = $_POST['password'];
+		$password = md5($pass);
 
-		//insert ke tabel user
-		$sql = "INSERT INTO user (username, password) VALUES(?, ?)";
-		$stmt = $db->prepare($sql);
-		$stmt->bind_param('ss', $username, $password);
-		if($stmt->execute()){
-			$stmt->insert_id;
+		if (strlen($pass)>=5) {
+			//insert ke tabel user
+			$sql = "INSERT INTO user (username, password) VALUES(?, ?)";
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param('ss', $username, $password);
+			if($stmt->execute()){
+				$stmt->insert_id;
+			}else{
+				$_SESSION['status_operasi_u'] = "gagal_menyimpan";
+			}
+			$stmt->close();
+
+			//get id user 
+			$sql = "SELECT id_user FROM user WHERE username='$username'";
+			$stmt = $db->prepare($sql);
+			$stmt->execute();
+
+			$stmt->bind_result($id_user);
+			while($stmt->fetch()){
+				$id_user;
+			}
+
+			//insert ke tabel pegawai
+			$sql = "INSERT INTO pegawai (id_pegawai, nama, jabatan, id_user) VALUES(?, ?, ?, ?)";
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param('sssi', $id_pegawai, $nama, $jabatan, $id_user);
+			if($stmt->execute()){
+				$_SESSION['status_operasi_pg'] = "berhasil_menyimpan";
+			}else{
+				$_SESSION['status_operasi_pg'] = "gagal_menyimpan";
+			}
+			$stmt->close();
 		}else{
-			$_SESSION['status_operasi_u'] = "gagal_menyimpan";
+			$_SESSION['status_operasi_pg'] = "pesan_error_pegawai";
 		}
-		$stmt->close();
-
-		//get id user 
-		$sql = "SELECT id_user FROM user WHERE username='$username'";
-		$stmt = $db->prepare($sql);
-		$stmt->execute();
-
-		$stmt->bind_result($id_user);
-		while($stmt->fetch()){
-			$id_user;
-		}
-
-		//insert ke tabel pegawai
-		$sql = "INSERT INTO pegawai (id_pegawai, nama, jabatan, id_user) VALUES(?, ?, ?, ?)";
-		$stmt = $db->prepare($sql);
-		$stmt->bind_param('sssi', $id_pegawai, $nama, $jabatan, $id_user);
-		if($stmt->execute()){
-			$_SESSION['status_operasi_pg'] = "berhasil_menyimpan";
-		}else{
-			$_SESSION['status_operasi_pg'] = "gagal_menyimpan";
-		}
-		$stmt->close();
 	}
 
 	/*========================= EDIT DATA PEGAWAI ========================*/
@@ -75,19 +79,25 @@
 		//inisialisasi
 		$id_user = $_POST['id_user'];
 		$username = $_POST['username'];
-		$password = $_POST['password'];
-		$password = md5($password);
+		$pass = $_POST['password'];
+		$password = md5($pass);
 
-		//update ke tabel pegawai
-		$sql = "UPDATE user SET username = ?, password = ? WHERE id_user = ?";
-		$stmt = $db->prepare($sql);
-		$stmt->bind_param('ssi', $username, $password, $id_user);
-		if($stmt->execute()){
-			$_SESSION['status_operasi_pg'] = "berhasil_mengupdate";
+		if (strlen($pass)>=5) {
+			//update ke tabel pegawai
+			$sql = "UPDATE user SET username = ?, password = ? WHERE id_user = ?";
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param('ssi', $username, $password, $id_user);
+			if($stmt->execute()){
+				$_SESSION['status_operasi_pg'] = "berhasil_mengupdate";
+			}else{
+				$_SESSION['status_operasi_pg'] = "gagal_mengupdate";
+			}
+			$stmt->close();
 		}else{
-			$_SESSION['status_operasi_pg'] = "gagal_mengupdate";
+			$_SESSION['status_operasi_pg'] = "pesan_error_pegawai";
+		}else{
+			$_SESSION['status_operasi_pg'] = "pesan_error_pegawai";
 		}
-		$stmt->close();
 	}
 
 	/*========================= HAPUS DATA PEGAWAI ========================*/

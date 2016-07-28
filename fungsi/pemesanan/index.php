@@ -155,11 +155,12 @@
 		//inisialisasi
 		$tanggal_pengambilan = $_POST['tanggal_pengambilan'];
 		$id_pemesanan = $_POST['id_pemesanan'];
+ 		$status_pemesanan = "SL";
 
 		//update ke tabel pemesanan
-		$sql = "UPDATE pemesanan SET tgl_pengambilan = ? WHERE id_pemesanan = ?";
+		$sql = "UPDATE pemesanan SET status_pemesanan = ?, tgl_pengambilan = ? WHERE id_pemesanan = ?";
 		$stmt = $db->prepare($sql);
-		$stmt->bind_param('si', $tanggal_pengambilan, $id_pemesanan);
+		$stmt->bind_param('ssi', $status_pemesanan, $tanggal_pengambilan, $id_pemesanan);
 		if($stmt->execute()){
 			$_SESSION['status_operasi_tr'] = "berhasil_memperbaharui";
 		}else{
@@ -291,7 +292,7 @@
 
 		if ($_FILES["bukti_transfer"]["error"] > 0){
 		 	// udate ke table pemesanan
- 			$status_pemesanan = "SL";
+		 	$status_pemesanan = "DP";
 			$sql = "UPDATE pemesanan SET status_pemesanan = ?, bukti_transfer = ? WHERE id_pemesanan = ?";
 			$stmt = $db->prepare($sql);
 			$stmt->bind_param('ssi', $status_pemesanan, $bukti_transfer, $id_pemesanan);
@@ -312,7 +313,7 @@
 		 		//simpan gambar ke folder lalu save path/url ke database
 		 		if(move_uploaded_file($_FILES["gambar_bukti_pembayaran"]["tmp_name"],"$folder".$bukti_transfer)){
 		 			//update ke tabel pemesanan
-		 			$status_pemesanan = "SL";
+		 			$status_pemesanan = "DP";
 					$sql = "UPDATE pemesanan SET status_pemesanan = ?, bukti_transfer = ? WHERE id_pemesanan = ?";
 					$stmt = $db->prepare($sql);
 					$stmt->bind_param('ssi', $status_pemesanan, $bukti_transfer, $id_pemesanan);

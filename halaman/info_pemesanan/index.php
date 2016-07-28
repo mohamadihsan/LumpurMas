@@ -172,10 +172,12 @@ if (!empty($_SESSION['username']) OR !empty($_SESSION['id_pelanggan'])) {
                                 <td><?php echo Tanggal($tgl_pemesanan); ?></td>
                                 <td>
                                     <?php if ($status_pemesanan == "BL") {
-                            			echo "Belum Dibayar";
-                            		} else {
-                            			echo "Sudah Dibayar";
-                            		}?>
+                            			echo "<mark>Belum Dibayar</mark>";
+                            		} else if ($status_pemesanan == "SL"){
+                            			echo "<mark>Sudah Dibayar</mark>";
+                            		} else if ($status_pemesanan == "DP"){
+                                        echo "<mark>Dalam Pengecekkan</mark>";
+                                    }?>
                                 </td>
                                 <td>
                                     <?php
@@ -190,7 +192,7 @@ if (!empty($_SESSION['username']) OR !empty($_SESSION['id_pelanggan'])) {
                                <td><?php echo Tanggal($tgl_pengambilan); ?></td>
                                <td>
                                     <?php
-                                    if ($status_pemesanan=="BL") {
+                                    if (($status_pemesanan=="BL") AND ($bukti_transfer==null)) {
                                        ?>
                                        <a href="" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#konfirmasi">Konfirmasi Pembayaran</a>
                                        <form method="post" action="" enctype="multipart/form-data">

@@ -121,9 +121,11 @@
 											<?php
 												if ($status_pemesanan=="BL") {
 												 	echo "Belum Dibayar";
-												}else{
-												 	echo "Sudah Dibayar";
-												} ?>
+												} else if ($status_pemesanan == "SL"){
+			                            			echo "<mark>Sudah Dibayar</mark>";
+			                            		} else if ($status_pemesanan == "DP"){
+			                                        echo "<mark>Belum Dicek</mark>";
+			                                    } ?>
 										</td>
 										<td>
 											<?php 

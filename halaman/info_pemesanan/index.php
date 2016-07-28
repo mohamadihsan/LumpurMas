@@ -5,6 +5,17 @@ include '../../koneksi/koneksi.php';
 include '../navbar.php';
 include '../../asset/login/check_login_pegawai.php';
 include '../../asset/login/check_login_pelanggan.php';
+include '../../fungsi/pemesanan/index.php';
+
+if (isset($_POST['kirim_bukti_pembayaran'])) {
+    KirimBuktiPembayaran();
+
+    if ($_SESSION['status_operasi_p']=="berhasil_dikirim") {
+        ?> <body onload="BerhasilMengirim()"></body><?php
+    }else if ($_SESSION['status_operasi_p']=="gagal_dikirim") {
+        ?> <body onload="GagalMengirim()"><?php
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -61,6 +72,22 @@ include '../../asset/login/check_login_pelanggan.php';
 
         });
 
+        function BerhasilMengirim(){
+            swal({
+                title: "Berhasil",      
+                text: "Bukti Pembayaran berhasil dikirim.",   
+                timer: 1500,  
+                showConfirmButton: false });
+        }
+
+        function GagalMengirim(){
+            swal({      
+                title: "Maaf",
+                text: "Bukti Pembayaran gagal dikirim.",   
+                timer: 1500,  
+                showConfirmButton: false });
+        }
+
         function BerhasilOrder(){
             swal({
                 title: "Total Pemesanan anda : Rp.<?php echo $_SESSION['total_bayar']; ?>",
@@ -94,7 +121,8 @@ include '../../asset/login/check_login_pelanggan.php';
 
         <?php
 if (!empty($_SESSION['username']) OR !empty($_SESSION['id_pelanggan'])) {
-	?>
+
+    ?>
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
@@ -117,11 +145,11 @@ if (!empty($_SESSION['username']) OR !empty($_SESSION['id_pelanggan'])) {
 	}
 
 	//Tampilkan Data Transaksi
-	$sql = "SELECT id_pemesanan, tgl_pemesanan, status_pemesanan, total_bayar, tgl_pengambilan FROM pemesanan WHERE id_pelanggan='" . $_SESSION['id_pelanggan'] . "'";
+	$sql = "SELECT id_pemesanan, tgl_pemesanan, status_pemesanan, total_bayar, tgl_pengambilan, bukti_transfer FROM pemesanan WHERE id_pelanggan='" . $_SESSION['id_pelanggan'] . "'";
 	$stmt = $db->prepare($sql);
 	$stmt->execute();
 
-	$stmt->bind_result($id_pemesanan, $tgl_pemesanan, $status_pemesanan, $total_bayar, $tgl_pengambilan);
+	$stmt->bind_result($id_pemesanan, $tgl_pemesanan, $status_pemesanan, $total_bayar, $tgl_pengambilan, $bukti_transfer);
 	?>
 
                     <table id="example1" class="table table-bordered table-striped">
@@ -132,45 +160,81 @@ if (!empty($_SESSION['username']) OR !empty($_SESSION['id_pelanggan'])) {
                                 <th>Status</th>
                                 <th>Total Bayar</th>
                                 <th>Tanggal Pengambilan</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-while ($stmt->fetch()) {
-		?>
+                            while ($stmt->fetch()) {
+                            ?>
                             <tr>
                                 <td><?php echo $id_pemesanan; ?></td>
                                 <td><?php echo Tanggal($tgl_pemesanan); ?></td>
                                 <td>
                                     <?php if ($status_pemesanan == "BL") {
-			echo "Belum Dibayar";
-		} else {
-			echo "Sudah Dibayar";
-		}?>
+                            			echo "Belum Dibayar";
+                            		} else {
+                            			echo "Sudah Dibayar";
+                            		}?>
                                 </td>
                                 <td>
                                     <?php
-//format rupiah
-		$jumlah_desimal = "2";
-		$pemisah_desimal = ",";
-		$pemisah_ribuan = ".";
+                                    //format rupiah
+                            		$jumlah_desimal = "2";
+                            		$pemisah_desimal = ",";
+                            		$pemisah_ribuan = ".";
 
-		echo "Rp." . number_format($total_bayar, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan);
-		?>
+                            		echo "Rp." . number_format($total_bayar, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan);
+                            		?>
                                 </td>
                                <td><?php echo Tanggal($tgl_pengambilan); ?></td>
+                               <td>
+                                    <?php
+                                    if ($status_pemesanan=="BL") {
+                                       ?>
+                                       <a href="" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#konfirmasi">Konfirmasi Pembayaran</a>
+                                       <form method="post" action="" enctype="multipart/form-data">
+                                           <div class="modal fade" id="konfirmasi" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;
+                                                            </button>
+                                                            <h4 class="modal-title">Kirim Bukti Pembayaran</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>
+                                                                <label for="gambar_produk"><small>Gambar Bukti Pembayaran :</small></label>
+                                                                <input type="text" name="id_pemesanan" value="<?php echo $id_pemesanan ?>" hidden>
+                                                                <input type="file" name="gambar_bukti_pembayaran" required>
+                                                                <small class="text-light">Format : jpeg,png</small>
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="submit" class="btn btn-primary btn-block" name="kirim_bukti_pembayaran" value="Kirim">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>  
+                                        </form>  
+                                       <?php
+                                    }else{
+                                        ?><p class="text-center"><mark>Sudah Konfirmasi</mark></p><?php
+                                    }
+                                    ?>
+                               </td>
                             </tr>
                             <?php
-}
-	$stmt->close();
-	?>
+                            }
+                            	$stmt->close();
+                            ?>
                         </tbody>
                     </table>
                 </div>
             </div>
             <?php
-} else {
-	?>
+            } else {
+            	?>
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
@@ -182,8 +246,8 @@ while ($stmt->fetch()) {
                     </div>
                 </div>
             <?php
-}
-?>
+            }
+            ?>
 
         <hr>
 

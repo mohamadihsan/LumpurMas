@@ -211,7 +211,7 @@
 
         function GagalMengirim(){
             swal({      
-                title: "Berhasil",
+                title: "Maaf",
                 text: "Pesan gagal dikirim.",   
                 timer: 1000,  
                 showConfirmButton: false });

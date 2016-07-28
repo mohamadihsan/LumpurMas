@@ -274,4 +274,58 @@
 		}
 		$stmt->close();
 	}
+
+	/*========================= KIRIM BUKTI PEMBAYARAN ========================*/
+	function KirimBuktiPembayaran()
+	{
+		include '../../koneksi/koneksi.php';
+
+		//inisialisasi
+		$id_pemesanan = $_POST['id_pemesanan'];
+		$bukti_transfer = $_FILES["gambar_bukti_pembayaran"]["name"]; 
+		$file_basename = substr($bukti_transfer, 0, strripos($bukti_transfer, '.')); // get ekstensi 
+		$file_ext = substr($bukti_transfer, strripos($bukti_transfer, '.')); // get nama file 
+
+		$folder = "../../asset/gambar/pemesanan/bukti_transfer/";
+
+
+		if ($_FILES["bukti_transfer"]["error"] > 0){
+		 	// udate ke table pemesanan
+ 			$status_pemesanan = "SL";
+			$sql = "UPDATE pemesanan SET status_pemesanan = ?, bukti_transfer = ? WHERE id_pemesanan = ?";
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param('ssi', $status_pemesanan, $bukti_transfer, $id_pemesanan);
+			if($stmt->execute()){
+				$_SESSION['status_operasi_p'] = "berhasil_dikirim";
+			}else{
+				$_SESSION['status_operasi_p'] = "gagal_dikirim";
+			}
+			$stmt->close();
+		}else{	 	 
+			// Rename file
+		 	$newfilename = md5($file_basename) . $file_ext;
+
+		 	// cek apakah file sudah ada 
+		 	if (file_exists("$folder".$newfilename)){
+		 		$_SESSION['status_operasi_p'] = "gagal_dikirim";
+		 	}else{ 
+		 		//simpan gambar ke folder lalu save path/url ke database
+		 		if(move_uploaded_file($_FILES["gambar_bukti_pembayaran"]["tmp_name"],"$folder".$bukti_transfer)){
+		 			//update ke tabel pemesanan
+		 			$status_pemesanan = "SL";
+					$sql = "UPDATE pemesanan SET status_pemesanan = ?, bukti_transfer = ? WHERE id_pemesanan = ?";
+					$stmt = $db->prepare($sql);
+					$stmt->bind_param('ssi', $status_pemesanan, $bukti_transfer, $id_pemesanan);
+					if($stmt->execute()){
+						$_SESSION['status_operasi_p'] = "berhasil_dikirim";
+					}else{
+						$_SESSION['status_operasi_p'] = "gagal_dikirim";
+					}
+					$stmt->close();
+		 		}else{
+		 			$_SESSION['status_operasi_p'] = "gagal_dikirim";
+		 		}
+		 	}	
+	 	}	
+	}
 ?>

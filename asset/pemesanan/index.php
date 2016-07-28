@@ -74,11 +74,11 @@
 					
 					<?php
 					//Tampilkan Data Pemesanan 
-					$sql = "SELECT id_pemesanan, tgl_pemesanan, status_pemesanan, total_bayar, tgl_pengambilan, pelanggan.nama FROM pemesanan, pelanggan WHERE pemesanan.id_pelanggan=pelanggan.id_pelanggan";							
+					$sql = "SELECT id_pemesanan, tgl_pemesanan, status_pemesanan, total_bayar, tgl_pengambilan, pelanggan.nama, bukti_transfer FROM pemesanan, pelanggan WHERE pemesanan.id_pelanggan=pelanggan.id_pelanggan";							
 					$stmt = $db->prepare($sql);
 					$stmt->execute();
 
-					$stmt->bind_result($id_pemesanan, $tgl_pemesanan, $status_pemesanan, $total_bayar, $tgl_pengambilan, $nama_pelanggan);
+					$stmt->bind_result($id_pemesanan, $tgl_pemesanan, $status_pemesanan, $total_bayar, $tgl_pengambilan, $nama_pelanggan, $bukti_transfer);
 
 					?>
 					<div class="box">
@@ -95,6 +95,7 @@
 										<th>Total Bayar</th>
 										<th>Tanggal Pemesanan</th>
 										<th>Tanggal Pengambilan</th>
+										<th>Bukti</th>
 										<?php
 											if ($jabatan=="administrasi") {
 												?>
@@ -136,6 +137,31 @@
 										</td>
 										<td><?php echo Tanggal($tgl_pemesanan); ?></td>
 										<td><?php echo Tanggal($tgl_pengambilan); ?></td>
+										<td>
+											<?php
+											if ($status_pemesanan=="BL") {
+												# code...
+											}else{
+											?>
+											<a href="" data-toggle="modal" data-target="#bukti_transfer"><i class="fa fa-image"></i> Lihat</a>
+
+											<div class="modal fade" id="bukti_transfer" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>
+                                                                <img src="<?php echo "../gambar/pemesanan/bukti_transfer/".$bukti_transfer; ?>" alt="" class="img-responsive">
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>  
+											<?php } ?>
+										</td>
 										<?php
 											if ($jabatan=="administrasi") {
 												?>

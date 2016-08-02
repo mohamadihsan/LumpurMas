@@ -334,7 +334,7 @@ function CloseSidebar() {
 	    	<div class="pull-right hidden-xs">
 	      		<b></b>
 	    	</div>
-	    	<strong>Copyright &copy; 2016-2017 <a href="#">Lumpur Mas</a>.</strong>
+	    	<strong>Copyright &copy; <?php echo date('Y');?> <a href="#">Lumpur Mas</a>.</strong>
 	  	</footer>
   		<!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
   		<div class="control-sidebar-bg"></div>

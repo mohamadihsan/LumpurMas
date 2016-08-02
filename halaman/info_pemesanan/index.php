@@ -161,6 +161,7 @@ if (!empty($_SESSION['username']) OR !empty($_SESSION['id_pelanggan'])) {
                                 <th>Total Bayar</th>
                                 <th>Tanggal Pengambilan</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -190,6 +191,7 @@ if (!empty($_SESSION['username']) OR !empty($_SESSION['id_pelanggan'])) {
                             		?>
                                 </td>
                                <td><?php echo Tanggal($tgl_pengambilan); ?></td>
+                               <td><a href="detail.php?id_pemesanan=<?php echo $id_pemesanan; ?>" class="btn btn-default btn-block">Detail + Cetak</a></td>
                                <td>
                                     <?php
                                     if (($status_pemesanan=="BL") AND ($bukti_transfer==null)) {
